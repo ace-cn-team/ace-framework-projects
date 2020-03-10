@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+ace.fw.copier.cglib.autoconfig.CglibBeanCopierAutoConfiguration
