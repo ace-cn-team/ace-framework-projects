@@ -2,7 +2,7 @@
 <!-- Specify the refresh internal in seconds. -->
 <Configuration monitorInterval="5">
     <Properties>
-        <Property name="baseDir">/ace</Property>
+        <Property name="baseDir">${sys:user.dir}</Property>
     </Properties>
 
     <Appenders>

@@ -31,15 +31,19 @@ public class DefaultXmlConfigurationFactory extends XmlConfigurationFactory {
         URI newconfigLocation = null;
         if (Objects.isNull(configLocation)) {
             try {
-                newconfigLocation = new URI(this.getClass().getResource("/log4j2.xml").getFile());
-            } catch (URISyntaxException e) {
+                newconfigLocation = new URI("classpath:log4j2.xml");
+            } catch (Exception e) {
                 log.error("读取[/log4j2.xml]失败", e);
                 newconfigLocation = configLocation;
             }
         } else {
             newconfigLocation = configLocation;
         }
-        return super.getConfiguration(loggerContext, name, newconfigLocation);
+
+        Configuration configuration = super.getConfiguration(loggerContext, name, newconfigLocation);
+
+        return configuration;
+
     }
 
     @Override

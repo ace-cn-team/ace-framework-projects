@@ -35,6 +35,7 @@
         <module>ace-fw-log4j2-autoconfigure</module>
         <module>ace-fw-ms-application</module>
         <module>ace-fw-ms-application-autoconfigure</module>
+        <module>ace-fw-ms-discovery-client-autoconfigure</module>
     </modules>
 
 
