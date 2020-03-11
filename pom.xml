@@ -36,6 +36,7 @@
         <module>ace-fw-ms-application</module>
         <module>ace-fw-ms-application-autoconfigure</module>
         <module>ace-fw-ms-discovery-client-autoconfigure</module>
+        <module>ace-fw-ms-discovery-server-autoconfigure</module>
     </modules>
 
 
