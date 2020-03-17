@@ -39,7 +39,7 @@ public final class AceEnumUtils {
         return enumConstant;
     }
 
-    public static <T, E extends BaseEnum<T>> E check(Class<E> enumClass, T code, E defaultValue) {
+    public static <T, E extends BaseEnum<T>> E check(Class<E> enumClass, T code) {
         E value = getEnum(enumClass, code, null);
         if (value == null) {
             BusinessErrorUtils.throwNew(SystemCodeEnum.ERROR_INVALID_PARAMETER);
