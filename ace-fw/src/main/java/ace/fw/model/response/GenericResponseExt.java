@@ -2,15 +2,12 @@ package ace.fw.model.response;
 
 import ace.fw.enums.SystemCodeEnum;
 import ace.fw.exception.BusinessException;
-import ace.fw.util.GenericResponseUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.function.Supplier;
 
 /**
  * @author 陈志杭
@@ -44,7 +41,7 @@ public class GenericResponseExt<T> {
      * @return
      */
     public T check() {
-        if (StringUtils.equals(SystemCodeEnum.Success.getCode(), this.getCode()) == false) {
+        if (StringUtils.equals(SystemCodeEnum.SUCCESS.getCode(), this.getCode()) == false) {
             throw new BusinessException(this.getCode(), this.getMessage());
         }
         return this.getData();

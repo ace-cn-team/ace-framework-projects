@@ -28,8 +28,8 @@ public final class GenericResponseUtils {
 
     public static <T> GenericResponse<T> buildSuccessWithData(T data) {
         GenericResponseUtils.GenericResponseBuilder<T> builder = GenericResponseUtils.builder();
-        return builder.code(SystemCodeEnum.Success.getCode())
-                .message(SystemCodeEnum.Success.getDesc())
+        return builder.code(SystemCodeEnum.SUCCESS.getCode())
+                .message(SystemCodeEnum.SUCCESS.getDesc())
                 .data(data)
                 .build();
     }
@@ -63,6 +63,6 @@ public final class GenericResponseUtils {
     }
 
     public static boolean isSuccess(GenericResponse genericResponse) {
-        return StringUtils.equals(SystemCodeEnum.Success.getCode(), genericResponse.getCode());
+        return StringUtils.equals(SystemCodeEnum.SUCCESS.getCode(), genericResponse.getCode());
     }
 }

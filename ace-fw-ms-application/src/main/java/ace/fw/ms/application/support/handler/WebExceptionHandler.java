@@ -4,19 +4,15 @@ import ace.fw.exception.BusinessException;
 import ace.fw.exception.SystemException;
 import ace.fw.model.response.GenericResponse;
 import ace.fw.enums.SystemCodeEnum;
-import ace.fw.ms.application.constant.AceWebApplicationBootstrapConstant;
 import ace.fw.util.GenericResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.ClientAbortException;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,7 +74,7 @@ public class WebExceptionHandler {
     private GenericResponse handleMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
         return GenericResponseUtils
                 .builder()
-                .code(SystemCodeEnum.ErrorCheckParameter.getCode())
+                .code(SystemCodeEnum.ERROR_CHECK_PARAMETER.getCode())
                 .message(ex.getMessage())
                 .build();
     }
@@ -90,7 +86,7 @@ public class WebExceptionHandler {
                 .orElse(null);
         return GenericResponseUtils
                 .builder()
-                .code(SystemCodeEnum.ErrorCheckParameter.getCode())
+                .code(SystemCodeEnum.ERROR_CHECK_PARAMETER.getCode())
                 .message(constraintViolation.getMessage())
                 .build();
     }
@@ -118,32 +114,32 @@ public class WebExceptionHandler {
     }
 
     private GenericResponse handler404HttpStatus(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, Exception ex) {
-        GenericResponse genericResponse = GenericResponseUtils.buildBySystemCodeEnum(SystemCodeEnum.ErrorHttp404Exception);
+        GenericResponse genericResponse = GenericResponseUtils.buildBySystemCodeEnum(SystemCodeEnum.ERROR_HTTP_404_EXCEPTION);
         genericResponse.setData(getErrorRequestUri(request));
         return genericResponse;
     }
 
     private GenericResponse handler403HttpStatus(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, Exception ex) {
-        GenericResponse genericResponse = GenericResponseUtils.buildBySystemCodeEnum(SystemCodeEnum.ErrorHttp403Exception);
+        GenericResponse genericResponse = GenericResponseUtils.buildBySystemCodeEnum(SystemCodeEnum.ERROR_HTTP_403_EXCEPTION);
         genericResponse.setData(getErrorRequestUri(request));
         return genericResponse;
     }
 
     private GenericResponse handlerAllException(Exception ex) {
         log.error("系统异常", ex);
-        return GenericResponseUtils.buildBySystemCodeEnum(SystemCodeEnum.ErrorSystemException);
+        return GenericResponseUtils.buildBySystemCodeEnum(SystemCodeEnum.ERROR_SYSTEM_EXCEPTION);
     }
 
     private GenericResponse handlerHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException ex) {
         return GenericResponseUtils.builder()
-                .code(SystemCodeEnum.ErrorSystemException.getCode())
+                .code(SystemCodeEnum.ERROR_SYSTEM_EXCEPTION.getCode())
                 .message(ex.getMessage())
                 .build();
     }
 
     private GenericResponse handlerHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
         return GenericResponseUtils.builder()
-                .code(SystemCodeEnum.ErrorSystemException.getCode())
+                .code(SystemCodeEnum.ERROR_SYSTEM_EXCEPTION.getCode())
                 .message(ex.getMessage())
                 .build();
     }
@@ -151,7 +147,7 @@ public class WebExceptionHandler {
     private GenericResponse handlerClientAbortException(ClientAbortException ex) {
         // 客户关掉了浏览器引起异常，简单记录
         log.warn(" System Error ClientAbortException", ex);
-        return GenericResponseUtils.buildBySystemCodeEnum(SystemCodeEnum.ErrorClientAbortException);
+        return GenericResponseUtils.buildBySystemCodeEnum(SystemCodeEnum.ERROR_CLIENT_ABORT_EXCEPTION);
     }
 
     private GenericResponse handleSystemException(SystemException ex) {
@@ -172,11 +168,11 @@ public class WebExceptionHandler {
     private GenericResponse handleBindException(BindException ex) {
         GenericResponse response = new GenericResponse();
         if (Objects.nonNull(ex.getBindingResult().getFieldError()) && !ex.getBindingResult().getFieldError().isBindingFailure()) {
-            response.setCode(SystemCodeEnum.ErrorCheckParameter.getCode());
+            response.setCode(SystemCodeEnum.ERROR_CHECK_PARAMETER.getCode());
             response.setMessage(ex.getBindingResult().getFieldError().getDefaultMessage());
         } else {
-            response.setCode(SystemCodeEnum.ErrorInvalidParameter.getCode());
-            response.setMessage(SystemCodeEnum.ErrorInvalidParameter.getDesc());
+            response.setCode(SystemCodeEnum.ERROR_INVALID_PARAMETER.getCode());
+            response.setMessage(SystemCodeEnum.ERROR_INVALID_PARAMETER.getDesc());
         }
         return response;
     }
@@ -190,11 +186,11 @@ public class WebExceptionHandler {
     private GenericResponse handleValidateException(MethodArgumentNotValidException ex) {
         GenericResponse response = new GenericResponse();
         if (Objects.nonNull(ex.getBindingResult().getFieldError()) && !ex.getBindingResult().getFieldError().isBindingFailure()) {
-            response.setCode(SystemCodeEnum.ErrorCheckParameter.getCode());
+            response.setCode(SystemCodeEnum.ERROR_CHECK_PARAMETER.getCode());
             response.setMessage(ex.getBindingResult().getFieldError().getDefaultMessage());
         } else {
-            response.setCode(SystemCodeEnum.ErrorInvalidParameter.getCode());
-            response.setMessage(SystemCodeEnum.ErrorInvalidParameter.getDesc());
+            response.setCode(SystemCodeEnum.ERROR_INVALID_PARAMETER.getCode());
+            response.setMessage(SystemCodeEnum.ERROR_INVALID_PARAMETER.getDesc());
         }
         return response;
     }

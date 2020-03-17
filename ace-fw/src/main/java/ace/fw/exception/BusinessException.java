@@ -12,7 +12,7 @@ import lombok.Getter;
 public class BusinessException extends RuntimeException {
 
     @Getter
-    protected String code = SystemCodeEnum.BusinessException.getCode();
+    protected String code = SystemCodeEnum.BUSINESS_EXCEPTION.getCode();
 
     public BusinessException() {
 

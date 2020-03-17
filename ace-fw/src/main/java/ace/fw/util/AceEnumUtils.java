@@ -1,6 +1,7 @@
 package ace.fw.util;
 
 import ace.fw.enums.BaseEnum;
+import ace.fw.enums.SystemCodeEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,5 +37,13 @@ public final class AceEnumUtils {
             return defaultValue;
         }
         return enumConstant;
+    }
+
+    public static <T, E extends BaseEnum<T>> E check(Class<E> enumClass, T code, E defaultValue) {
+        E value = getEnum(enumClass, code, null);
+        if (value == null) {
+            BusinessErrorUtils.throwNew(SystemCodeEnum.ERROR_INVALID_PARAMETER);
+        }
+        return value;
     }
 }

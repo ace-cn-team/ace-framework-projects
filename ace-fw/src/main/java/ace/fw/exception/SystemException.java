@@ -14,7 +14,7 @@ public class SystemException extends RuntimeException {
 
 
     @Getter
-    protected String code = SystemCodeEnum.ErrorSystemException.getCode();
+    protected String code = SystemCodeEnum.ERROR_SYSTEM_EXCEPTION.getCode();
 
     public SystemException() {
         super();

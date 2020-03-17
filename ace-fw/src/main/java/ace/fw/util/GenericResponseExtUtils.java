@@ -28,15 +28,15 @@ public final class GenericResponseExtUtils {
 
     public static <T> GenericResponseExt<T> buildSuccessWithData(T data) {
         GenericResponseExtUtils.GenericResponseExtBuilder<T> builder = GenericResponseExtUtils.builder();
-        return builder.code(SystemCodeEnum.Success.getCode())
-                .message(SystemCodeEnum.Success.getDesc())
+        return builder.code(SystemCodeEnum.SUCCESS.getCode())
+                .message(SystemCodeEnum.SUCCESS.getDesc())
                 .data(data)
                 .build();
     }
     public static <T> GenericResponseExt<T> buildFailureWithData(T data) {
         GenericResponseExtUtils.GenericResponseExtBuilder<T> builder = GenericResponseExtUtils.builder();
-        return builder.code(SystemCodeEnum.BusinessException.getCode())
-                .message(SystemCodeEnum.BusinessException.getDesc())
+        return builder.code(SystemCodeEnum.BUSINESS_EXCEPTION.getCode())
+                .message(SystemCodeEnum.BUSINESS_EXCEPTION.getDesc())
                 .data(data)
                 .build();
     }
@@ -69,6 +69,6 @@ public final class GenericResponseExtUtils {
     }
 
     public static boolean isSuccess(GenericResponseExt genericResponse) {
-        return StringUtils.equals(SystemCodeEnum.Success.getCode(), genericResponse.getCode());
+        return StringUtils.equals(SystemCodeEnum.SUCCESS.getCode(), genericResponse.getCode());
     }
 }

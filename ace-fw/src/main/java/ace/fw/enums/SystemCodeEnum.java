@@ -9,15 +9,14 @@ import lombok.Getter;
  * @description 系统代码枚举
  */
 public enum SystemCodeEnum implements BaseEnum<String> {
-    Success("0", "成功"),
-    BusinessException("10001", "业务异常"),
-    ErrorCheckParameter("10100", "参数校验失败"),
-    ErrorInvalidParameter("10110", "请求参数无效"),
-    ErrorClientAbortException("10101", "客户端已关闭"),
-    ErrorSystemException("10000", "系统异常"),
-    ErrorHttp403Exception("11403", "服务器禁访问"),
-    ErrorHttp404Exception("11404", "接口不存在"),
-
+    SUCCESS("0", "成功"),
+    BUSINESS_EXCEPTION("10001", "业务异常"),
+    ERROR_CHECK_PARAMETER("10100", "参数校验失败"),
+    ERROR_INVALID_PARAMETER("10110", "请求参数无效"),
+    ERROR_CLIENT_ABORT_EXCEPTION("10101", "客户端已关闭"),
+    ERROR_SYSTEM_EXCEPTION("10000", "系统异常"),
+    ERROR_HTTP_403_EXCEPTION("11403", "服务器禁访问"),
+    ERROR_HTTP_404_EXCEPTION("11404", "接口不存在"),
     ;
     @Getter
     private String code;
