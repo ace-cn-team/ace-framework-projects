@@ -41,9 +41,13 @@ public class GenericResponseExt<T> {
      * @return
      */
     public T check() {
-        if (StringUtils.equals(SystemCodeEnum.SUCCESS.getCode(), this.getCode()) == false) {
+        if (this.getSuccess() == false) {
             throw new BusinessException(this.getCode(), this.getMessage());
         }
         return this.getData();
+    }
+
+    public boolean getSuccess() {
+        return StringUtils.equals(SystemCodeEnum.SUCCESS.getCode(), this.getCode());
     }
 }

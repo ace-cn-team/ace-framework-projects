@@ -1,6 +1,7 @@
 package ace.fw.util;
 
 import ace.fw.model.response.GenericResponseExt;
+import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -39,6 +40,11 @@ public final class RegPatternUtils {
     public static final String REG_IP_ADDRESS = "[1-9](\\d{1,2})?\\.(0|([1-9](\\d{1,2})?))\\.(0|([1-9](\\d{1,2})?))\\.(0|([1-9](\\d{1,2})?))";
     public static final String REG_VERSION = "^\\d+(\\.\\d+){1,2}$";
     public static final String REG_IDCARD = "[1-9]\\d{13,16}[a-zA-Z0-9]{1}";
+    public static final String REG_PASSWORD_FORMAT = "^[a-zA-Z]/w{6,32}$";
+    /**
+     * 只能输入由数字和26个英文字母或者下划线组成的字符串：
+     */
+    public static final String REG_ALPHA_DIGIT = "^/w+$";
     /**
      * 正则验证6位数字
      */
