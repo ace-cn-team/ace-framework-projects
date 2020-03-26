@@ -51,3 +51,5 @@
 /ace-fw-utils-web/target/
 /ace-fw-ms-discovery-server-autoconfigure/target/
 /ace-fw-ms-discovery-server-autoconfigure/ace-fw-ms-discovery-server-autoconfigure.iml
+/logs/
+/ace-fw-graphql-autoconfigure/ace-fw-graphql-autoconfigure.iml
