@@ -19,6 +19,7 @@
         <module>ace-fw-mybatis-plus-extension</module>
         <module>ace-fw-restful-base-api-web</module>
         <module>ace-fw-restful-base-api-web-mybatis-plus-autoconfigure</module>
+        <module>ace-fw-graphql-autoconfigure</module>
         <module>ace-fw-graphql-spring</module>
         <module>ace-fw-graphql-webmvc</module>
         <module>ace-fw-graphql-webmvc-mybatis-plus-autoconfigure</module>
@@ -37,7 +38,19 @@
         <module>ace-fw-ms-application-autoconfigure</module>
         <module>ace-fw-ms-discovery-client-autoconfigure</module>
         <module>ace-fw-ms-discovery-server-autoconfigure</module>
+
     </modules>
 
-
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://nexus3.ace.com:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://nexus3.ace.com:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

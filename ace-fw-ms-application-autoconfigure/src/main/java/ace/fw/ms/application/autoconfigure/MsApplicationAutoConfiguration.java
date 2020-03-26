@@ -122,7 +122,8 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/").setCachePeriod(0);
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-//        registry.addResourceHandler("/favicon.ico").addResourceLocations("/favicon.ico");
+        registry.addResourceHandler("/vendor/**").addResourceLocations("classpath:/static/vendor");
+        //        registry.addResourceHandler("/favicon.ico").addResourceLocations("/favicon.ico");
 //        registry.addResourceHandler("/favicon.ico").addResourceLocations("/images/favicon.ico");
 //        registry.addResourceHandler("/favicon.png").addResourceLocations("/images/favicon.png");
 //        registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCachePeriod(31556926).resourceChain(true)
