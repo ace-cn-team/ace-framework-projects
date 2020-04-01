@@ -37,7 +37,7 @@ public class GraphQLController {
     @RequestMapping(value = "${graphql.url:graphql}",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public Object graphqlPOST(@RequestBody GraphQLRequestBody body,
                               WebRequest webRequest) {
         String query = body.getQuery();

@@ -14,9 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class AceBaseWebApplication {
     public static void main(String[] args) {
-
-        log.info("111");
-        log.warn("222");
         SpringApplication.run(AceBaseWebApplication.class, args);
     }
 }

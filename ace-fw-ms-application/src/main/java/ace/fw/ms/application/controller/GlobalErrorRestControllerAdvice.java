@@ -36,11 +36,12 @@ public class GlobalErrorRestControllerAdvice {
     }
 
     @RequestMapping(value = {AceWebApplicationBootstrapConstant.MVC_DEFAULT_ERROR_PATH}, method = {RequestMethod.GET})
-    public void error(HttpServletRequest request, HttpServletResponse response) throws NoHandlerFoundException {
+    public GenericResponse errorAll(HttpServletRequest request, HttpServletResponse response) throws NoHandlerFoundException {
         Object obj = request.getAttribute("javax.servlet.error.request_uri");
         String errorUrl = obj == null ? null : obj.toString();
 
-        throw new NoHandlerFoundException(request.getMethod(), errorUrl, new HttpHeaders());
+        NoHandlerFoundException ex = new NoHandlerFoundException(request.getMethod(), errorUrl, new HttpHeaders());
+        return this.error(request, response, ex);
     }
 
     @RequestMapping(path = "/throw/runtime/exception")

@@ -92,8 +92,8 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
 
     @Override
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-//        HandlerExceptionResolver exceptionResolver = this.aceWebExceptionResolver(this.webExceptionHandler());
-//        resolvers.add(exceptionResolver);
+        HandlerExceptionResolver exceptionResolver = this.aceWebExceptionResolver(this.webExceptionHandler());
+        resolvers.add(exceptionResolver);
     }
 
     @Override
@@ -122,7 +122,8 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/").setCachePeriod(0);
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-        registry.addResourceHandler("/vendor/**").addResourceLocations("classpath:/static/vendor");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/vendor/graphiql/**").addResourceLocations("classpath:/static/vendor/graphiql/");
         //        registry.addResourceHandler("/favicon.ico").addResourceLocations("/favicon.ico");
 //        registry.addResourceHandler("/favicon.ico").addResourceLocations("/images/favicon.ico");
 //        registry.addResourceHandler("/favicon.png").addResourceLocations("/images/favicon.png");
