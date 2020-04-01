@@ -19,10 +19,6 @@
         <module>ace-fw-mybatis-plus-extension</module>
         <module>ace-fw-restful-base-api-web</module>
         <module>ace-fw-restful-base-api-web-mybatis-plus-autoconfigure</module>
-        <module>ace-fw-graphql-schema-annotation-all-autoconfigure</module>
-        <module>ace-fw-graphql-schema-sdl-all-autoconfigure</module>
-        <module>ace-fw-graphql-webmvc</module>
-        <module>ace-fw-graphql-webmvc-mybatis-plus-autoconfigure</module>
         <module>ace-fw-restful-base-api</module>
         <module>ace-fw-restful-logic-api</module>
         <module>ace-fw-utils</module>
@@ -37,9 +33,12 @@
         <module>ace-fw-ms-application-autoconfigure</module>
         <module>ace-fw-ms-discovery-client-autoconfigure</module>
         <module>ace-fw-ms-discovery-server-autoconfigure</module>
-        <module>ace-fw-graphql-schema-annotation-autoconfigure</module>
-        <module>ace-fw-graphql-schema-annotation</module>
-
+        <module>ace-fw-graphql-all-autoconfigure</module>
+        <module>ace-fw-graphql-playground-autoconfigure</module>
+        <module>ace-fw-graphql-schema-sdl-autoconfigure</module>
+        <module>ace-fw-graphql-webmvc</module>
+        <module>ace-fw-graphql-webmvc-mybatis-plus-autoconfigure</module>
+        <module>ace-fw-graphql-voyager-autoconfigure</module>
     </modules>
 
     <distributionManagement>

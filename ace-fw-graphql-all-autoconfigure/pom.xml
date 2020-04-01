@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ace-framework-projects</artifactId>
+        <groupId>org.ace</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ace-fw-graphql-all-autoconfigure</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphql-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
+
+        </dependency>
+        <dependency>
+            <artifactId>guava</artifactId>
+            <groupId>com.google.guava</groupId>
+            <version>26.0-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ace</groupId>
+            <artifactId>ace-fw-graphql-playground-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ace</groupId>
+            <artifactId>ace-fw-graphql-voyager-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ace</groupId>
+            <artifactId>ace-fw-graphql-schema-sdl-autoconfigure</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>
