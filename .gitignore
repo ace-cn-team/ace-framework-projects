@@ -54,3 +54,8 @@
 /logs/
 /ace-fw-graphql-autoconfigure/ace-fw-graphql-autoconfigure.iml
 /ace-fw-graphql-schema-sdl-all-autoconfigure/target/
+/ace-fw-graphql-voyager-autoconfigure/target/classes/
+/ace-fw-graphql-voyager-autoconfigure/ace-fw-graphql-voyager-autoconfigure.iml
+/ace-fw-graphql-schema-sdl-autoconfigure/target/
+/ace-fw-graphql-playground-autoconfigure/target/classes/
+/ace-fw-graphql-all-autoconfigure/ace-fw-graphql-all-autoconfigure.iml
