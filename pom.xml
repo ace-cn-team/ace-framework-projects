@@ -39,6 +39,7 @@
         <module>ace-fw-graphql-webmvc</module>
         <module>ace-fw-graphql-webmvc-mybatis-plus-autoconfigure</module>
         <module>ace-fw-graphql-voyager-autoconfigure</module>
+        <module>ace-fw-graphql-gateway-federation</module>
     </modules>
 
     <distributionManagement>
