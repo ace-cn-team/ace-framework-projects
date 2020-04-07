@@ -59,3 +59,8 @@
 /ace-fw-graphql-schema-sdl-autoconfigure/target/
 /ace-fw-graphql-playground-autoconfigure/target/classes/
 /ace-fw-graphql-all-autoconfigure/ace-fw-graphql-all-autoconfigure.iml
+/ace-fw-graphql-all-autoconfigure/target/
+/ace-fw-graphql-gateway-federation/target/
+/ace-fw-graphql-playground-autoconfigure/target/
+/ace-fw-graphql-voyager-autoconfigure/target/
+/ace-fw-graphql-gateway-federation/ace-fw-graphql-gateway-federation.iml
