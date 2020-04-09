@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -188,4 +189,15 @@ public class MybatisPlusDbServiceImpl<T extends Entity, Mapper extends BaseMappe
                 .map(p -> p.getId())
                 .collect(Collectors.toList());
     }
+
+    /**
+     * Fix:继承泛型位置不一致的Bug
+     *
+     * @return
+     */
+    @Override
+    protected Class<T> currentModelClass() {
+        return (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 0);
+    }
+
 }
