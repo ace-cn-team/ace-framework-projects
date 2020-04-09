@@ -11,6 +11,8 @@ import lombok.Getter;
  */
 public enum MqErrorEnum implements BaseEnum<String> {
     MQ_EXCEPTION("10001", "MQ消息发送失败"),
+    MESSAGE_BODY_LIMIT_ERROR("10002", "MQ消息发送失败,消息体超出限制大小"),
+    CUSTOM_MESSAGE_BODY_LIMIT_ERROR("10003", "MQ消息发送失败,消息体超出自定义限制大小"),
     ;
     @Getter
     private String code;

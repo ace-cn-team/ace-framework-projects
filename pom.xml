@@ -37,9 +37,9 @@
         <module>ace-fw-graphql-playground-autoconfigure</module>
         <module>ace-fw-graphql-schema-sdl-autoconfigure</module>
         <module>ace-fw-graphql-webmvc</module>
-        <module>ace-fw-graphql-webmvc-mybatis-plus-autoconfigure</module>
         <module>ace-fw-graphql-voyager-autoconfigure</module>
         <module>ace-fw-graphql-gateway-federation</module>
+        <module>ace-fw-mq-rocketmq</module>
     </modules>
 
     <distributionManagement>

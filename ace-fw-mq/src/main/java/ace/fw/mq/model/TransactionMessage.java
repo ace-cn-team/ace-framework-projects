@@ -25,7 +25,7 @@ public class TransactionMessage {
     /**
      * 消息体内容
      */
-    private Object messageBody;
+    private Object body;
     /**
      * 主题
      */
@@ -35,7 +35,7 @@ public class TransactionMessage {
      */
     private List<String> tags;
     /**
-     * 事务事件
+     * 事务消息半发送成功后，执行的事件
      */
     private Supplier<TransactionStatusEnum> transactionEvent;
 }

@@ -1,6 +1,7 @@
 package ace.fw.util;
 
 
+import ace.fw.enums.BaseEnum;
 import ace.fw.enums.SystemCodeEnum;
 import ace.fw.exception.BusinessException;
 import ace.fw.model.response.GenericResponseExt;
@@ -33,6 +34,7 @@ public final class GenericResponseExtUtils {
                 .data(data)
                 .build();
     }
+
     public static <T> GenericResponseExt<T> buildFailureWithData(T data) {
         GenericResponseExtUtils.GenericResponseExtBuilder<T> builder = GenericResponseExtUtils.builder();
         return builder.code(SystemCodeEnum.BUSINESS_EXCEPTION.getCode())
@@ -40,6 +42,15 @@ public final class GenericResponseExtUtils {
                 .data(data)
                 .build();
     }
+
+    public static <T> GenericResponseExt<T> buildWithDataAndCodeEnum(T data, BaseEnum<String> errorEnum) {
+        GenericResponseExtUtils.GenericResponseExtBuilder<T> builder = GenericResponseExtUtils.builder();
+        return builder.code(errorEnum.getCode())
+                .message(errorEnum.getDesc())
+                .data(data)
+                .build();
+    }
+
     /**
      * 根据系统代码创建返回结果
      *

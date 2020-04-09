@@ -23,7 +23,7 @@ public class Message {
     /**
      * 消息体内容
      */
-    private Object messageBody;
+    private Object body;
     /**
      * 主题
      */
