@@ -66,3 +66,5 @@
 /ace-fw-graphql-gateway-federation/ace-fw-graphql-gateway-federation.iml
 /ace-fw-mq-rocketmq/target/
 /ace-fw-mq-rocketmq/ace-fw-mq-rocketmq.iml
+/ace-fw-mq-rocketmq-autoconfigure/target/
+/ace-fw-mq-rocketmq-autoconfigure/ace-fw-mq-rocketmq-autoconfigure.iml
