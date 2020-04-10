@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+ace.fw.mq.rocketmq.autoconfigure.RocketMQAutoConfigure

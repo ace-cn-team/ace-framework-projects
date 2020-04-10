@@ -34,6 +34,7 @@ public abstract class AbstractMQProducer implements InitializingBean, Disposable
     @Setter(value = AccessLevel.PROTECTED)
     private MessageConverter messageConverter;
 
+
     @Override
     public void destroy() throws Exception {
         if (Objects.nonNull(this.mqProducer)) {

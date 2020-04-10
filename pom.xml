@@ -40,6 +40,7 @@
         <module>ace-fw-graphql-voyager-autoconfigure</module>
         <module>ace-fw-graphql-gateway-federation</module>
         <module>ace-fw-mq-rocketmq</module>
+        <module>ace-fw-mq-rocketmq-autoconfigure</module>
     </modules>
 
     <distributionManagement>

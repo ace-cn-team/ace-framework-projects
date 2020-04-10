@@ -28,7 +28,7 @@ import java.util.List;
 //@NoArgsConstructor
 @Builder
 @Slf4j
-public class DefaultMQProducerImpl
+public class MQProducerImpl
         extends AbstractMQProducer
         implements MQProducer {
 

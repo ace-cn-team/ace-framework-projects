@@ -7,6 +7,6 @@ package ace.fw.mq.serializer;
  * @description
  */
 @FunctionalInterface
-public interface Deserializer<T> {
-    T deserialize(byte[] bytes);
+public interface Deserializer {
+    <T> T deserialize(byte[] bytes, Class<T> cls);
 }

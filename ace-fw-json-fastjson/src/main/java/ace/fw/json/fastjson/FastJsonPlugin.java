@@ -2,6 +2,7 @@ package ace.fw.json.fastjson;
 
 import ace.fw.json.JsonPlugin;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

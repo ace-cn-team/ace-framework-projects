@@ -64,3 +64,5 @@
 /ace-fw-graphql-playground-autoconfigure/target/
 /ace-fw-graphql-voyager-autoconfigure/target/
 /ace-fw-graphql-gateway-federation/ace-fw-graphql-gateway-federation.iml
+/ace-fw-mq-rocketmq/target/
+/ace-fw-mq-rocketmq/ace-fw-mq-rocketmq.iml
