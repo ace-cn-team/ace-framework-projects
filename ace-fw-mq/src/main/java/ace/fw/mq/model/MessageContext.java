@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -20,17 +21,23 @@ import java.util.Properties;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CallbackContext<MessageBody> {
-    private Topic topic;
+public class MessageContext<MessageBody> {
+    /**
+     * {@link Topic}
+     */
+    private String topic;
+    /**
+     * topic的tags
+     */
     private List<String> tags;
     /**
-     * 回调次数
+     * 重试回调次数
      */
-    private Integer callbackCount;
+    private Integer reconsumeCount;
     /**
      * 扩展参数
      */
-    private Properties extProperties;
+    private Map<String, String> extProperties;
     /**
      * 消息体内容
      */

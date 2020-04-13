@@ -24,7 +24,7 @@ public class RocketMQProducerProperty {
      */
     private String nameServerAddress;
     /**
-     * 生者类型 {@link MQProducerTypeEnum}
+     * 生产者类型 {@link MQProducerTypeEnum}
      */
     private MQProducerTypeEnum type;
 }

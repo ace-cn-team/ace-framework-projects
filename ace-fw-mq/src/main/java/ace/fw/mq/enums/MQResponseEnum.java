@@ -6,7 +6,7 @@ package ace.fw.mq.enums;
  * @create 2020/2/2 19:37
  * @description
  */
-public enum MqResponseEnum {
+public enum MQResponseEnum {
     /**
      * 消费成功，继续消费下一条消息
      */

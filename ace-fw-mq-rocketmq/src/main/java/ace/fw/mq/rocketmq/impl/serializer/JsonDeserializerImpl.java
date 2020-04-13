@@ -1,4 +1,4 @@
-package ace.fw.mq.rocketmq.impl;
+package ace.fw.mq.rocketmq.impl.serializer;
 
 import ace.fw.json.JsonPlugin;
 import ace.fw.json.fastjson.FastJsonPlugin;
@@ -34,7 +34,6 @@ public class JsonDeserializerImpl implements Deserializer {
             String json = new String(bytes, "utf-8");
             return jsonPlugin.toObject(json, cls);
         } catch (Exception e) {
-            log.error("json反序列化失败", e);
             throw new RuntimeException("json反序列化失败");
         }
     }

@@ -1,9 +1,7 @@
-package ace.fw.mq.rocketmq.impl;
+package ace.fw.mq.rocketmq.impl.producer;
 
-import ace.fw.mq.rocketmq.property.RocketMQProperty;
 import ace.fw.mq.serializer.Serializer;
 import lombok.*;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.MQProducer;
 import org.springframework.beans.factory.DisposableBean;
@@ -25,15 +23,9 @@ public abstract class AbstractMQProducer implements InitializingBean, Disposable
 
     private Serializer defaultSerializer;
 
-    private RocketMQProperty rocketMQProperty;
-
-    @Getter(value = AccessLevel.PROTECTED)
-    @Setter(value = AccessLevel.PROTECTED)
     private RocketMQMessageChecker rocketMQMessageChecker;
-    @Getter(value = AccessLevel.PROTECTED)
-    @Setter(value = AccessLevel.PROTECTED)
-    private MessageConverter messageConverter;
 
+    private MessageConverter messageConverter;
 
     @Override
     public void destroy() throws Exception {
@@ -47,14 +39,5 @@ public abstract class AbstractMQProducer implements InitializingBean, Disposable
         if (Objects.nonNull(this.mqProducer)) {
             this.mqProducer.start();
         }
-
-        this.rocketMQMessageChecker = RocketMQMessageChecker
-                .builder()
-                .rocketMQProperty(this.rocketMQProperty)
-                .build();
-
-        this.messageConverter = MessageConverter.builder()
-                .rocketMQProperty(this.rocketMQProperty)
-                .build();
     }
 }

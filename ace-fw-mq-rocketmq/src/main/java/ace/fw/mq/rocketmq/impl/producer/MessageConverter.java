@@ -1,4 +1,4 @@
-package ace.fw.mq.rocketmq.impl;
+package ace.fw.mq.rocketmq.impl.producer;
 
 import ace.fw.mq.model.Message;
 import ace.fw.mq.model.TransactionMessage;
@@ -22,23 +22,23 @@ import org.springframework.core.convert.converter.Converter;
 @AllArgsConstructor
 @Builder
 @Slf4j
-class MessageConverter {
-    private RocketMQProperty rocketMQProperty;
+public class MessageConverter {
 
     public org.apache.rocketmq.common.message.Message toRocketMQMessage(Message message, Serializer serializer) {
         byte[] messageBodyBytes = serializer.serialize(message.getBody());
+
         org.apache.rocketmq.common.message.Message rocketMQMessage = new org.apache.rocketmq.common.message.Message();
         rocketMQMessage.setTopic(message.getTopic().getCode());
-        rocketMQMessage.setKeys(message.getTags());
+        rocketMQMessage.setTags(String.join(",", message.getTags()));
         rocketMQMessage.setBody(messageBodyBytes);
         return rocketMQMessage;
     }
 
-    public org.apache.rocketmq.common.message.Message toRocketMQMessage(TransactionMessage transactionMessage, Serializer serializer) {
-        byte[] messageBodyBytes = serializer.serialize(transactionMessage.getBody());
+    public org.apache.rocketmq.common.message.Message toRocketMQMessage(TransactionMessage message, Serializer serializer) {
+        byte[] messageBodyBytes = serializer.serialize(message.getBody());
         org.apache.rocketmq.common.message.Message rocketMQMessage = new org.apache.rocketmq.common.message.Message();
-        rocketMQMessage.setTopic(transactionMessage.getTopic().getCode());
-        rocketMQMessage.setKeys(transactionMessage.getTags());
+        rocketMQMessage.setTopic(message.getTopic().getCode());
+        rocketMQMessage.setTags(String.join(",", message.getTags()));
         rocketMQMessage.setBody(messageBodyBytes);
         return rocketMQMessage;
     }

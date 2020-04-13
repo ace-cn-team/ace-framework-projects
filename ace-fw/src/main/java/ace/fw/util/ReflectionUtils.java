@@ -16,7 +16,7 @@ public final class ReflectionUtils {
     /**
      * 获取接口上的泛型T
      *
-     * @param cls     接口
+     * @param cls   接口
      * @param index 泛型索引
      */
     public static Class<?> getInterfaceGeneric(Class<?> cls, int index) {
@@ -31,7 +31,7 @@ public final class ReflectionUtils {
     /**
      * 获取类上的泛型T
      *
-     * @param cls     接口
+     * @param cls   接口
      * @param index 泛型索引
      */
     public static Class<?> getClassGeneric(Class<?> cls, int index) {
@@ -47,6 +47,7 @@ public final class ReflectionUtils {
         }
     }
 
+
     private static Class<?> checkType(Type type, int index) {
         if (type instanceof Class<?>) {
             return (Class<?>) type;
@@ -60,4 +61,6 @@ public final class ReflectionUtils {
                     + ", but <" + type + "> is of type " + className);
         }
     }
+
+
 }

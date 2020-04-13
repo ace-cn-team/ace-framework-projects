@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
  * @author Caspar
  * @contract 279397942@qq.com
  * @create 2020/4/9 9:44
- * @description
+ * @description 通用底层rocketmq配置
  */
 @Data
 @Accessors(chain = true)

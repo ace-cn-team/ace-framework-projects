@@ -1,4 +1,4 @@
-package ace.fw.mq.rocketmq.impl;
+package ace.fw.mq.rocketmq.impl.producer;
 
 import ace.fw.model.response.GenericResponseExt;
 import ace.fw.mq.enums.MqErrorEnum;
@@ -58,7 +58,7 @@ public class MQProducerImpl
             if (CollectionUtils.isNotEmpty(message.getTags())) {
                 tags.addAll(message.getTags());
             }
-            String msg = String.format("[消息发送失败],[topic:%s-%s-%s]",
+            String msg = String.format("[消息发送失败],[topic:%s][topic-desc:%s][tags:%s]",
                     message.getTopic().getCode(),
                     message.getTopic().getDesc(),
                     String.join(",", tags));

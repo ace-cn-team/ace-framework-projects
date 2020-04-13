@@ -1,4 +1,4 @@
-package ace.fw.mq.rocketmq.impl;
+package ace.fw.mq.rocketmq.impl.serializer;
 
 import ace.fw.json.JsonPlugin;
 import ace.fw.json.fastjson.FastJsonPlugin;

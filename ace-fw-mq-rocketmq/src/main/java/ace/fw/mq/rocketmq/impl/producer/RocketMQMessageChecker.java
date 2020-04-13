@@ -1,4 +1,4 @@
-package ace.fw.mq.rocketmq.impl;
+package ace.fw.mq.rocketmq.impl.producer;
 
 import ace.fw.model.response.GenericResponseExt;
 import ace.fw.mq.enums.MqErrorEnum;
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @Builder
 @Slf4j
-class RocketMQMessageChecker {
+public class RocketMQMessageChecker {
     private RocketMQProperty rocketMQProperty;
 
     public GenericResponseExt<Boolean> check(org.apache.rocketmq.common.message.Message message) {

@@ -1,4 +1,4 @@
-package ace.fw.mq.rocketmq.impl;
+package ace.fw.mq.rocketmq.impl.producer;
 
 import ace.fw.model.response.GenericResponseExt;
 import ace.fw.mq.enums.MqErrorEnum;

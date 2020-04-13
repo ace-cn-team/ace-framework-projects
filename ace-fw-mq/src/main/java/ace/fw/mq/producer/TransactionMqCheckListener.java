@@ -1,8 +1,7 @@
 package ace.fw.mq.producer;
 
-import ace.fw.mq.enums.MqResponseEnum;
-import ace.fw.mq.enums.TransactionStatusEnum;
-import ace.fw.mq.model.CallbackContext;
+import ace.fw.mq.enums.MQResponseEnum;
+import ace.fw.mq.model.MessageContext;
 import ace.fw.mq.model.Topic;
 import org.apache.commons.collections.ListUtils;
 
@@ -18,10 +17,10 @@ public interface TransactionMqCheckListener<MessageBody> {
     /**
      * 事务MQ回查
      *
-     * @param callbackContext
+     * @param messageContext
      * @return 事务信息 操作结果
      */
-    MqResponseEnum check(CallbackContext<MessageBody> callbackContext);
+    MQResponseEnum check(MessageContext<MessageBody> messageContext);
 
     /**
      * 监听的Topic
