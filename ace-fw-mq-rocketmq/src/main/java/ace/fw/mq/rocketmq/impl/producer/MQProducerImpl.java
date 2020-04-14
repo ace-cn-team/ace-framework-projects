@@ -7,14 +7,19 @@ import ace.fw.mq.producer.MQProducer;
 import ace.fw.mq.serializer.Serializer;
 import ace.fw.util.GenericResponseExtUtils;
 import lombok.*;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Caspar
@@ -22,15 +27,78 @@ import java.util.List;
  * @create 2020/4/8 17:56
  * @description
  */
-@Data
-@Accessors(chain = true)
-@AllArgsConstructor
-//@NoArgsConstructor
-@Builder
 @Slf4j
 public class MQProducerImpl
-        extends AbstractMQProducer
-        implements MQProducer {
+        implements MQProducer, InitializingBean, DisposableBean {
+    /**
+     * 底层事务MQ生产者实现
+     */
+    @Getter
+    private org.apache.rocketmq.client.producer.MQProducer rocketMQProducer;
+    /**
+     * 序列化工具
+     */
+    @Getter
+    private Serializer defaultSerializer;
+    /**
+     * rocketmq 消息限制检查器
+     */
+    @Getter
+    private RocketMQMessageChecker rocketMQMessageChecker;
+    /**
+     * rocketmq 消息转换器
+     */
+    @Getter
+    private MessageConverter messageConverter;
+
+    /**
+     * rocketmq 名称服务器地址 ,如172.18.0.1:9876
+     */
+    @Getter
+    private String nameServerAddress;
+    /**
+     * 生产者组名
+     */
+    @Getter
+    private String groupName;
+
+    @Builder
+    private MQProducerImpl(Serializer defaultSerializer,
+                           RocketMQMessageChecker rocketMQMessageChecker,
+                           MessageConverter messageConverter, String nameServerAddress, String groupName) {
+
+        this.defaultSerializer = defaultSerializer;
+        this.rocketMQMessageChecker = rocketMQMessageChecker;
+        this.messageConverter = messageConverter;
+        this.nameServerAddress = nameServerAddress;
+        this.groupName = groupName;
+    }
+
+    @Override
+    public void destroy() {
+        if (Objects.nonNull(this.rocketMQProducer)) {
+            this.rocketMQProducer.shutdown();
+        }
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(this.rocketMQProducer, "rocketMQProducer can not be null");
+        Assert.notNull(this.defaultSerializer, "defaultSerializer can not be null");
+        Assert.notNull(this.rocketMQMessageChecker, "rocketMQMessageChecker can not be null");
+        Assert.notNull(this.messageConverter, "messageConverter can not be null");
+
+        this.rocketMQProducer = this.createRocketMQProducer();
+
+        this.rocketMQProducer.start();
+    }
+
+    private org.apache.rocketmq.client.producer.MQProducer createRocketMQProducer() {
+        DefaultMQProducer defaultMQProducer = new DefaultMQProducer(groupName);
+        defaultMQProducer.setNamesrvAddr(this.nameServerAddress);
+
+        return defaultMQProducer;
+    }
 
     @Override
     public GenericResponseExt<Boolean> send(Message message) {
@@ -48,7 +116,7 @@ public class MQProducerImpl
         }
 
         try {
-            SendResult sendResult = this.getMqProducer().send(rocketMQMessage);
+            SendResult sendResult = this.getRocketMQProducer().send(rocketMQMessage);
             if (SendStatus.SEND_OK.equals(sendResult.getSendStatus()) == false) {
                 return GenericResponseExtUtils.buildWithDataAndCodeEnum(false, MqErrorEnum.MQ_EXCEPTION);
             }

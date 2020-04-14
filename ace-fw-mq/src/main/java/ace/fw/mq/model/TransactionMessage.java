@@ -21,11 +21,11 @@ import java.util.function.Supplier;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionMessage {
+public class TransactionMessage<MessageBody> {
     /**
      * 消息体内容
      */
-    private Object body;
+    private MessageBody body;
     /**
      * 主题
      */
@@ -34,8 +34,4 @@ public class TransactionMessage {
      * tags
      */
     private List<String> tags;
-    /**
-     * 事务消息半发送成功后，执行的事件
-     */
-    private Supplier<TransactionStatusEnum> transactionEvent;
 }

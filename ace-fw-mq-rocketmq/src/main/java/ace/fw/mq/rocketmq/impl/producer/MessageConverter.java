@@ -3,13 +3,21 @@ package ace.fw.mq.rocketmq.impl.producer;
 import ace.fw.mq.model.Message;
 import ace.fw.mq.model.TransactionMessage;
 import ace.fw.mq.rocketmq.property.RocketMQProperty;
+import ace.fw.mq.serializer.Deserializer;
 import ace.fw.mq.serializer.Serializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.core.convert.converter.Converter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Caspar
@@ -41,5 +49,14 @@ public class MessageConverter {
         rocketMQMessage.setTags(String.join(",", message.getTags()));
         rocketMQMessage.setBody(messageBodyBytes);
         return rocketMQMessage;
+    }
+
+
+    public List<String> toTagListFromTags(String tagString) {
+        List<String> tags = new ArrayList<>();
+        if (StringUtils.isNoneBlank(tagString)) {
+            tags.addAll(Arrays.asList(tagString.split(",")));
+        }
+        return tags;
     }
 }

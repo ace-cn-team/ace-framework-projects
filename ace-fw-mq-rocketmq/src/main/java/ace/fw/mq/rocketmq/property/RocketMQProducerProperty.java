@@ -1,4 +1,4 @@
-package ace.fw.mq.rocketmq.autoconfigure.property;
+package ace.fw.mq.rocketmq.property;
 
 import ace.fw.mq.enums.MQProducerTypeEnum;
 import lombok.Data;
@@ -27,4 +27,8 @@ public class RocketMQProducerProperty {
      * 生产者类型 {@link MQProducerTypeEnum}
      */
     private MQProducerTypeEnum type;
+    /**
+     * 事务MQ回查机制，线程池配置.参考 {@link java.util.concurrent.ThreadPoolExecutor}
+     */
+    private RocketMQTransactionExecutorServiceProperty transactionExecutorServiceProperty;
 }

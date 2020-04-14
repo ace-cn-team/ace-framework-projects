@@ -1,15 +1,10 @@
-package ace.fw.mq.rocketmq.autoconfigure.property;
+package ace.fw.mq.rocketmq.property;
 
-import ace.fw.mq.rocketmq.autoconfigure.constant.RocketMQConfigureConstants;
-import ace.fw.mq.rocketmq.constants.RocketMQConstant;
-import ace.fw.mq.rocketmq.property.RocketMQProperty;
-import lombok.Data;
+import ace.fw.mq.rocketmq.constants.RocketMQConfigureConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.core.env.Environment;
-
-import java.util.Map;
 
 /**
  * @author Caspar

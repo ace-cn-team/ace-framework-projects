@@ -1,7 +1,6 @@
-package ace.fw.mq.rocketmq.autoconfigure.property;
+package ace.fw.mq.rocketmq.property;
 
 import ace.fw.mq.enums.MQConsumerTypeEnum;
-import ace.fw.mq.enums.MQProducerTypeEnum;
 import ace.fw.mq.rocketmq.enums.MQHandlerTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

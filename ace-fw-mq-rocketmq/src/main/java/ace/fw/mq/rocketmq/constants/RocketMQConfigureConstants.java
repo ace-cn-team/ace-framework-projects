@@ -1,4 +1,4 @@
-package ace.fw.mq.rocketmq.autoconfigure.constant;
+package ace.fw.mq.rocketmq.constants;
 
 /**
  * @author Caspar

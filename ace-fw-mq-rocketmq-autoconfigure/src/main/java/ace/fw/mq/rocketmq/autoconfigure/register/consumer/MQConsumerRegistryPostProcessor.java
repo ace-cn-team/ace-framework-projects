@@ -1,19 +1,20 @@
 package ace.fw.mq.rocketmq.autoconfigure.register.consumer;
 
 import ace.fw.mq.consumer.MQListener;
-import ace.fw.mq.rocketmq.autoconfigure.property.RocketMQAutoConfigureProperty;
-import ace.fw.mq.rocketmq.autoconfigure.property.RocketMQConsumerProperty;
-import ace.fw.mq.rocketmq.autoconfigure.property.RocketMQProducerProperty;
-import ace.fw.mq.rocketmq.autoconfigure.register.producer.ProducerRegister;
+import ace.fw.mq.enums.MQConsumerTypeEnum;
+import ace.fw.mq.rocketmq.impl.consumer.MQConsumerImpl;
+import ace.fw.mq.rocketmq.property.RocketMQAutoConfigureProperty;
+import ace.fw.mq.rocketmq.property.RocketMQConsumerProperty;
+import ace.fw.mq.serializer.Deserializer;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 
@@ -32,11 +33,9 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 @Slf4j
-public class CommonMQConsumerRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
+public class MQConsumerRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
     private RocketMQAutoConfigureProperty rocketMQAutoConfigureProperty;
-
-    private List<ConsumerRegister> consumerRegisters;
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
@@ -65,6 +64,12 @@ public class CommonMQConsumerRegistryPostProcessor implements BeanDefinitionRegi
                 });
     }
 
+    /**
+     * 根据bean name 搜索相关配置,搜索到多于一个配置,则throw {@link RuntimeException}
+     *
+     * @param mqListenerBeanName
+     * @return
+     */
     private Map.Entry<String, RocketMQConsumerProperty> findRocketMQConsumerProperty(String mqListenerBeanName) {
         Predicate<Map.Entry<String, RocketMQConsumerProperty>> propertyMapKeyFilter = p -> StringUtils.equalsIgnoreCase(p.getKey(), mqListenerBeanName);
         Predicate<Map.Entry<String, RocketMQConsumerProperty>> propertyBeanNameFilter = p -> StringUtils.equalsIgnoreCase(p.getValue().getBeanName(), mqListenerBeanName);
@@ -86,19 +91,30 @@ public class CommonMQConsumerRegistryPostProcessor implements BeanDefinitionRegi
     }
 
     private void register(MQListener mqListener, String mqListenerBeanName, Map.Entry<String, RocketMQConsumerProperty> entry, ConfigurableListableBeanFactory configurableListableBeanFactory) {
-        for (ConsumerRegister consumerRegister : consumerRegisters) {
-            if (consumerRegister.isSupport(entry.getValue()) == false) {
-                continue;
-            }
-            RocketMQConsumerProperty rocketMQConsumerProperty = entry.getValue();
-            ListableBeanFactory beanFactory = configurableListableBeanFactory;
-            BeanDefinitionRegistry registry = ((BeanDefinitionRegistry) configurableListableBeanFactory);
-            consumerRegister.register(mqListener, mqListenerBeanName, rocketMQConsumerProperty, beanFactory, registry);
-            String msg = String.format("mq listener [bean name:%s] register by %s success.", mqListenerBeanName, consumerRegister.toString());
-            log.info(msg);
-            break;
-        }
+        RocketMQConsumerProperty rocketMQConsumerProperty = entry.getValue();
+        ListableBeanFactory beanFactory = configurableListableBeanFactory;
+        BeanDefinitionRegistry registry = ((BeanDefinitionRegistry) configurableListableBeanFactory);
+
+        MQConsumerImpl mqConsumer = MQConsumerImpl.builder()
+                .consumeMessageBatchMaxSize(rocketMQConsumerProperty.getConsumeMessageBatchMaxSize())
+                .defaultSerializer(beanFactory.getBean(Deserializer.class))
+                .groupName(rocketMQConsumerProperty.getGroupName())
+                .mqHandlerType(rocketMQConsumerProperty.getMqHandlerType())
+                .mqListener(mqListener)
+                .nameServerAddress(rocketMQConsumerProperty.getNameServerAddress())
+                .build();
+
+        String mqConsumerBeanName = this.getMQConsumerBeanName(mqListenerBeanName);
+
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(MQConsumerImpl.class, () -> mqConsumer);
+
+        registry.registerBeanDefinition(mqConsumerBeanName, beanDefinitionBuilder.getRawBeanDefinition());
+        String msg = String.format("mq listener [bean name:%s] register success.", mqListenerBeanName);
+        log.info(msg);
     }
 
+    private String getMQConsumerBeanName(String mqListenerBeanName) {
+        return String.format("%s_MQConsumer", mqListenerBeanName);
+    }
 
 }

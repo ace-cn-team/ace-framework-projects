@@ -2,16 +2,14 @@ package ace.fw.mq.rocketmq.autoconfigure;
 
 import ace.fw.json.JsonPlugin;
 import ace.fw.json.fastjson.FastJsonPlugin;
-import ace.fw.mq.rocketmq.autoconfigure.constant.RocketMQConfigureConstants;
-import ace.fw.mq.rocketmq.autoconfigure.property.RocketMQAutoConfigureProperty;
-import ace.fw.mq.rocketmq.autoconfigure.property.RocketMQAutoConfigurePropertyConverter;
-import ace.fw.mq.rocketmq.autoconfigure.register.consumer.CommonMQConsumerRegistryPostProcessor;
-import ace.fw.mq.rocketmq.autoconfigure.register.consumer.ConsumerRegister;
+import ace.fw.mq.rocketmq.autoconfigure.register.producer.MQProducerRegistryPostProcessor;
+import ace.fw.mq.rocketmq.constants.RocketMQConfigureConstants;
+import ace.fw.mq.rocketmq.property.RocketMQAutoConfigureProperty;
+import ace.fw.mq.rocketmq.property.RocketMQAutoConfigurePropertyConverter;
+import ace.fw.mq.rocketmq.autoconfigure.register.consumer.MQConsumerRegistryPostProcessor;
 import ace.fw.mq.rocketmq.autoconfigure.register.consumer.MQConsumerRegister;
-import ace.fw.mq.rocketmq.autoconfigure.register.producer.CommonMQProducerRegistryPostProcessor;
-import ace.fw.mq.rocketmq.autoconfigure.register.producer.MQProducerRegister;
+import ace.fw.mq.rocketmq.autoconfigure.register.consumer.MQMQConsumerRegisterImpl;
 import ace.fw.mq.rocketmq.autoconfigure.register.producer.ProducerRegister;
-import ace.fw.mq.rocketmq.impl.consumer.MQConsumerImpl;
 import ace.fw.mq.rocketmq.impl.serializer.JsonDeserializerImpl;
 import ace.fw.mq.rocketmq.impl.serializer.JsonSerializerImpl;
 import ace.fw.mq.rocketmq.impl.producer.MessageConverter;
@@ -44,13 +42,13 @@ public class RocketMQAutoConfigure {
 
     @Bean
     @ConditionalOnMissingBean
-    public CommonMQProducerRegistryPostProcessor mqProducerRegistryPostProcessor(Environment environment) {
+    public MQProducerRegistryPostProcessor mqProducerRegistryPostProcessor(Environment environment) {
         RocketMQAutoConfigureProperty rocketMQAutoConfigureProperty = RocketMQAutoConfigurePropertyConverter.from(environment);
         List<ProducerRegister> producerRegisters = Arrays.asList(
                 new MQProducerRegister()
 
         );
-        return CommonMQProducerRegistryPostProcessor
+        return MQProducerRegistryPostProcessor
                 .builder()
                 .rocketMQAutoConfigureProperty(rocketMQAutoConfigureProperty)
                 .producerRegisters(producerRegisters)
@@ -59,15 +57,15 @@ public class RocketMQAutoConfigure {
 
     @Bean
     @ConditionalOnMissingBean
-    public CommonMQConsumerRegistryPostProcessor mqConsumerRegistryPostProcessor(Environment environment) {
+    public MQConsumerRegistryPostProcessor mqConsumerRegistryPostProcessor(Environment environment) {
         RocketMQAutoConfigureProperty rocketMQAutoConfigureProperty = RocketMQAutoConfigurePropertyConverter.from(environment);
-        List<ConsumerRegister> consumerRegisters = Arrays.asList(
-                new MQConsumerRegister()
+        List<MQConsumerRegister> MQConsumerRegisters = Arrays.asList(
+                new MQMQConsumerRegisterImpl()
         );
-        return CommonMQConsumerRegistryPostProcessor
+        return MQConsumerRegistryPostProcessor
                 .builder()
                 .rocketMQAutoConfigureProperty(rocketMQAutoConfigureProperty)
-                .consumerRegisters(consumerRegisters)
+                .MQConsumerRegisters(MQConsumerRegisters)
                 .build();
     }
 

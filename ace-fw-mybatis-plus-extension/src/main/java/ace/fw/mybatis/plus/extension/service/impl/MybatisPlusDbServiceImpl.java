@@ -50,8 +50,8 @@ public class MybatisPlusDbServiceImpl<T extends Entity, Mapper extends BaseMappe
     @Getter(value = AccessLevel.NONE)
     @Setter(value = AccessLevel.NONE)
     private Object entityClassCacheLock = new Object();
-    @Getter(value = AccessLevel.NONE)
-    @Setter(value = AccessLevel.NONE)
+    @Getter(value = AccessLevel.PROTECTED)
+    @Setter(value = AccessLevel.PROTECTED)
     private Integer batchLimitCount = 1000;
 
 
