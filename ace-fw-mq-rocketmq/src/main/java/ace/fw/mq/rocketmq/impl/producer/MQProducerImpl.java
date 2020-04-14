@@ -27,52 +27,45 @@ import java.util.Objects;
  * @create 2020/4/8 17:56
  * @description
  */
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Slf4j
 public class MQProducerImpl
         implements MQProducer, InitializingBean, DisposableBean {
     /**
      * 底层事务MQ生产者实现
      */
-    @Getter
+
     private org.apache.rocketmq.client.producer.MQProducer rocketMQProducer;
     /**
      * 序列化工具
      */
-    @Getter
+
     private Serializer defaultSerializer;
     /**
      * rocketmq 消息限制检查器
      */
-    @Getter
+
     private RocketMQMessageChecker rocketMQMessageChecker;
     /**
      * rocketmq 消息转换器
      */
-    @Getter
+
     private MessageConverter messageConverter;
 
     /**
      * rocketmq 名称服务器地址 ,如172.18.0.1:9876
      */
-    @Getter
+
     private String nameServerAddress;
     /**
      * 生产者组名
      */
-    @Getter
+
     private String groupName;
 
-    @Builder
-    private MQProducerImpl(Serializer defaultSerializer,
-                           RocketMQMessageChecker rocketMQMessageChecker,
-                           MessageConverter messageConverter, String nameServerAddress, String groupName) {
-
-        this.defaultSerializer = defaultSerializer;
-        this.rocketMQMessageChecker = rocketMQMessageChecker;
-        this.messageConverter = messageConverter;
-        this.nameServerAddress = nameServerAddress;
-        this.groupName = groupName;
-    }
 
     @Override
     public void destroy() {
@@ -83,11 +76,12 @@ public class MQProducerImpl
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(this.rocketMQProducer, "rocketMQProducer can not be null");
+
         Assert.notNull(this.defaultSerializer, "defaultSerializer can not be null");
         Assert.notNull(this.rocketMQMessageChecker, "rocketMQMessageChecker can not be null");
         Assert.notNull(this.messageConverter, "messageConverter can not be null");
-
+        Assert.notNull(this.nameServerAddress, "nameServerAddress can not be null");
+        Assert.notNull(this.groupName, "groupName can not be null");
         this.rocketMQProducer = this.createRocketMQProducer();
 
         this.rocketMQProducer.start();

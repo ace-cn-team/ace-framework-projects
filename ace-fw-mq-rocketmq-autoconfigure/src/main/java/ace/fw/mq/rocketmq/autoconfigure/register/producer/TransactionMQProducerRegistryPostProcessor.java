@@ -1,7 +1,7 @@
 package ace.fw.mq.rocketmq.autoconfigure.register.producer;
 
 import ace.fw.mq.enums.MQProducerTypeEnum;
-import ace.fw.mq.producer.TransactionMQListener;
+import ace.fw.mq.producer.TransactionMQChecker;
 import ace.fw.mq.rocketmq.impl.producer.MessageConverter;
 import ace.fw.mq.rocketmq.impl.producer.RocketMQMessageChecker;
 import ace.fw.mq.rocketmq.impl.producer.TransactionMQProducerImpl;
@@ -47,80 +47,57 @@ public class TransactionMQProducerRegistryPostProcessor implements BeanDefinitio
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
-        ListableBeanFactory beanFactory = configurableListableBeanFactory;
-        Map<String, TransactionMQListener> transactionMQListenerMap = beanFactory.getBeansOfType(TransactionMQListener.class);
-        if (MapUtils.isEmpty(transactionMQListenerMap)) {
-            log.info("can not find transactionMQListenerMap,exit auto configure");
+        if (MapUtils.isEmpty(rocketMQAutoConfigureProperty.getMqProducer())) {
+            log.info("can not find transaction mq config,exit auto configure");
             return;
         }
-        transactionMQListenerMap.entrySet()
-                .stream()
-                .forEach(entry -> {
-                    TransactionMQListener mqListener = entry.getValue();
-                    String transactionMQListenerBeanName = entry.getKey();
-                    Map.Entry<String, RocketMQProducerProperty> rocketMQProducerProperty = this.findTransactionRocketMQProducerProperty(transactionMQListenerBeanName);
-                    if (Objects.isNull(rocketMQProducerProperty)) {
-                        String msg = String.format("transaction mq listener [bean name:%s] can not find the config", transactionMQListenerBeanName);
-                        throw new RuntimeException(msg);
-                    }
-                    this.register(mqListener, transactionMQListenerBeanName, rocketMQProducerProperty, configurableListableBeanFactory);
-                });
-    }
-
-    /**
-     * 根据bean name 搜索相关配置,搜索到多于一个配置,则throw {@link RuntimeException}
-     *
-     * @param mqListenerBeanName
-     * @return
-     */
-    private Map.Entry<String, RocketMQProducerProperty> findTransactionRocketMQProducerProperty(String mqListenerBeanName) {
-        Predicate<Map.Entry<String, RocketMQProducerProperty>> propertyMapKeyFilter = p -> StringUtils.equalsIgnoreCase(p.getKey(), mqListenerBeanName);
-        Predicate<Map.Entry<String, RocketMQProducerProperty>> propertyBeanNameFilter = p -> StringUtils.equalsIgnoreCase(p.getValue().getBeanName(), mqListenerBeanName);
-
-        List<Map.Entry<String, RocketMQProducerProperty>> properties = this.rocketMQAutoConfigureProperty
+        ListableBeanFactory beanFactory = configurableListableBeanFactory;
+        rocketMQAutoConfigureProperty
                 .getMqProducer()
                 .entrySet()
                 .stream()
                 .filter(p -> MQProducerTypeEnum.TRANSACTION_PRODUCER.equals(p.getValue().getType()))
-                .filter(p -> propertyMapKeyFilter.or(propertyBeanNameFilter).test(p))
-                .collect(Collectors.toList());
-        if (properties.size() == 0) {
-            return null;
-        }
-        if (properties.size() > 2) {
-            String msg = String.format("[bean name:%s] transaction mq listener config must be one,but find more than one", mqListenerBeanName);
-            throw new RuntimeException(msg);
-        }
-        return properties.get(0);
+                .forEach(entry -> {
+                    String defaultTransactionMQCheckerBeanName = entry.getKey();
+                    RocketMQProducerProperty rocketMQProducerProperty = entry.getValue();
+                    String transactionMQCheckerBeanName = StringUtils.isNoneBlank(rocketMQProducerProperty.getBeanName()) ?
+                            rocketMQProducerProperty.getBeanName() : defaultTransactionMQCheckerBeanName;
+                    this.register(transactionMQCheckerBeanName, rocketMQProducerProperty, configurableListableBeanFactory);
+                });
     }
 
-    private void register(TransactionMQListener mqListener, String mqListenerBeanName, Map.Entry<String, RocketMQProducerProperty> entry, ConfigurableListableBeanFactory configurableListableBeanFactory) {
-        RocketMQProducerProperty rocketMQProducerProperty = entry.getValue();
-        ListableBeanFactory beanFactory = configurableListableBeanFactory;
+
+    private void register(String mqCheckerBeanName, RocketMQProducerProperty rocketMQProducerProperty, ConfigurableListableBeanFactory configurableListableBeanFactory) {
+
         BeanDefinitionRegistry registry = ((BeanDefinitionRegistry) configurableListableBeanFactory);
-        String transactionMQProducerBeanName = this.getTransactionMQProducerBeanName(mqListenerBeanName);
+        String transactionMQProducerBeanName = this.getTransactionMQProducerBeanName(mqCheckerBeanName);
 
         TransactionMQProducerImpl mqProducer = TransactionMQProducerImpl
                 .builder()
-                .defaultSerializer(beanFactory.getBean(Serializer.class))
-                .deserializer(beanFactory.getBean(Deserializer.class))
-                .messageConverter(beanFactory.getBean(MessageConverter.class))
-                .rocketMQMessageChecker(beanFactory.getBean(RocketMQMessageChecker.class))
+//                .defaultSerializer(beanFactory.getBean(Serializer.class))
+             // .deserializer(beanFactory.getBean(Deserializer.class))
+//                .messageConverter(beanFactory.getBean(MessageConverter.class))
+//                .rocketMQMessageChecker(beanFactory.getBean(RocketMQMessageChecker.class))
+//                .transactionMqChecker(mqChecker)
                 .groupName(rocketMQProducerProperty.getGroupName())
                 .nameServerAddress(rocketMQProducerProperty.getNameServerAddress())
                 .rocketMQTransactionExecutorServiceProperty(rocketMQProducerProperty.getTransactionExecutorServiceProperty())
                 .transactionMQProducerId(transactionMQProducerBeanName)
-                .transactionMqListener(mqListener)
                 .build();
 
-        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(TransactionMQProducerImpl.class, () -> mqProducer);
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(TransactionMQProducerImpl.class, () -> mqProducer)
+                .addAutowiredProperty("defaultDeserializer")
+                .addAutowiredProperty("defaultSerializer")
+                .addAutowiredProperty("messageConverter")
+                .addAutowiredProperty("rocketMQMessageChecker")
+                .addPropertyReference("transactionMqChecker", mqCheckerBeanName);
 
         registry.registerBeanDefinition(transactionMQProducerBeanName, beanDefinitionBuilder.getRawBeanDefinition());
-        String msg = String.format("transaction mq listener [bean name:%s] register success.", mqListenerBeanName);
+        String msg = String.format("transaction mq listener [bean name:%s] register success.", mqCheckerBeanName);
         log.info(msg);
     }
 
-    private String getTransactionMQProducerBeanName(String mqListenerBeanName) {
-        return String.format("%s_TransactionMQProducer", mqListenerBeanName);
+    private String getTransactionMQProducerBeanName(String mqCheckerBeanName) {
+        return String.format("%s_TransactionMQProducer", mqCheckerBeanName);
     }
 }

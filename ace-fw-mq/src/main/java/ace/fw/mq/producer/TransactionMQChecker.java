@@ -15,7 +15,7 @@ import java.util.List;
  * @create 2020/2/2 1:06
  * @description 事务MQ回调本地事务方法与回查本地事务结果方法接口
  */
-public interface TransactionMQListener<MessageBody> {
+public interface TransactionMQChecker<MessageBody> {
     /**
      * When send transactional prepare(half) message succeed, this method will be invoked to execute local transaction.
      *

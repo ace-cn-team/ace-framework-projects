@@ -5,8 +5,8 @@ import ace.fw.mq.enums.MqErrorEnum;
 import ace.fw.mq.enums.TransactionStatusEnum;
 import ace.fw.mq.model.MessageContext;
 import ace.fw.mq.model.TransactionMessage;
-import ace.fw.mq.producer.TransactionMQListener;
-import ace.fw.mq.producer.TransactionMqProducer;
+import ace.fw.mq.producer.TransactionMQChecker;
+import ace.fw.mq.producer.TransactionMQProducer;
 import ace.fw.mq.rocketmq.property.RocketMQTransactionExecutorServiceProperty;
 import ace.fw.mq.rocketmq.util.LogUtils;
 import ace.fw.mq.serializer.Deserializer;
@@ -37,75 +37,57 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @create 2020/4/9 10:30
  * @description
  */
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
 @Slf4j
 public class TransactionMQProducerImpl
-        implements TransactionMqProducer, InitializingBean, DisposableBean {
+        implements TransactionMQProducer, InitializingBean, DisposableBean {
     /**
      * 底层事务MQ生产者实现
      */
-    @Getter
-    private TransactionMQProducer transactionMQProducer;
+    private org.apache.rocketmq.client.producer.TransactionMQProducer transactionMQProducer;
     /**
      * 序列化工具
      */
-    @Getter
     private Serializer defaultSerializer;
     /**
      * 反序列化工具
      */
-    @Getter
     private Deserializer defaultDeserializer;
     /**
      * 本地与回查事务处理器
      */
-    @Getter
-    private TransactionMQListener transactionMqListener;
+    private TransactionMQChecker transactionMqChecker;
     /**
      * rocketmq 消息限制检查器
      */
-    @Getter
     private RocketMQMessageChecker rocketMQMessageChecker;
     /**
      * rocketmq 消息转换器
      */
-    @Getter
     private MessageConverter messageConverter;
     /**
      * rocketmq 名称服务器地址 ,如172.18.0.1:9876
      */
-    @Getter
     private String nameServerAddress;
     /**
      * 生产者组名
      */
-    @Getter
     private String groupName;
     /**
      * 回查监听线程配置
      */
-    @Getter
     private RocketMQTransactionExecutorServiceProperty rocketMQTransactionExecutorServiceProperty;
     /**
      * 用于标识该实现类，主要用于日志记录
      */
-    @Getter
     private String transactionMQProducerId;
-    @Getter
+    /**
+     * 消息体的类类型
+     */
     private Class messageBodyClass;
-
-    @Builder
-    private TransactionMQProducerImpl(String transactionMQProducerId, Serializer defaultSerializer, Deserializer deserializer, TransactionMQListener transactionMqListener, RocketMQMessageChecker rocketMQMessageChecker,
-                                      MessageConverter messageConverter, String nameServerAddress, String groupName, RocketMQTransactionExecutorServiceProperty rocketMQTransactionExecutorServiceProperty) {
-        this.transactionMQProducerId = transactionMQProducerId;
-        this.defaultSerializer = defaultSerializer;
-        this.defaultDeserializer = deserializer;
-        this.transactionMqListener = transactionMqListener;
-        this.messageConverter = messageConverter;
-        this.rocketMQMessageChecker = rocketMQMessageChecker;
-        this.nameServerAddress = nameServerAddress;
-        this.groupName = groupName;
-        this.rocketMQTransactionExecutorServiceProperty = rocketMQTransactionExecutorServiceProperty;
-    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -116,14 +98,14 @@ public class TransactionMQProducerImpl
         Assert.notNull(this.messageConverter, "messageConverter can be null");
         Assert.notNull(this.nameServerAddress, "nameServerAddress can be null");
         Assert.notNull(this.rocketMQMessageChecker, "rocketMQMessageChecker can be null");
-        Assert.notNull(this.transactionMqListener, "transactionMqListener can be null");
-        messageBodyClass = ReflectionUtils.getInterfaceGeneric(this.transactionMqListener.getClass(), 0);
+        Assert.notNull(this.transactionMqChecker, "transactionMqChecker can be null");
+        messageBodyClass = ReflectionUtils.getInterfaceGeneric(this.transactionMqChecker.getClass(), 0);
         this.transactionMQProducer = this.createMQProducer();
         this.transactionMQProducer.start();
     }
 
-    private TransactionMQProducer createMQProducer() {
-        TransactionMQProducer transactionMQProducer = new TransactionMQProducer(groupName);
+    private org.apache.rocketmq.client.producer.TransactionMQProducer createMQProducer() {
+        org.apache.rocketmq.client.producer.TransactionMQProducer transactionMQProducer = new org.apache.rocketmq.client.producer.TransactionMQProducer(groupName);
         TransactionListener transactionListener = this.createTransactionListener();
         ExecutorService executorService = this.createExecutorService();
         transactionMQProducer.setTransactionListener(transactionListener);
@@ -184,7 +166,7 @@ public class TransactionMQProducerImpl
                 .tags(tags)
                 .build();
         try {
-            TransactionStatusEnum transactionStatusEnum = this.transactionMqListener.checkLocalTransaction(messageContext);
+            TransactionStatusEnum transactionStatusEnum = this.transactionMqChecker.checkLocalTransaction(messageContext);
             return TransactionStatusConverter.toRocketMQTransactionState(transactionStatusEnum);
         } catch (Exception ex) {
             log.error("事务回查事件执行失败." + LogUtils.getLogFromMessage(messageExt), ex);
@@ -198,7 +180,7 @@ public class TransactionMQProducerImpl
         Object bizParams = transactionMessageInternalParams.getBizParams();
         LocalTransactionState localTransactionState = LocalTransactionState.UNKNOW;
         try {
-            TransactionStatusEnum transactionStatusEnum = this.transactionMqListener.executeLocalTransaction(message, bizParams);
+            TransactionStatusEnum transactionStatusEnum = this.transactionMqChecker.executeLocalTransaction(message, bizParams);
             return TransactionStatusConverter.toRocketMQTransactionState(transactionStatusEnum);
         } catch (Exception ex) {
             String errorMsg = String.format("本地事务方法执行失败.%s,%s", LogUtils.getLogFromMessage(msg), LogUtils.toJson(arg));
@@ -259,10 +241,15 @@ public class TransactionMQProducerImpl
         return GenericResponseExtUtils.buildWithDataAndCodeEnum(TransactionStatusEnum.UNKNOWN, MqErrorEnum.MQ_EXCEPTION);
     }
 
+    @Override
+    public GenericResponseExt<TransactionStatusEnum> send(TransactionMessage message) {
+        return this.send(message, null);
+    }
+
 
     @Override
-    public TransactionMQListener getListener() {
-        return this.transactionMqListener;
+    public TransactionMQChecker getListener() {
+        return this.transactionMqChecker;
     }
 
     private Object deserialize(MessageExt messageExt) {
@@ -281,16 +268,5 @@ public class TransactionMQProducerImpl
         }
     }
 
-    @Data
-    @Builder
-    private class TransactionMessageInternalParams {
-        /**
-         * 业务参数
-         */
-        private Object bizParams;
-        /**
-         * 发送的消息
-         */
-        private TransactionMessage message;
-    }
+
 }

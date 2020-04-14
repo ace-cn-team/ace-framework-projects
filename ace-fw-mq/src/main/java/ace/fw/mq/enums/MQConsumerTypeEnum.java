@@ -11,9 +11,6 @@ import lombok.Getter;
  */
 public enum MQConsumerTypeEnum implements BaseEnum<Integer> {
     CONSUMER(0, "普通MQ消费者"),
-
-    HALF_TRANSACTION_MQ_CHECKER(1, "半事务MQ检查者"),
-
     ;
 
     @Getter

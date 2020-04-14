@@ -31,53 +31,39 @@ import java.util.Objects;
  * @create 2020/4/11 10:24
  * @description
  */
+@Data
 @Accessors(chain = true)
-//@NoArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Slf4j
 public class MQConsumerImpl implements InitializingBean, DisposableBean {
     /**
      * 消息消费监听者
      */
-    @NonNull
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
+
     private MQListener mqListener;
 
     /**
      * 反序列化工具
      */
-    @NonNull
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
+
     private Deserializer defaultSerializer;
     /**
      * 消息消费者执行方式
      */
-    @NonNull
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
     private MQHandlerTypeEnum mqHandlerType;
     /**
      * rocketmq名称服务地址
      */
-    @NonNull
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
     private String nameServerAddress;
     /**
      * rocketmq 消费者组名
      */
-    @NonNull
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
     private String groupName;
     /**
      * 默认一次拉取消息，只拉取一条消息
      */
-    @NonNull
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
     private Integer consumeMessageBatchMaxSize = 1;
     /**
      * 消息消费拉取器
@@ -89,16 +75,6 @@ public class MQConsumerImpl implements InitializingBean, DisposableBean {
     @Setter(AccessLevel.PROTECTED)
     private Class messageBodyClass;
 
-    @Builder
-    private MQConsumerImpl(MQListener mqListener, Deserializer defaultSerializer, MQHandlerTypeEnum mqHandlerType, String nameServerAddress,
-                           String groupName, Integer consumeMessageBatchMaxSize) {
-        this.mqListener = mqListener;
-        this.defaultSerializer = defaultSerializer;
-        this.mqHandlerType = mqHandlerType;
-        this.nameServerAddress = nameServerAddress;
-        this.groupName = groupName;
-        this.consumeMessageBatchMaxSize = consumeMessageBatchMaxSize;
-    }
 
     @Override
     public void destroy() throws Exception {

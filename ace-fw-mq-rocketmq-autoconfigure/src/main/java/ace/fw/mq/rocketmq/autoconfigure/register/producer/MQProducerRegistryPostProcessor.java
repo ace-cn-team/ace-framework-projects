@@ -16,6 +16,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.config.RuntimeBeanNameReference;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
@@ -45,6 +46,7 @@ public class MQProducerRegistryPostProcessor implements BeanDefinitionRegistryPo
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 
         if (MapUtils.isEmpty(rocketMQAutoConfigureProperty.getMqProducer())) {
+            log.info("can not find mq producer config,exit auto configure");
             return;
         }
         rocketMQAutoConfigureProperty
@@ -65,37 +67,26 @@ public class MQProducerRegistryPostProcessor implements BeanDefinitionRegistryPo
         ListableBeanFactory beanFactory = configurableListableBeanFactory;
         BeanDefinitionRegistry registry = ((BeanDefinitionRegistry) configurableListableBeanFactory);
 
-
         String mqProducerBeanName = this.getMQProducerBeanName(defaultMQProducerBeanName, rocketMQProducerProperty);
 
-        MQProducerImpl mqProducer = this.createMQProducer(rocketMQProducerProperty, beanFactory);
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(MQProducerImpl.class, () -> {
+            MQProducerImpl mqProducer = MQProducerImpl
+                    .builder()
+                    .groupName(rocketMQProducerProperty.getGroupName())
+                    .nameServerAddress(rocketMQProducerProperty.getNameServerAddress())
+                    .build();
 
-        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(MQProducerImpl.class, () -> mqProducer);
+            return mqProducer;
+        })
+                .addAutowiredProperty("defaultSerializer")
+                .addAutowiredProperty("messageConverter")
+                .addAutowiredProperty("rocketMQMessageChecker");
 
         registry.registerBeanDefinition(mqProducerBeanName, beanDefinitionBuilder.getRawBeanDefinition());
 
         log.info(String.format("mq producer [bean:%s] register success", mqProducerBeanName));
     }
 
-    /**
-     * 创建普通消息生产者
-     *
-     * @param rocketMQProducerProperty
-     * @param beanFactory
-     * @return
-     */
-    private MQProducerImpl createMQProducer(RocketMQProducerProperty rocketMQProducerProperty, ListableBeanFactory beanFactory) {
-        MQProducerImpl mqProducer = MQProducerImpl
-                .builder()
-                .defaultSerializer(beanFactory.getBean(Serializer.class))
-                .messageConverter(beanFactory.getBean(MessageConverter.class))
-                .rocketMQMessageChecker(beanFactory.getBean(RocketMQMessageChecker.class))
-                .groupName(rocketMQProducerProperty.getGroupName())
-                .nameServerAddress(rocketMQProducerProperty.getNameServerAddress())
-                .build();
-
-        return mqProducer;
-    }
 
     /**
      * 获取生产者bean name

@@ -26,9 +26,9 @@ public class RocketMQProducerProperty {
     /**
      * 生产者类型 {@link MQProducerTypeEnum}
      */
-    private MQProducerTypeEnum type;
+    private MQProducerTypeEnum type = MQProducerTypeEnum.PRODUCER;
     /**
      * 事务MQ回查机制，线程池配置.参考 {@link java.util.concurrent.ThreadPoolExecutor}
      */
-    private RocketMQTransactionExecutorServiceProperty transactionExecutorServiceProperty;
+    private RocketMQTransactionExecutorServiceProperty transactionExecutorServiceProperty = new RocketMQTransactionExecutorServiceProperty();
 }
