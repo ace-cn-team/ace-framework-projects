@@ -32,10 +32,4 @@ public interface TransactionMQProducer<MessageBody, LogicParams> {
      */
     GenericResponseExt<TransactionStatusEnum> send(final TransactionMessage<MessageBody> message);
 
-//    /**
-//     * 返回绑定的事务MQ处理器
-//     *
-//     * @return
-//     */
-//    TransactionMQChecker<MessageBody, LogicParams> getListener();
 }
