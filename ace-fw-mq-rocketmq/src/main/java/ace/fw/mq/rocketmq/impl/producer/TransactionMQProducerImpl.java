@@ -246,12 +246,6 @@ public class TransactionMQProducerImpl
         return this.send(message, null);
     }
 
-
-    @Override
-    public TransactionMQChecker getListener() {
-        return this.transactionMqChecker;
-    }
-
     private Object deserialize(MessageExt messageExt) {
         try {
             Deserializer deserializer = this.defaultDeserializer;

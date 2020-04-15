@@ -15,7 +15,7 @@ import java.util.List;
  * @create 2020/2/2 1:06
  * @description 事务MQ回调本地事务方法与回查本地事务结果方法接口
  */
-public interface TransactionMQChecker<MessageBody> {
+public interface TransactionMQChecker<MessageBody, LogicParams> {
     /**
      * When send transactional prepare(half) message succeed, this method will be invoked to execute local transaction.
      *
@@ -23,7 +23,7 @@ public interface TransactionMQChecker<MessageBody> {
      * @param arg     Custom business parameter
      * @return Transaction state
      */
-    TransactionStatusEnum executeLocalTransaction(final TransactionMessage<MessageBody> message, final Object arg);
+    TransactionStatusEnum executeLocalTransaction(final TransactionMessage<MessageBody> message, final LogicParams arg);
 
     /**
      * When no response to prepare(half) message. broker will send check message to check the transaction status, and this
