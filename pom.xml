@@ -42,6 +42,7 @@
         <module>ace-fw-mq-rocketmq</module>
         <module>ace-fw-mq-rocketmq-autoconfigure</module>
         <module>ace-fw-system-code</module>
+        <module>ace-fw-swagger-autoconfigure</module>
     </modules>
 
     <distributionManagement>

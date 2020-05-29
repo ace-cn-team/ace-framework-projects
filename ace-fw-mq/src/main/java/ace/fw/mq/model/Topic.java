@@ -2,8 +2,6 @@ package ace.fw.mq.model;
 
 import ace.fw.enums.BaseEnum;
 
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Caspar
