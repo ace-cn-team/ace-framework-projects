@@ -68,3 +68,7 @@
 /ace-fw-mq-rocketmq/ace-fw-mq-rocketmq.iml
 /ace-fw-mq-rocketmq-autoconfigure/target/
 /ace-fw-mq-rocketmq-autoconfigure/ace-fw-mq-rocketmq-autoconfigure.iml
+/ace-fw-swagger-autoconfigure/target/classes/META-INF/
+/ace-fw-swagger-autoconfigure/ace-fw-swagger-autoconfigure.iml
+/ace-fw-system-code/target/
+/ace-fw-system-code/ace-fw-system-code.iml
