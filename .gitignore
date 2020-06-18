@@ -73,3 +73,7 @@
 /ace-fw-system-code/target/
 /ace-fw-system-code/ace-fw-system-code.iml
 /ace-fw-swagger-autoconfigure/target/
+/ace-fw-graphql-playground-autoconfigure/ace-fw-graphql-playground-autoconfigure.iml
+/ace-fw-graphql-schema-sdl-autoconfigure/ace-fw-graphql-schema-sdl-autoconfigure.iml
+/ace-fw-graphql-playground-autoconfigure/*.iml
+/ace-fw-graphql-schema-sdl-autoconfigure/*.iml
