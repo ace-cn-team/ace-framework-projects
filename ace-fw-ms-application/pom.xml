@@ -8,21 +8,12 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>ace-fw-ms-application</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>org.ace</groupId>
             <artifactId>ace-fw</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.ace</groupId>
-            <artifactId>ace-fw-json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.ace</groupId>
-            <artifactId>ace-fw-json-fastjson</artifactId>
         </dependency>
         <dependency>
             <groupId>org.ace</groupId>

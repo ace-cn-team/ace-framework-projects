@@ -6,20 +6,16 @@ import ace.fw.data.model.entity.Entity;
 import ace.fw.data.model.request.resful.*;
 import ace.fw.data.model.request.resful.entity.EntityUpdateForceRequest;
 import ace.fw.data.model.request.resful.entity.EntityUpdateRequest;
-import ace.fw.data.service.DbService;
 
 import ace.fw.model.response.GenericResponseExt;
+import ace.fw.mybatis.plus.extension.service.MybatisPlusDbService;
 import ace.fw.restful.base.api.service.AbstractRestfulBaseService;
 import ace.fw.util.GenericResponseExtUtils;
-import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,11 +30,12 @@ import java.util.List;
 @Accessors(chain = true)
 @Slf4j
 @Validated
-public abstract class AbstractRestfulController<T extends Entity, S extends DbService<T>>
+public abstract class AbstractRestfulController<T extends Entity, S extends MybatisPlusDbService<T>>
         implements AbstractRestfulBaseService<T> {
 
     @Autowired
     private S dbService;
+
 
     @Override
     public GenericResponseExt<T> getById(String id) {

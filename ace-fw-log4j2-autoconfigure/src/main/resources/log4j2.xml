@@ -2,7 +2,8 @@
 <!-- Specify the refresh internal in seconds. -->
 <Configuration monitorInterval="5">
     <Properties>
-        <Property name="baseDir">${sys:user.dir}</Property>
+<!--        <Property name="baseDir">${sys:user.dir}</Property>-->
+        <Property name="baseDir">/var</Property>
     </Properties>
 
 

@@ -18,6 +18,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AccessLevel;
@@ -53,7 +54,6 @@ public class MybatisPlusDbServiceImpl<T extends Entity, Mapper extends BaseMappe
     @Getter(value = AccessLevel.PROTECTED)
     @Setter(value = AccessLevel.PROTECTED)
     private Integer batchLimitCount = 1000;
-
 
     @Override
     public T getOne(T request) {
@@ -170,6 +170,22 @@ public class MybatisPlusDbServiceImpl<T extends Entity, Mapper extends BaseMappe
         return entityConfigInfoService.getByEntityClass(getEntityClass());
     }
 
+    @Override
+    public LambdaQueryChainWrapper<T> lambdaQuery() {
+        return this.lambdaQuery();
+    }
+
+    /**
+     * Fix:继承泛型位置不一致的Bug
+     *
+     * @return
+     */
+    @Override
+    protected Class<T> currentModelClass() {
+        return (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 0);
+    }
+
+
     protected Class<T> getEntityClass() {
         if (Objects.nonNull(entityClassCache)) {
             return entityClassCache;
@@ -189,15 +205,4 @@ public class MybatisPlusDbServiceImpl<T extends Entity, Mapper extends BaseMappe
                 .map(p -> p.getId())
                 .collect(Collectors.toList());
     }
-
-    /**
-     * Fix:继承泛型位置不一致的Bug
-     *
-     * @return
-     */
-    @Override
-    protected Class<T> currentModelClass() {
-        return (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 0);
-    }
-
 }

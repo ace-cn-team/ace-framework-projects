@@ -245,14 +245,6 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
     }
 
     @Bean
-    public JsonPlugin jsonPlugin() {
-        FastJsonPlugin fastJsonPlugin = new FastJsonPlugin();
-
-        JsonUtils.setJsonPlugin(fastJsonPlugin);
-        return fastJsonPlugin;
-    }
-
-    @Bean
     public WebExceptionResolver aceWebExceptionResolver(
             @Autowired WebExceptionHandler webExceptionHandler) {
         return new WebExceptionResolver(getJsonMsgConverter(), webExceptionHandler);

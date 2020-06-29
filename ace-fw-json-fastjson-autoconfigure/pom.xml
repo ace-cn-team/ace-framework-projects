@@ -7,28 +7,10 @@
         <groupId>org.ace</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <description>
-        自动配置
-        1.基础web环境
-        2.统一web错误解析
-        3.bean启动监控
-    </description>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>ace-fw-ms-application-autoconfigure</artifactId>
 
+    <artifactId>ace-fw-json-fastjson-autoconfigure</artifactId>
     <dependencies>
-        <dependency>
-            <groupId>org.ace</groupId>
-            <artifactId>ace-fw-ms-application</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.ace</groupId>
-            <artifactId>ace-fw-json-fastjson-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.ace</groupId>
-            <artifactId>ace-fw-log4j2-autoconfigure</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
@@ -37,5 +19,11 @@
             <groupId>org.ace</groupId>
             <artifactId>ace-fw-json-fastjson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.ace</groupId>
+            <artifactId>ace-fw-json-fastjson</artifactId>
+        </dependency>
     </dependencies>
+
+
 </project>

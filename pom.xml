@@ -44,6 +44,7 @@
         <module>ace-fw-mq-rocketmq-autoconfigure</module>
         <module>ace-fw-system-code</module>
         <module>ace-fw-swagger-autoconfigure</module>
+        <module>ace-fw-json-fastjson-autoconfigure</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -142,6 +143,11 @@
             <dependency>
                 <artifactId>ace-fw-json-fastjson</artifactId>
                 <groupId>org.ace</groupId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ace</groupId>
+                <artifactId>ace-fw-json-fastjson-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
