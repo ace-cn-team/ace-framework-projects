@@ -77,3 +77,7 @@
 /ace-fw-graphql-schema-sdl-autoconfigure/ace-fw-graphql-schema-sdl-autoconfigure.iml
 /ace-fw-graphql-playground-autoconfigure/*.iml
 /ace-fw-graphql-schema-sdl-autoconfigure/*.iml
+/ace-fw-graphql-schema-sdl-autoconfigure/target/maven-archiver/
+/ace-fw-graphql-schema-sdl-autoconfigure/target/maven-archiver/
+/ace-fw-json-fastjson-autoconfigure/target/
+/ace-fw-json-fastjson-autoconfigure/ace-fw-json-fastjson-autoconfigure.iml
