@@ -3,7 +3,7 @@
 <Configuration monitorInterval="5">
     <Properties>
 <!--        <Property name="baseDir">${sys:user.dir}</Property>-->
-        <Property name="baseDir">/var</Property>
+        <Property name="baseDir">/var/ace</Property>
     </Properties>
 
 
