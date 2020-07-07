@@ -19,10 +19,6 @@
             <groupId>org.ace</groupId>
             <artifactId>ace-fw-json-fastjson</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.ace</groupId>
-            <artifactId>ace-fw-json-fastjson</artifactId>
-        </dependency>
     </dependencies>
 
 

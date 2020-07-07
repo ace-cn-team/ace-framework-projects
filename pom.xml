@@ -45,6 +45,8 @@
         <module>ace-fw-system-code</module>
         <module>ace-fw-swagger-autoconfigure</module>
         <module>ace-fw-json-fastjson-autoconfigure</module>
+        <module>ace-fw-feign</module>
+        <module>ace-fw-web-api-client-starter</module>
     </modules>
     <dependencyManagement>
         <dependencies>
