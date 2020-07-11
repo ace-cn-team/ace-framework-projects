@@ -81,3 +81,7 @@
 /ace-fw-graphql-schema-sdl-autoconfigure/target/maven-archiver/
 /ace-fw-json-fastjson-autoconfigure/target/
 /ace-fw-json-fastjson-autoconfigure/ace-fw-json-fastjson-autoconfigure.iml
+/ace-fw-feign/target/
+/ace-fw-feign/ace-fw-feign.iml
+/ace-fw-web-api-client-starter/target/
+/ace-fw-web-api-client-starter/ace-fw-web-api-client-starter.iml
