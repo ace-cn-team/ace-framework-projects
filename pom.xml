@@ -5,9 +5,9 @@
     <parent>
         <artifactId>ace-projects</artifactId>
         <groupId>org.ace</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0.0</version>
     </parent>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0.1</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ace-framework-projects</artifactId>
@@ -52,8 +52,8 @@
         <dependencies>
             <!-- 内部项目 begin -->
             <dependency>
-                <artifactId>ace-fw</artifactId>
                 <groupId>org.ace</groupId>
+                <artifactId>ace-fw</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -85,11 +85,6 @@
             <dependency>
                 <groupId>org.ace</groupId>
                 <artifactId>ace-fw-mybatis-plus-extension</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.ace</groupId>
-                <artifactId>ace-account-define-mq</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -138,8 +133,8 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <artifactId>ace-fw-json</artifactId>
                 <groupId>org.ace</groupId>
+                <artifactId>ace-fw-json</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -179,8 +174,8 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <artifactId>ace-fw-ms-application</artifactId>
                 <groupId>org.ace</groupId>
+                <artifactId>ace-fw-ms-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
