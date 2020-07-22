@@ -1,9 +1,5 @@
 package ace.fw.ms.application.autoconfigure;
 
-import ace.fw.copier.cglib.autoconfig.CglibBeanCopierAutoConfiguration;
-import ace.fw.json.JsonPlugin;
-import ace.fw.json.JsonUtils;
-import ace.fw.json.fastjson.FastJsonPlugin;
 import ace.fw.json.fastjson.FastJsonUtils;
 import ace.fw.ms.application.constant.AceWebApplicationBootstrapConstant;
 import ace.fw.ms.application.controller.GlobalErrorRestControllerAdvice;
@@ -13,11 +9,14 @@ import ace.fw.ms.application.support.resolver.WebExceptionResolver;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import org.hibernate.validator.HibernateValidator;
+import org.hibernate.validator.HibernateValidatorConfiguration;
+import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
+import org.hibernate.validator.parameternameprovider.ParanamerParameterNameProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.EmbeddedValueResolver;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
@@ -38,11 +37,14 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.*;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ import java.util.List;
  */
 @AutoConfigureBefore({ValidationAutoConfiguration.class})
 @ImportAutoConfiguration({
-        CglibBeanCopierAutoConfiguration.class
+
 })
 @EnableWebMvc
 @Configuration
@@ -205,21 +207,31 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
     }*/
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor(
-            @Autowired ValidatorFactory validatorFactory
+            @Autowired Validator validator
     ) {
         MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
-        methodValidationPostProcessor.setValidatorFactory(validatorFactory);
+        methodValidationPostProcessor.setValidator(validator);
         return methodValidationPostProcessor;
     }
 
     @Bean
-    public LocalValidatorFactoryBean localValidatorFactoryBean() {
-        LocalValidatorFactoryBean validatorFactoryBean = new LocalValidatorFactoryBean();
+    public Validator validator(@Autowired ValidatorFactory validatorFactory) {
+        return validatorFactory.getValidator();
+    }
+
+    @Bean
+    public ValidatorFactory validatorFactory() {
+
+        HibernateValidatorConfiguration configuration = Validation.byProvider(HibernateValidator.class)
+                .configure()
+                .parameterNameProvider(new ParanamerParameterNameProvider())
+                .failFast(true);
+
         if (messageSource != null) {
-            validatorFactoryBean.setValidationMessageSource(messageSource);
+            configuration.messageInterpolator(new ResourceBundleMessageInterpolator(new MessageSourceResourceBundleLocator(messageSource)));
         }
-        validatorFactoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
-        return validatorFactoryBean;
+
+        return configuration.buildValidatorFactory();
     }
 
     @Bean

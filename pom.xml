@@ -5,9 +5,9 @@
     <parent>
         <artifactId>ace-projects</artifactId>
         <groupId>org.ace</groupId>
-        <version>1.0.0.0</version>
+        <version>1.0.0.1</version>
     </parent>
-    <version>1.0.0.1</version>
+    <version>1.0.0.2</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ace-framework-projects</artifactId>
@@ -47,6 +47,7 @@
         <module>ace-fw-json-fastjson-autoconfigure</module>
         <module>ace-fw-feign</module>
         <module>ace-fw-web-api-client-starter</module>
+        <module>ace-fw-actuator-autoconfigure</module>
     </modules>
     <dependencyManagement>
         <dependencies>
