@@ -66,9 +66,9 @@ public class WebExceptionHandler {
             return handler404HttpStatus(request, response, handlerMethod, ex);
         } else if (response.getStatus() == 403) {
             return handler403HttpStatus(request, response, handlerMethod, ex);
-        } else if (ex instanceof RuntimeException) {
+        } else if (ex.getClass().equals(RuntimeException.class)) {
             return handlerRuntimException((RuntimeException) ex);
-        } else {
+        } else{
             return handlerAllException(ex);
         }
     }
