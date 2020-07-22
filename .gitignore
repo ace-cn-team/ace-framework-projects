@@ -85,3 +85,5 @@
 /ace-fw-feign/ace-fw-feign.iml
 /ace-fw-web-api-client-starter/target/
 /ace-fw-web-api-client-starter/ace-fw-web-api-client-starter.iml
+/ace-fw-actuator-autoconfigure/target/
+/ace-fw-actuator-autoconfigure/ace-fw-actuator-autoconfigure.iml

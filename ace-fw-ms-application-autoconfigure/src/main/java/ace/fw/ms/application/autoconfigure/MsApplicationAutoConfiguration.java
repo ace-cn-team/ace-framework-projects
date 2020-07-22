@@ -12,7 +12,6 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.HibernateValidatorConfiguration;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
-import org.hibernate.validator.parameternameprovider.ParanamerParameterNameProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.EmbeddedValueResolver;
@@ -224,7 +223,6 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
 
         HibernateValidatorConfiguration configuration = Validation.byProvider(HibernateValidator.class)
                 .configure()
-                .parameterNameProvider(new ParanamerParameterNameProvider())
                 .failFast(true);
 
         if (messageSource != null) {
