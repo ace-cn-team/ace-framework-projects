@@ -172,7 +172,7 @@ public class MybatisPlusDbServiceImpl<T extends Entity, Mapper extends BaseMappe
 
     @Override
     public LambdaQueryChainWrapper<T> lambdaQuery() {
-        return this.lambdaQuery();
+        return super.lambdaQuery();
     }
 
     /**

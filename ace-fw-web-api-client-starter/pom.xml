@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ace-framework-projects</artifactId>
         <groupId>org.ace</groupId>
-        <version>1.0.0.5</version>
+        <version>1.0.0.6</version>
     </parent>
     <description>
         自动引用feign ribbon sentinel相关的依赖荐

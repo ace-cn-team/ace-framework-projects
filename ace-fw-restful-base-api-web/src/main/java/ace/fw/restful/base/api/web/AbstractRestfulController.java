@@ -7,8 +7,8 @@ import ace.fw.data.model.request.resful.*;
 import ace.fw.data.model.request.resful.entity.EntityUpdateForceRequest;
 import ace.fw.data.model.request.resful.entity.EntityUpdateRequest;
 
+import ace.fw.data.service.DbService;
 import ace.fw.model.response.GenericResponseExt;
-import ace.fw.mybatis.plus.extension.service.MybatisPlusDbService;
 import ace.fw.restful.base.api.service.AbstractRestfulBaseService;
 import ace.fw.util.GenericResponseExtUtils;
 import lombok.Data;
@@ -30,7 +30,7 @@ import java.util.List;
 @Accessors(chain = true)
 @Slf4j
 @Validated
-public abstract class AbstractRestfulController<T extends Entity, S extends MybatisPlusDbService<T>>
+public abstract class AbstractRestfulController<T extends Entity, S extends DbService<T>>
         implements AbstractRestfulBaseService<T> {
 
     @Autowired
