@@ -137,11 +137,15 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        boolean addDefault = false;
-        HttpMessageConverters httpMessageConverters = new HttpMessageConverters(addDefault, getConverters());
+        HttpMessageConverters httpMessageConverters = this.aceHttpMessageConverters();
         converters.addAll(httpMessageConverters.getConverters());
     }
 
+    @Bean
+    public HttpMessageConverters aceHttpMessageConverters() {
+        HttpMessageConverters httpMessageConverters = new HttpMessageConverters(false, getConverters());
+        return httpMessageConverters;
+    }
 
     /**
      * enable default servlet
