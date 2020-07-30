@@ -3,10 +3,7 @@ package ace.fw.jetcache.redisson.junit.service.impl;
 import ace.fw.jetcache.redisson.junit.model.bo.UserBo;
 import ace.fw.jetcache.redisson.junit.model.request.FindByIdRequest;
 import ace.fw.jetcache.redisson.junit.service.UserService;
-import com.alicp.jetcache.anno.CacheInvalidate;
-import com.alicp.jetcache.anno.CachePenetrationProtect;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.Cached;
+import com.alicp.jetcache.anno.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +51,7 @@ public class UserServiceImpl implements UserService {
         return this.cloneUserBo(userBo);
     }
 
-    @Cached(name = "userCache.", key = "#args[0].id", localExpire = 60, expire = 60, cacheType = CacheType.LOCAL)
+    @Cached(name = "userCache.", key = "args[0].id", localExpire = 60, expire = 60, cacheType = CacheType.LOCAL)
     @Override
     public UserBo findByIdFromLocalCacheOrDb(@Valid FindByIdRequest request) {
         log.info("access findByIdFromLocalCacheOrDb");
@@ -63,9 +60,9 @@ public class UserServiceImpl implements UserService {
                 .build());
     }
 
-    @Cached(name = "userCache.", key = "args[0].id", localExpire = 60, expire = 60, cacheType = CacheType.LOCAL)
+    @Cached(name = "userCache.", key = "args[0].id", cacheNullValue = true, localExpire = 60, expire = 60, cacheType = CacheType.LOCAL)
     @Override
-    public UserBo setLocalCache(@Valid UserBo userBo) {
+    public UserBo setLocalCache(FindByIdRequest request, @Valid UserBo userBo) {
         return userBo;
     }
 
@@ -92,7 +89,7 @@ public class UserServiceImpl implements UserService {
 
     @Cached(name = "userCache.", key = "args[0].id", localExpire = 60, expire = 60, cacheType = CacheType.REMOTE)
     @Override
-    public UserBo setRemoteCache(@Valid UserBo userBo) {
+    public UserBo setRemoteCache(FindByIdRequest request, @Valid UserBo userBo) {
         return userBo;
     }
 
@@ -113,7 +110,7 @@ public class UserServiceImpl implements UserService {
 
     @Cached(name = "userCache.", key = "args[0].id", localExpire = 60, expire = 60, cacheType = CacheType.BOTH)
     @Override
-    public UserBo setMultiCache(@Valid UserBo userBo) {
+    public UserBo setMultiCache(FindByIdRequest request, @Valid UserBo userBo) {
         return userBo;
     }
 

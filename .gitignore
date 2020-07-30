@@ -87,3 +87,9 @@
 /ace-fw-web-api-client-starter/ace-fw-web-api-client-starter.iml
 /ace-fw-actuator-autoconfigure/target/
 /ace-fw-actuator-autoconfigure/ace-fw-actuator-autoconfigure.iml
+/ace-fw-jetcache-redisson/target/classes/ace/fw/jetcache/redisson/
+/ace-fw-jetcache-redisson/ace-fw-jetcache-redisson.iml
+/ace-fw-jetcache-redisson-autoconfigure/target/classes/
+/ace-fw-jetcache-redisson-autoconfigure/ace-fw-jetcache-redisson-autoconfigure.iml
+/ace-fw-jetcache-redisson-junit/target/
+/ace-fw-jetcache-redisson-junit/ace-fw-jetcache-redisson-junit.iml

@@ -28,11 +28,11 @@ public interface UserService {
 
     void removeCache(@Valid FindByIdRequest request);
 
-    UserBo setLocalCache(@Valid UserBo request);
+    UserBo setLocalCache(FindByIdRequest request, UserBo userBo);
 
-    UserBo setRemoteCache(@Valid UserBo request);
+    UserBo setRemoteCache(FindByIdRequest request, UserBo userBo);
 
-    UserBo setMultiCache(@Valid UserBo request);
+    UserBo setMultiCache(FindByIdRequest request, UserBo userBo);
 
     UserBo updateVersion();
 }
