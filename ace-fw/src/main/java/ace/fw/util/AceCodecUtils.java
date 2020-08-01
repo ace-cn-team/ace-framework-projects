@@ -1,11 +1,11 @@
-package ace.fw.utils;
+package ace.fw.util;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
- * @author 陈志杭
+ * @author caspar
  * @qq 279397942@qq.com
  * @createdDate 2016年10月27日
  */

@@ -7,7 +7,7 @@
         <groupId>org.ace</groupId>
         <version>1.0.0.10</version>
     </parent>
-    <version>1.0.0.10</version>
+    <version>1.0.0.12</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ace-framework-projects</artifactId>
@@ -22,7 +22,6 @@
         <module>ace-fw-restful-base-api-web-mybatis-plus-autoconfigure</module>
         <module>ace-fw-restful-base-api</module>
         <module>ace-fw-restful-logic-api</module>
-        <module>ace-fw-utils</module>
         <module>ace-fw-mq</module>
         <module>ace-fw-copier</module>
         <module>ace-fw-copier-cglib</module>
@@ -51,6 +50,8 @@
         <module>ace-fw-jetcache-redisson</module>
         <module>ace-fw-jetcache-redisson-autoconfigure</module>
         <module>ace-fw-jetcache-redisson-junit</module>
+        <module>ace-fw-logic-common</module>
+        <module>ace-fw-dal-sharding</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -58,7 +59,7 @@
             <dependency>
                 <groupId>org.ace</groupId>
                 <artifactId>ace-dependency-management</artifactId>
-                <version>1.0.0.10</version>
+                <version>1.0.0.11</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -85,6 +86,12 @@
             <dependency>
                 <groupId>org.ace</groupId>
                 <artifactId>ace-fw-restful-base-api-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ace</groupId>
+                <artifactId>ace-fw-actuator-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

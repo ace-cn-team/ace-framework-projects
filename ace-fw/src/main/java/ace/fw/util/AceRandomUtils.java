@@ -1,4 +1,4 @@
-package ace.fw.utils;
+package ace.fw.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

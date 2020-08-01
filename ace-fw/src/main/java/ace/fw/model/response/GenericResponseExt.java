@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @author 陈志杭
+ * @author caspar
  * @contact 279397942@qq.com
  * @date 2017/1/19
  * @description 通用出参数对象

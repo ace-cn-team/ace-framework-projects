@@ -1,7 +1,5 @@
 package ace.fw.util;
 
-import ace.fw.model.response.GenericResponseExt;
-import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.lang3.StringUtils;
 
 /**

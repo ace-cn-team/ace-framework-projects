@@ -5,17 +5,23 @@
     <parent>
         <artifactId>ace-framework-projects</artifactId>
         <groupId>org.ace</groupId>
-        <version>1.0.0.10</version>
+        <version>1.0.0.12</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ace-fw-utils</artifactId>
+    <artifactId>ace-fw-dal-sharding</artifactId>
+
+    <description>
+        数据访问层 sharding
+    </description>
     <dependencies>
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
-
-
 </project>
