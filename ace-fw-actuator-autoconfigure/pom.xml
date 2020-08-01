@@ -5,12 +5,13 @@
     <parent>
         <artifactId>ace-framework-projects</artifactId>
         <groupId>org.ace</groupId>
-        <version>1.0.0.12</version>
+        <version>1.0.0.13</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>ace-fw-actuator-autoconfigure</artifactId>
-
+    <description>
+        自动配置Actuator
+    </description>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

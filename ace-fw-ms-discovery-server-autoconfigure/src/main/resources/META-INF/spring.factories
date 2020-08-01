@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-ace.fw.ms.discovery.server.autoconfigure.DiscoveryServerAutoConfigure
