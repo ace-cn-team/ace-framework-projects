@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-ace.fw.logic.common.autoconfigure.LogicCommonAutoConfigure
+ace.fw.logic.common.autoconfigure.LogAspectAutoConfigure,\
+ace.fw.logic.common.autoconfigure.ThrowableHandlerAspectAutoConfigure

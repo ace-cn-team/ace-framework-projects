@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
  * @description
  */
 @Configuration
-public class LogicCommonAutoConfigure {
+public class LogAspectAutoConfigure {
     public final static String CONFIG_LOGIC_COMMON_LOG_ASPECT_ENABLE = "ace.fw.logic.common.log-aspect.enable";
 
     @Bean

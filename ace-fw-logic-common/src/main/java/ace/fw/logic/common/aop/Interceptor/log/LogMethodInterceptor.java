@@ -4,6 +4,7 @@ import ace.fw.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.core.annotation.Order;
 
 /**
  * @author Caspar
@@ -11,6 +12,7 @@ import org.aopalliance.intercept.MethodInvocation;
  * @create 2020/8/3 10:27
  * @description 逻辑层日志切面
  */
+@Order(1)
 @Slf4j
 public class LogMethodInterceptor implements MethodInterceptor {
     @Override
