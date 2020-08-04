@@ -1,10 +1,8 @@
 package ace.fw.data.model;
 
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,56 +13,63 @@ import java.util.List;
  * @create 2020/1/2 14:27
  * @description
  */
-@Data
-@Accessors(chain = true)
-public class GenericWhere<T> {
+public abstract class GenericWhere<TWhere extends GenericWhere, TValue> {
+
     /**
      * 当前操作是否and逻辑操作
      */
     @Setter(AccessLevel.PRIVATE)
     @Getter(AccessLevel.PRIVATE)
     private boolean isOrLogicalOp = false;
-    private List<GenericCondition<T>> conditions = new ArrayList<>(5);
+    @Getter
+    @Setter
+    private List<GenericCondition<TValue>> conditions = new ArrayList<>(5);
 
-    public GenericWhere<T> eq(String field, T value) {
+    public TWhere eq(String field, TValue value) {
         return eq(true, field, value);
     }
 
-    public GenericWhere<T> eqValueNotNull(String field, T value) {
+    public TWhere eqValueNotNull(String field, TValue value) {
         eq(value != null, field, value);
-        return this;
+        return self();
     }
 
-    public GenericWhere eq(boolean condition, String field, T value) {
+    public TWhere eq(boolean condition, String field, TValue value) {
         this.addCondition(condition, field, RelationalOpConstVal.EQ, value);
-        return this;
+        return self();
     }
 
 
-    public GenericWhere and() {
+    public TWhere and() {
         isOrLogicalOp = false;
-        return this;
+        return self();
     }
 
-    public GenericWhere or() {
+    public TWhere or() {
         isOrLogicalOp = true;
-        return this;
+        return self();
     }
 
-    private void addCondition(boolean condition, String field, String relationalOp, T value) {
+    private TWhere addCondition(boolean condition, String field, String relationalOp, TValue value) {
         String logicalOp = LogicalOpConstVal.AND;
         if (isOrLogicalOp) {
             isOrLogicalOp = false;
             logicalOp = LogicalOpConstVal.OR;
         }
         if (condition == false) {
-            return;
+            return self();
         }
-        conditions.add(new GenericCondition<T>()
-                .setLogicalOp(logicalOp)
-                .setField(field)
-                .setRelationalOp(relationalOp)
-                .setValue(value)
+        conditions.add(GenericCondition.<TValue>builder()
+                .logicalOp(logicalOp)
+                .field(field)
+                .relationalOp(relationalOp)
+                .value(value)
+                .build()
         );
+        return self();
+    }
+
+    protected TWhere self() {
+        return (TWhere) this;
     }
 }

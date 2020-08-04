@@ -15,8 +15,8 @@ import java.util.List;
  * @create 2020/1/2 14:27
  * @description
  */
-@Data
-@Accessors(chain = true)
-public class Where extends GenericWhere<Object> {
-
+public class Where extends GenericWhere<Where, Object> {
+    public static Where build() {
+        return new Where();
+    }
 }

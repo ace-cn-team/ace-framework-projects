@@ -2,7 +2,7 @@ package ace.fw.restful.base.api.web.mybatis.plus.autoconfigure;
 
 import ace.fw.data.model.entity.Entity;
 import ace.fw.data.service.UniformDbService;
-import ace.fw.mybatis.plus.extension.mapper.BaseMapper;
+
 import ace.fw.mybatis.plus.extension.model.EntityServiceInfo;
 import ace.fw.mybatis.plus.extension.service.EntityConfigInfoService;
 import ace.fw.mybatis.plus.extension.service.EntityServiceInfoService;
@@ -13,21 +13,19 @@ import ace.fw.mybatis.plus.extension.service.impl.MybatisPlusUniformBizServiceIm
 import ace.fw.restful.base.api.service.CommonRestfulBaseService;
 import ace.fw.restful.base.api.web.CommonRestfulController;
 import ace.fw.restful.base.api.web.mybatis.plus.autoconfigure.resolver.EntityConfigResolver;
+import ace.fw.restful.base.api.web.mybatis.plus.autoconfigure.resolver.IServiceConfigResolver;
 import ace.fw.restful.base.api.web.mybatis.plus.autoconfigure.resolver.impl.DefaultEntityConfigResolver;
 import ace.fw.restful.base.api.web.mybatis.plus.autoconfigure.resolver.impl.DefaultIServiceConfigResolver;
-import ace.fw.restful.base.api.web.mybatis.plus.autoconfigure.resolver.IServiceConfigResolver;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusLanguageDriverAutoConfiguration;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 

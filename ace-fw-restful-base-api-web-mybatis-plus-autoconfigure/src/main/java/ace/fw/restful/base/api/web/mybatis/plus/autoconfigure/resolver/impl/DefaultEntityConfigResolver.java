@@ -4,10 +4,10 @@ import ace.fw.data.model.EntityInfo;
 import ace.fw.data.model.EntityProperty;
 import ace.fw.data.model.entity.Entity;
 import ace.fw.exception.SystemException;
-import ace.fw.mybatis.plus.extension.mapper.BaseMapper;
 import ace.fw.mybatis.plus.extension.model.EntityConfigInfo;
 import ace.fw.restful.base.api.web.mybatis.plus.autoconfigure.resolver.EntityConfigResolver;
 import ace.fw.util.ReflectionUtils;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
@@ -48,7 +48,7 @@ public class DefaultEntityConfigResolver implements EntityConfigResolver {
         }
         Map<String, EntityConfigInfo<Entity>> entityConfigInfoMap = baseMapperList.stream()
                 .map(baseMapper -> {
-                    Class entityClass =  ReflectionUtils.getInterfaceGeneric(  baseMapper.getClass().getInterfaces()[0],0);
+                    Class entityClass = ReflectionUtils.getInterfaceGeneric(baseMapper.getClass().getInterfaces()[0], 0);
 
                     String entityId = entityClass.getSimpleName();
                     EntityInfo entityInfo = this.resolveEntityInfo(entityId, entityClass);
@@ -73,10 +73,11 @@ public class DefaultEntityConfigResolver implements EntityConfigResolver {
         String entityRemark = this.resolveEntityRemark(entityClass);
         List<EntityProperty> properties = this.resolveEntityProperties(entityClass);
 
-        return new EntityInfo()
-                .setId(entityId)
-                .setRemark(entityRemark)
-                .setProperties(properties);
+        return EntityInfo.builder()
+                .id(entityId)
+                .remark(entityRemark)
+                .properties(properties)
+                .build();
     }
 
     /**
@@ -111,11 +112,12 @@ public class DefaultEntityConfigResolver implements EntityConfigResolver {
                     if (StringUtils.isEmpty(column)) {
                         throw new SystemException(String.format("%s 无法查询对应的column", propertyId));
                     }
-                    return new EntityProperty()
-                            .setId(propertyId)
-                            .setRemark(propertyRemark)
-                            .setClazz(fieldClass)
-                            .setColumn(column);
+                    return EntityProperty.builder()
+                            .id(propertyId)
+                            .remark(propertyRemark)
+                            .clazz(fieldClass)
+                            .column(column)
+                            .build();
                 })
                 .collect(Collectors.toList());
 

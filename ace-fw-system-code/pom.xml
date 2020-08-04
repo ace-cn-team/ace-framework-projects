@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ace-framework-projects</artifactId>
         <groupId>org.ace</groupId>
-        <version>1.0.0.13</version>
+        <version>1.0.0.17</version>
     </parent>
     <description>
         定义系统所有信息的代码

@@ -1,8 +1,6 @@
 package ace.fw.data.model.request.resful;
 
 import ace.fw.data.model.GenericWhere;
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * @author Caspar
@@ -10,8 +8,8 @@ import lombok.experimental.Accessors;
  * @create 2020/1/9 10:48
  * @description
  */
-@Data
-@Accessors(chain = true)
-public class WhereRequest extends GenericWhere<String> {
-
+public class WhereRequest extends GenericWhere<WhereRequest, String> {
+    public static WhereRequest build() {
+        return new WhereRequest();
+    }
 }

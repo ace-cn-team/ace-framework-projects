@@ -2,7 +2,10 @@ package ace.fw.data.model.request.resful;
 
 import ace.fw.data.model.GenericCondition;
 import ace.fw.data.model.Sort;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
@@ -15,7 +18,9 @@ import java.util.List;
  * @description
  */
 @Data
-@Accessors(chain = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PageQueryRequest {
     private List<String> fields = new ArrayList<>();
     private List<GenericCondition<String>> conditions = new ArrayList<>();

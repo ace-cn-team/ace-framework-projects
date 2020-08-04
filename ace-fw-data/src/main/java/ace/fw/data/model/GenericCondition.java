@@ -1,6 +1,9 @@
 package ace.fw.data.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -10,7 +13,9 @@ import lombok.experimental.Accessors;
  * @description
  */
 @Data
-@Accessors(chain = true)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class GenericCondition<T> {
     /**
      * 逻辑运算符

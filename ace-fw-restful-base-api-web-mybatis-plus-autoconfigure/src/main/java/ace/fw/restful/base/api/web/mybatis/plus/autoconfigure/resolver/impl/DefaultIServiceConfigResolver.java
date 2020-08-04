@@ -76,10 +76,11 @@ public class DefaultIServiceConfigResolver implements IServiceConfigResolver {
         String entityRemark = this.resolveEntityRemark(entityClass);
         List<EntityProperty> properties = this.resolveEntityProperties(entityClass);
 
-        return new EntityInfo()
-                .setId(entityId)
-                .setRemark(entityRemark)
-                .setProperties(properties);
+        return EntityInfo.builder()
+                .id(entityId)
+                .remark(entityRemark)
+                .properties(properties)
+                .build();
     }
 
     /**
@@ -114,11 +115,12 @@ public class DefaultIServiceConfigResolver implements IServiceConfigResolver {
                     if (StringUtils.isEmpty(column)) {
                         throw new SystemException(String.format("%s 无法查询对应的column", propertyId));
                     }
-                    return new EntityProperty()
-                            .setId(propertyId)
-                            .setRemark(propertyRemark)
-                            .setClazz(fieldClass)
-                            .setColumn(column);
+                    return EntityProperty.builder()
+                            .id(propertyId)
+                            .remark(propertyRemark)
+                            .clazz(fieldClass)
+                            .column(column)
+                            .build();
                 })
                 .collect(Collectors.toList());
 
