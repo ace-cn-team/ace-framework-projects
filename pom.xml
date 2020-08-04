@@ -51,9 +51,12 @@
         <module>ace-fw-jetcache-redisson-autoconfigure</module>
         <module>ace-fw-jetcache-redisson-junit</module>
         <module>ace-fw-logic-common</module>
+        <module>ace-fw-logic-common-autoconfigure</module>
+        <module>ace-fw-logic-common-junit</module>
         <module>ace-fw-dal-sharding</module>
         <module>ace-fw-tomcat-autoconfigure</module>
         <module>ace-fw-datasource-autoconfigure</module>
+
 
     </modules>
     <dependencyManagement>
@@ -116,6 +119,11 @@
             <dependency>
                 <groupId>org.ace</groupId>
                 <artifactId>ace-fw-logic-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ace</groupId>
+                <artifactId>ace-fw-logic-common-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

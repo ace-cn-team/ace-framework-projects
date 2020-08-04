@@ -93,3 +93,17 @@
 /ace-fw-jetcache-redisson-autoconfigure/ace-fw-jetcache-redisson-autoconfigure.iml
 /ace-fw-jetcache-redisson-junit/target/
 /ace-fw-jetcache-redisson-junit/ace-fw-jetcache-redisson-junit.iml
+/ace-fw-dal-sharding/target/
+/ace-fw-dal-sharding/ace-fw-dal-sharding.iml
+/ace-fw-datasource-autoconfigure/target/
+/ace-fw-datasource-autoconfigure/ace-fw-datasource-autoconfigure.iml
+/ace-fw-jetcache-redisson/target/
+/ace-fw-jetcache-redisson-autoconfigure/target/
+/ace-fw-logic-common/target/
+/ace-fw-logic-common/ace-fw-logic-common.iml
+/ace-fw-ms-feign-autoconfigure/target/
+/ace-fw-ms-nacos-discovery-autoconfigure/target/
+/ace-fw-mybatis-autoconfigure/target/
+/ace-fw-mybatis-autoconfigure/ace-fw-mybatis-autoconfigure.iml
+/ace-fw-tomcat-autoconfigure/target/
+/ace-fw-tomcat-autoconfigure/ace-fw-tomcat-autoconfigure.iml
