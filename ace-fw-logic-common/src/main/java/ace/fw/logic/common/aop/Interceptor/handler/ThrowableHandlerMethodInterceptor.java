@@ -9,6 +9,7 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -19,9 +20,9 @@ import org.springframework.stereotype.Component;
  * @create 2020/8/3 10:41
  * @description 默认逻辑层异常处理拦截器
  */
-@Order(1)
 @Slf4j
 public class ThrowableHandlerMethodInterceptor implements MethodInterceptor,
+        Ordered,
         ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -59,5 +60,10 @@ public class ThrowableHandlerMethodInterceptor implements MethodInterceptor,
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public int getOrder() {
+        return 1;
     }
 }

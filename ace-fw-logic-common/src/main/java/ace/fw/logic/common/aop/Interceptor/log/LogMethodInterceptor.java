@@ -4,6 +4,7 @@ import ace.fw.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 /**
@@ -12,9 +13,8 @@ import org.springframework.core.annotation.Order;
  * @create 2020/8/3 10:27
  * @description 逻辑层日志切面
  */
-@Order(2)
 @Slf4j
-public class LogMethodInterceptor implements MethodInterceptor {
+public class LogMethodInterceptor implements MethodInterceptor, Ordered {
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
 
@@ -73,4 +73,8 @@ public class LogMethodInterceptor implements MethodInterceptor {
         System.out.println(tpl);
     }
 
+    @Override
+    public int getOrder() {
+        return 2;
+    }
 }
