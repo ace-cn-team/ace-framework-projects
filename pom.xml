@@ -7,7 +7,7 @@
         <groupId>org.ace</groupId>
         <version>1.0.0.10</version>
     </parent>
-    <version>1.0.0.21</version>
+    <version>1.0.0.23</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ace-framework-projects</artifactId>
@@ -56,6 +56,7 @@
         <module>ace-fw-dal-sharding</module>
         <module>ace-fw-tomcat-autoconfigure</module>
         <module>ace-fw-datasource-autoconfigure</module>
+        <module>ace-fw-junit-test-starter</module>
 
 
     </modules>
@@ -261,6 +262,11 @@
             <dependency>
                 <groupId>org.ace</groupId>
                 <artifactId>ace-fw-tomcat-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ace</groupId>
+                <artifactId>ace-fw-junit-test-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- 内部项目 end -->
