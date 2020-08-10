@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  * @create 2020/8/3 10:41
  * @description 默认逻辑层异常处理拦截器
  */
-@Order(2)
+@Order(1)
 @Slf4j
 public class ThrowableHandlerMethodInterceptor implements MethodInterceptor,
         ApplicationContextAware {

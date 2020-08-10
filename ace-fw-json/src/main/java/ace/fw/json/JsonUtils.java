@@ -1,5 +1,6 @@
 package ace.fw.json;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,17 @@ public final class JsonUtils {
      */
     public static <T> T toObject(String json, Class<T> cls) {
         return jsonPlugin.toObject(json, cls);
+    }
+
+    /**
+     * JSON字符串转换成对象
+     *
+     * @param json
+     * @param <T>
+     * @return
+     */
+    public static <T> T toObject(String json, Type type) {
+        return jsonPlugin.toObject(json, type);
     }
 
     /**

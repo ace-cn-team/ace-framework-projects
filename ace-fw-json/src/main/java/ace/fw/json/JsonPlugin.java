@@ -1,5 +1,6 @@
 package ace.fw.json;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,15 @@ public interface JsonPlugin {
      * @return
      */
     <T> T toObject(String json, Class<T> cl);
+
+    /**
+     * JSON字符串转换成对象
+     *
+     * @param json
+     * @param <T>
+     * @return
+     */
+    <T> T toObject(String json, Type type);
 
     /**
      * 对象转换成JSON字符串

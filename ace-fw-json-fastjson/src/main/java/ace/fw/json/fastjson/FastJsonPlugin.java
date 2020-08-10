@@ -3,6 +3,7 @@ package ace.fw.json.fastjson;
 import ace.fw.json.JsonPlugin;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -21,6 +22,11 @@ public class FastJsonPlugin implements JsonPlugin {
             return null;
         }
         return (T) value;
+    }
+
+    @Override
+    public <T> T toObject(String json, Type type) {
+        return FastJsonUtils.parseObject(json, type);
     }
 
     @Override

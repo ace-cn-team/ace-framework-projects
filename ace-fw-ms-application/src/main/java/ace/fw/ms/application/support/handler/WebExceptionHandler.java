@@ -67,8 +67,8 @@ public class WebExceptionHandler {
         } else if (response.getStatus() == 403) {
             return handler403HttpStatus(request, response, handlerMethod, ex);
         } else if (ex.getClass().equals(RuntimeException.class)) {
-            return handlerRuntimException((RuntimeException) ex);
-        } else{
+            return handlerRuntimeException((RuntimeException) ex);
+        } else {
             return handlerAllException(ex);
         }
     }
@@ -128,11 +128,12 @@ public class WebExceptionHandler {
     }
 
     private GenericResponse handlerAllException(Exception ex) {
-        log.error("系统异常", ex);
+        log.error("handler exception", ex);
         return GenericResponseUtils.buildBySystemCodeEnum(SystemCodeEnum.ERROR_SYSTEM_EXCEPTION);
     }
 
-    private GenericResponse handlerRuntimException(RuntimeException ex) {
+    private GenericResponse handlerRuntimeException(RuntimeException ex) {
+        log.error("handler runtime exception", ex);
         return GenericResponseUtils.builder()
                 .code(SystemCodeEnum.ERROR_SYSTEM_EXCEPTION.getCode())
                 .message(ex.getMessage())

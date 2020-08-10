@@ -76,10 +76,12 @@ public class ThrowableHandlerImpl implements ThrowableHandler<GenericResponseExt
     }
 
     private GenericResponseExt handlerAllException(Throwable ex) {
+        log.error("handle exception", ex);
         return GenericResponseExtUtils.buildBySystemCodeEnum(SystemCodeEnum.ERROR_SYSTEM_EXCEPTION);
     }
 
     private GenericResponseExt handlerRuntimeException(RuntimeException ex) {
+        log.error("handle runtime exception", ex);
         return GenericResponseExtUtils.builder()
                 .code(SystemCodeEnum.ERROR_SYSTEM_EXCEPTION.getCode())
                 .message(ex.getMessage())
@@ -88,6 +90,7 @@ public class ThrowableHandlerImpl implements ThrowableHandler<GenericResponseExt
 
 
     private GenericResponseExt handleSystemException(SystemException ex) {
+        log.error("handle system exception", ex);
         return GenericResponseExtUtils.builder()
                 .code(ex.getCode())
                 .message(ex.getMessage())
