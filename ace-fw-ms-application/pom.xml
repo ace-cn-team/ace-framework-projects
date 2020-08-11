@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ace-framework-projects</artifactId>
         <groupId>org.ace</groupId>
-        <version>1.0.0.23</version>
+        <version>1.0.0.25</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ace-fw-ms-application</artifactId>
@@ -27,14 +27,9 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <artifactId>fastjson</artifactId>
-            <groupId>com.alibaba</groupId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

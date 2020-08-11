@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserBo findById(@Valid FindByIdRequest request) {
-        log.info("access findById");
         UserBo userBo = userList.stream().filter(p -> StringUtils.equalsIgnoreCase(request.getId(), p.getId())).findFirst().orElse(null);
         return this.cloneUserBo(userBo);
     }
@@ -75,7 +74,6 @@ public class UserServiceImpl implements UserService {
     @Cached(name = "userCache.", key = "args[0].id", localExpire = 60, expire = 60, cacheType = CacheType.REMOTE)
     @Override
     public UserBo findByIdFromRemoteCacheOrDb(@Valid FindByIdRequest request) {
-        log.info("access findByIdFromRemoteCacheOrDb");
         return this.findById(FindByIdRequest.builder()
                 .id(request.getId())
                 .build());

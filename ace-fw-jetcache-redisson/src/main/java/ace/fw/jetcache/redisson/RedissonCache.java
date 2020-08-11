@@ -9,7 +9,6 @@ import org.redisson.api.RedissonClient;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 /**
  * @author Caspar
@@ -24,8 +23,6 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
     private RedissonClient redissonClient;
     private RedissonCacheConfig<K, V> config;
 
-    private Function<Object, byte[]> valueEncoder;
-    private Function<byte[], Object> valueDecoder;
 
     public RedissonCache(RedissonCacheConfig<K, V> config) {
         super(config);
@@ -34,8 +31,6 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
         }
         this.redissonClient = config.getRedissonClient();
         this.config = config;
-        this.valueEncoder = config.getValueEncoder();
-        this.valueDecoder = config.getValueDecoder();
     }
 
     @Override
@@ -43,14 +38,13 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
         try {
             byte[] newKey = buildKey(key);
             String newKeyString = this.buildKeyString(newKey);
-            RBucket<byte[]> resultBytesRBucket = redissonClient.getBucket(newKeyString);
-            byte[] resultBytes = resultBytesRBucket.get();
-            if (resultBytes != null) {
-                CacheValueHolder<V> holder = (CacheValueHolder<V>) valueDecoder.apply(resultBytes);
+            RBucket<AceCacheValueHolder<V>> resultBytesRBucket = redissonClient.getBucket(newKeyString);
+            AceCacheValueHolder<V> holder = resultBytesRBucket.get();
+            if (holder != null) {
                 if (System.currentTimeMillis() >= holder.getExpireTime()) {
                     return CacheGetResult.EXPIRED_WITHOUT_MSG;
                 }
-                return new CacheGetResult(CacheResultCode.SUCCESS, null, holder);
+                return new CacheGetResult(CacheResultCode.SUCCESS, null, toCacheValueHolder(holder));
             } else {
                 return CacheGetResult.NOT_EXISTS_WITHOUT_MSG;
             }
@@ -79,17 +73,16 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
             List<String> keyStringList = this.buildKeyList(keys);
             Map<K, CacheGetResult<V>> resultMap = new HashMap<>();
             if (keyStringList.size() > 0) {
-                Map<String, byte[]> mgetResults = redissonClient.getBuckets().get(keyStringList.stream().toArray(String[]::new));
+                Map<String, AceCacheValueHolder<V>> mgetResults = redissonClient.getBuckets().get(keyStringList.stream().toArray(String[]::new));
                 for (int i = 0; i < keyStringList.size(); i++) {
                     String keyString = keyStringList.get(i);
                     K key = keyList.get(i);
-                    byte[] value = mgetResults.get(keyString);
-                    if (value != null) {
-                        CacheValueHolder<V> holder = (CacheValueHolder<V>) valueDecoder.apply(value);
+                    AceCacheValueHolder<V> holder = mgetResults.get(keyString);
+                    if (holder != null) {
                         if (System.currentTimeMillis() >= holder.getExpireTime()) {
                             resultMap.put(key, CacheGetResult.EXPIRED_WITHOUT_MSG);
                         } else {
-                            CacheGetResult<V> r = new CacheGetResult<>(CacheResultCode.SUCCESS, null, holder);
+                            CacheGetResult<V> r = new CacheGetResult<V>(CacheResultCode.SUCCESS, null, toCacheValueHolder(holder));
                             resultMap.put(key, r);
                         }
                     } else {
@@ -108,12 +101,11 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
     @Override
     protected CacheResult do_PUT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
         try {
-            CacheValueHolder<V> holder = new CacheValueHolder(value, timeUnit.toMillis(expireAfterWrite));
+            AceCacheValueHolder<V> holder = new AceCacheValueHolder(value, timeUnit.toMillis(expireAfterWrite));
             byte[] keyBytes = buildKey(key);
-            byte[] valueBytes = valueEncoder.apply(holder);
             String newKeyString = this.buildKeyString(keyBytes);
-            RBucket<byte[]> rBucket = redissonClient.getBucket(newKeyString);
-            rBucket.set(valueBytes, expireAfterWrite, timeUnit);
+            RBucket<AceCacheValueHolder<V>> rBucket = redissonClient.getBucket(newKeyString);
+            rBucket.set(holder, expireAfterWrite, timeUnit);
             Boolean result = true;
             if (Boolean.TRUE.equals(result)) {
                 return CacheResult.SUCCESS_WITHOUT_MSG;
@@ -132,14 +124,13 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
         try {
             int failCount = 0;
             for (Map.Entry<? extends K, ? extends V> en : map.entrySet()) {
-                CacheValueHolder<V> holder = new CacheValueHolder(en.getValue(), timeUnit.toMillis(expireAfterWrite));
+                AceCacheValueHolder<V> holder = new AceCacheValueHolder(en.getValue(), timeUnit.toMillis(expireAfterWrite));
                 byte[] keyBytes = buildKey(en.getKey());
-                byte[] valueBytes = valueEncoder.apply(holder);
                 String newKeyString = this.buildKeyString(keyBytes);
-                RBucket<byte[]> rBucket = redissonClient.getBucket(newKeyString);
+                RBucket<AceCacheValueHolder<V>> rBucket = redissonClient.getBucket(newKeyString);
                 Boolean result = true;
                 try {
-                    rBucket.set(valueBytes, expireAfterWrite, timeUnit);
+                    rBucket.set(holder, expireAfterWrite, timeUnit);
                 } catch (Exception ex) {
                     String errorMsg = String.format("PUT_ALL, Key:%s fail", newKeyString);
                     log.error(errorMsg, ex);
@@ -201,12 +192,11 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
     @Override
     protected CacheResult do_PUT_IF_ABSENT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
         try {
-            CacheValueHolder<V> holder = new CacheValueHolder(value, timeUnit.toMillis(expireAfterWrite));
+            AceCacheValueHolder<V> holder = new AceCacheValueHolder(value, timeUnit.toMillis(expireAfterWrite));
             byte[] newKey = buildKey(key);
             String newKeyString = this.buildKeyString(newKey);
-            byte[] valueHolder = valueEncoder.apply(holder);
-            RBucket<byte[]> rBucket = redissonClient.getBucket(newKeyString);
-            Boolean result = rBucket.trySet(valueHolder, expireAfterWrite, timeUnit);
+            RBucket<AceCacheValueHolder<V>> rBucket = redissonClient.getBucket(newKeyString);
+            Boolean result = rBucket.trySet(holder, expireAfterWrite, timeUnit);
             if (Boolean.TRUE.equals(result)) {
                 return CacheResult.SUCCESS_WITHOUT_MSG;
             } else {
@@ -233,5 +223,11 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
         return new String(keyByte, "UTF-8");
     }
 
-
+    private <V> CacheValueHolder<V> toCacheValueHolder(AceCacheValueHolder<V> aceCacheValueHolder) {
+        CacheValueHolder cacheValueHolder = new CacheValueHolder();
+        cacheValueHolder.setAccessTime(aceCacheValueHolder.getAccessTime());
+        cacheValueHolder.setExpireTime(aceCacheValueHolder.getExpireTime());
+        cacheValueHolder.setValue(aceCacheValueHolder.getValue());
+        return cacheValueHolder;
+    }
 }

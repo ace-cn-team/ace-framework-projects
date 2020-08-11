@@ -1,7 +1,8 @@
 package ace.fw.mq.rocketmq.autoconfigure;
 
 import ace.fw.json.JsonPlugin;
-import ace.fw.json.fastjson.FastJsonPlugin;
+
+import ace.fw.json.jackson.JacksonPlugin;
 import ace.fw.mq.rocketmq.autoconfigure.register.producer.MQProducerRegistryPostProcessor;
 import ace.fw.mq.rocketmq.autoconfigure.register.producer.TransactionMQProducerRegistryPostProcessor;
 import ace.fw.mq.rocketmq.constants.RocketMQConfigureConstants;
@@ -74,7 +75,7 @@ public class RocketMQAutoConfigure {
     @Bean
     @ConditionalOnMissingBean
     public JsonPlugin jsonPlugin() {
-        return new FastJsonPlugin();
+        return new JacksonPlugin();
     }
 
     @Bean

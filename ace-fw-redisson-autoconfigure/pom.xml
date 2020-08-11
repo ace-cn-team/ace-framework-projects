@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ace-framework-projects</artifactId>
         <groupId>org.ace</groupId>
-        <version>1.0.0.23</version>
+        <version>1.0.0.25</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,8 +20,8 @@
             <artifactId>redisson</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
+            <groupId>org.ace</groupId>
+            <artifactId>ace-fw-json-jackson</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,9 +1,12 @@
 package ace.fw.redisson.autoconfigure;
 
+import ace.fw.json.jackson.ObjectMapperFactory;
 import ace.fw.redisson.RedissonClientFactory;
 import ace.fw.redisson.constant.RedissonClientConstants;
-import ace.fw.redisson.serializer.FastjsonCodec;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.BaseCodec;
+import org.redisson.codec.JsonJacksonCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -32,14 +35,15 @@ public class RedissonAutoConfigure {
     @Bean
     @ConditionalOnMissingBean
     public RedissonClient redissonClient() {
-        RedissonClient redissonClient = RedissonClientFactory.createRedissonClient(redisProperties, this.fastjsonCodec());
+        RedissonClient redissonClient = RedissonClientFactory.createRedissonClient(redisProperties, this.codec());
         return redissonClient;
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public FastjsonCodec fastjsonCodec() {
-        FastjsonCodec codec = new FastjsonCodec();
+    public BaseCodec codec() {
+        ObjectMapper objectMapper = ObjectMapperFactory.getDefaultObjectMapper().copy();
+        BaseCodec codec = new JsonJacksonCodec(objectMapper);
         return codec;
     }
 }

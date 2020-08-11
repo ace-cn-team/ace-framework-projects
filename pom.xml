@@ -7,7 +7,7 @@
         <groupId>org.ace</groupId>
         <version>1.0.0.10</version>
     </parent>
-    <version>1.0.0.23</version>
+    <version>1.0.0.25</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ace-framework-projects</artifactId>
@@ -17,6 +17,9 @@
         <module>ace-fw-data</module>
         <module>ace-fw-json</module>
         <module>ace-fw-json-fastjson</module>
+        <module>ace-fw-json-fastjson-autoconfigure</module>
+        <module>ace-fw-json-jackson</module>
+        <module>ace-fw-json-jackson-autoconfigure</module>
         <module>ace-fw-mybatis-plus-extension</module>
         <module>ace-fw-mybatis-autoconfigure</module>
         <module>ace-fw-restful-base-api-web</module>
@@ -44,7 +47,6 @@
         <module>ace-fw-mq-rocketmq-autoconfigure</module>
         <module>ace-fw-system-code</module>
         <module>ace-fw-swagger-autoconfigure</module>
-        <module>ace-fw-json-fastjson-autoconfigure</module>
         <module>ace-fw-feign</module>
         <module>ace-fw-actuator-autoconfigure</module>
         <module>ace-fw-jetcache-redisson</module>
@@ -57,6 +59,7 @@
         <module>ace-fw-tomcat-autoconfigure</module>
         <module>ace-fw-datasource-autoconfigure</module>
         <module>ace-fw-junit-test-starter</module>
+
 
 
     </modules>
@@ -191,6 +194,16 @@
             <dependency>
                 <groupId>org.ace</groupId>
                 <artifactId>ace-fw-json-fastjson-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>ace-fw-json-jackson</artifactId>
+                <groupId>org.ace</groupId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ace</groupId>
+                <artifactId>ace-fw-json-jackson-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

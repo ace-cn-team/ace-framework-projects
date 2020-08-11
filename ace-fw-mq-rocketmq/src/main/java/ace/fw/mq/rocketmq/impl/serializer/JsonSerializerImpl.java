@@ -1,7 +1,7 @@
 package ace.fw.mq.rocketmq.impl.serializer;
 
 import ace.fw.json.JsonPlugin;
-import ace.fw.json.fastjson.FastJsonPlugin;
+
 import ace.fw.mq.serializer.Serializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

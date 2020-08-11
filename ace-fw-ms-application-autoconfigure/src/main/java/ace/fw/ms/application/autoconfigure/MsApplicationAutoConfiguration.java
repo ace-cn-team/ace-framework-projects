@@ -1,18 +1,15 @@
 package ace.fw.ms.application.autoconfigure;
 
-import ace.fw.json.fastjson.FastJsonUtils;
+import ace.fw.json.jackson.ObjectMapperFactory;
 import ace.fw.ms.application.constant.AceWebApplicationBootstrapConstant;
 import ace.fw.ms.application.controller.GlobalErrorRestControllerAdvice;
 import ace.fw.ms.application.support.handler.WebExceptionHandler;
 import ace.fw.ms.application.support.listener.PrintBeansApplicationReadyEventListener;
 import ace.fw.ms.application.support.resolver.WebExceptionResolver;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.HibernateValidatorConfiguration;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
-import org.hibernate.validator.parameternameprovider.ParanamerParameterNameProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.EmbeddedValueResolver;
@@ -36,7 +33,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -169,15 +166,20 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
     }
 
     private HttpMessageConverter<Object> getJsonMsgConverter() {
-        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
-        fastConverter.setSupportedMediaTypes(Arrays.asList(
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setSupportedMediaTypes(Arrays.asList(
                 MediaType.APPLICATION_JSON_UTF8,
                 MediaType.valueOf("application/x-www-form-urlencoded; charset=UTF-8"),
                 MediaType.valueOf("text/plain;charset=UTF-8"),
                 MediaType.valueOf("text/html;charset=UTF-8")
         ));
-        fastConverter.setFastJsonConfig(getFastJsonConfig());
-        return fastConverter;
+        converter.setObjectMapper(objectMapper());
+        return converter;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return ObjectMapperFactory.getDefaultObjectMapper();
     }
 
     private HttpMessageConverter<String> getStrMsgConverter() {
@@ -235,28 +237,6 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
         }
 
         return configuration.buildValidatorFactory();
-    }
-
-    @Bean
-    public FastJsonConfig getFastJsonConfig() {
-        FastJsonConfig fastJsonConfig = FastJsonUtils.buildDefaultFastJsonConfig();
-        SerializerFeature[] defaultFeatures = new SerializerFeature[]{
-                //在fastjson中，会自动检测循环引用，并且输出为fastjson专有的引用表示格式。但这个不能被其他JSON库识别，也不能被浏览器识别，所以fastjson提供了关闭循环引用检测的功能。
-                SerializerFeature.DisableCircularReferenceDetect,
-                SerializerFeature.QuoteFieldNames,//输出key时是否使用双引号,默认为true
-                //SerializerFeature.WriteMapNullValue,//是否输出值为null的字段,默认为false
-                SerializerFeature.SortField,
-                SerializerFeature.MapSortField,
-                SerializerFeature.WriteBigDecimalAsPlain,
-
-                //屏蔽掉, 开启后则 SerializerFeature.WriteClassName 不生效，redis序列化会有问题 @see MyGenericFastjsonRedisSerializer
-                //SerializerFeature.NotWriteRootClassName,
-
-                //支持数据输出xss漏洞安全转义,不全局打开,建议每个业务按需设置
-                //SerializerFeature.BrowserSecure,
-        };
-        fastJsonConfig.setSerializerFeatures(defaultFeatures);
-        return fastJsonConfig;
     }
 
     @Bean
