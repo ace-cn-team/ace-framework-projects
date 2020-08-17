@@ -14,7 +14,15 @@ public final class BusinessErrorUtils {
         throw new BusinessException(baseEnum.getCode(), baseEnum.getDesc());
     }
 
+    public static void throwNew(BaseEnum<String> baseEnum, Throwable throwable) {
+        throw create(baseEnum, throwable);
+    }
+
     public static void throwNew(String message) {
         throw new BusinessException(message);
+    }
+
+    public static BusinessException create(BaseEnum<String> baseEnum, Throwable ex) {
+        return new BusinessException(baseEnum.getCode(), baseEnum.getDesc(), ex);
     }
 }
