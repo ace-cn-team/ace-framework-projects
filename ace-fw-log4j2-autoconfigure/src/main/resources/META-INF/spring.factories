@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+
+# Application Listeners
+org.springframework.context.ApplicationListener=\
+ace.fw.log4j2.event.Log4j2ApplicationStartedEventListener

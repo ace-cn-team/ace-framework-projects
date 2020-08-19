@@ -56,7 +56,7 @@ public class AceAnnotationMatchingPointcut implements Pointcut {
                     return false;
                 }
                 return methodPointcut.getMethodMatcher().matches(method, aClass) ||
-                        AnnotationUtils.findAnnotation(aClass, LogAspect.class) != null;
+                        AnnotationUtils.findAnnotation(aClass, annotationType) != null;
             }
 
             @Override
@@ -70,7 +70,7 @@ public class AceAnnotationMatchingPointcut implements Pointcut {
                     return false;
                 }
                 return methodPointcut.getMethodMatcher().matches(method, aClass, objects) ||
-                        AnnotationUtils.findAnnotation(aClass, LogAspect.class) != null;
+                        AnnotationUtils.findAnnotation(aClass, annotationType) != null;
             }
         };
     }

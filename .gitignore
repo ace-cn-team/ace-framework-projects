@@ -113,3 +113,10 @@
 /ace-fw-logic-common-junit/target/
 /ace-fw-junit-test-starter/target/
 /ace-fw-junit-test-starter/ace-fw-junit-test-starter.iml
+/ace-fw-json-jackson/target/classes/ace/fw/json/jackson/
+/ace-fw-json-jackson/ace-fw-json-jackson.iml
+/ace-fw-json-jackson-autoconfigure/target/classes/ace/fw/json/jackson/autoconfigure/
+/ace-fw-json-jackson-autoconfigure/ace-fw-json-jackson-autoconfigure.iml
+/ace-fw-json-jackson/target/
+/ace-fw-json-jackson-autoconfigure/target/
+/ace-fw-log4j2-junit/target/

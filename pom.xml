@@ -7,7 +7,7 @@
         <groupId>org.ace</groupId>
         <version>1.0.0.10</version>
     </parent>
-    <version>1.0.0.29</version>
+    <version>1.0.0.32</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ace-framework-projects</artifactId>
@@ -59,7 +59,7 @@
         <module>ace-fw-tomcat-autoconfigure</module>
         <module>ace-fw-datasource-autoconfigure</module>
         <module>ace-fw-junit-test-starter</module>
-
+        <module>ace-fw-log4j2-junit</module>
 
 
     </modules>
@@ -69,7 +69,7 @@
             <dependency>
                 <groupId>org.ace</groupId>
                 <artifactId>ace-dependency-management</artifactId>
-                <version>1.0.0.11</version>
+                <version>1.0.0.12</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>

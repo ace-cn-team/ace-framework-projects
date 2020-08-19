@@ -3,6 +3,7 @@ package ace.fw.ms.application.autoconfigure;
 import ace.fw.json.jackson.ObjectMapperFactory;
 import ace.fw.ms.application.constant.AceWebApplicationBootstrapConstant;
 import ace.fw.ms.application.controller.GlobalErrorRestControllerAdvice;
+import ace.fw.ms.application.property.AceApplicationProperties;
 import ace.fw.ms.application.support.handler.WebExceptionHandler;
 import ace.fw.ms.application.support.listener.PrintBeansApplicationReadyEventListener;
 import ace.fw.ms.application.support.resolver.WebExceptionResolver;
@@ -17,6 +18,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.boot.web.server.ErrorPageRegistry;
@@ -55,13 +57,12 @@ import java.util.List;
  * @description restful微服务架构，基础自动配置类
  */
 @AutoConfigureBefore({ValidationAutoConfiguration.class})
-@ImportAutoConfiguration({
-
-})
+@EnableConfigurationProperties(AceApplicationProperties.class)
 @EnableWebMvc
 @Configuration
 public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPageRegistrar, ApplicationContextAware {
-
+    @Autowired
+    private AceApplicationProperties aceApplicationProperties;
     private ApplicationContext applicationContext;
     private ResourceLoader resourceLoader;
     @Autowired(required = false)
@@ -252,7 +253,10 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
 
     @Bean
     public PrintBeansApplicationReadyEventListener printBeansApplicationReadyEventListener() {
-        return new PrintBeansApplicationReadyEventListener();
+        PrintBeansApplicationReadyEventListener printBeansApplicationReadyEventListener = new PrintBeansApplicationReadyEventListener();
+        printBeansApplicationReadyEventListener.setIsPrintBeanNames(aceApplicationProperties.getBeanNamePrinterEnable());
+        printBeansApplicationReadyEventListener.setIsPrintMappingHandler(aceApplicationProperties.getMappingHandlerPrinterEnable());
+        return printBeansApplicationReadyEventListener;
     }
 
     @Bean

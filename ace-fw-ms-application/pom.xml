@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ace-framework-projects</artifactId>
         <groupId>org.ace</groupId>
-        <version>1.0.0.29</version>
+        <version>1.0.0.32</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ace-fw-ms-application</artifactId>
@@ -30,14 +30,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.lmax</groupId>
-            <artifactId>disruptor</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
