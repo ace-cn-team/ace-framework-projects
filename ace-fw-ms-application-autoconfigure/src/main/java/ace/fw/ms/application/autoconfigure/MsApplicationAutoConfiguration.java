@@ -141,7 +141,7 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
 
     @Bean
     public HttpMessageConverters aceHttpMessageConverters() {
-        HttpMessageConverters httpMessageConverters = new HttpMessageConverters(false, getConverters());
+        HttpMessageConverters httpMessageConverters = new HttpMessageConverters(true, getConverters());
         return httpMessageConverters;
     }
 
