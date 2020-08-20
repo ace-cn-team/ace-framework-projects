@@ -20,8 +20,8 @@
 // * @create 2020/3/8 10:01
 // * @description
 // */
-////@Plugin(name = "DefaultXmlConfigurationFactory", category = ConfigurationFactory.CATEGORY)
-////@Order(10)
+//@Plugin(name = "DefaultXmlConfigurationFactory", category = ConfigurationFactory.CATEGORY)
+//@Order(10)
 //@Slf4j
 //public class DefaultXmlConfigurationFactory extends XmlConfigurationFactory {
 //
@@ -31,9 +31,9 @@
 //        URI newconfigLocation = null;
 //        if (Objects.isNull(configLocation)) {
 //            try {
-//                newconfigLocation = new URI("classpath:log4j2.xml");
+//                newconfigLocation = new URI("classpath:log4j2-spring.xml");
 //            } catch (Exception e) {
-//                log.error("读取[/log4j2-spring-deom.xml]失败", e);
+//                log.error("读取[/log4j2-spring.xml]失败", e);
 //                newconfigLocation = configLocation;
 //            }
 //        } else {

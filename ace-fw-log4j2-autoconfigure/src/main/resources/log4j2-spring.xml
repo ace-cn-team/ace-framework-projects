@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Specify the refresh internal in seconds. -->
+<Configuration monitorInterval="5">
+    <Properties>
+        <Property name="fileDir">${ctx:logging.file.dir}</Property>
+        <Property name="fileName">${ctx:logging.file.file-name}</Property>
+        <Property name="fileFullName">${ctx:logging.file.name}</Property>
+        <Property name="fileMaxSize">${ctx:logging.file.max-size}</Property>
+        <Property name="fileMaxHistory">${ctx:logging.file.max-history}</Property>
+        <Property name="fileRollingFile">${ctx:logging.pattern.rolling-file-name}</Property>
+        <Property name="filePatternLayout">${ctx:logging.pattern.file}</Property>
+        <Property name="consolePatternLayout">${ctx:logging.pattern.console}</Property>
+        <Property name="rootLevel">${ctx:logging.level.root}</Property>
+
+
+    </Properties>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${consolePatternLayout}"/>
+        </Console>
+        <!-- 这个会打印出所有信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="rollingFileAll"
+                     fileName="${fileFullName}"
+                     filePattern="${fileDir}/${fileRollingFile}">
+            <PatternLayout pattern="${filePatternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${fileMaxSize}"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件 -->
+            <DefaultRolloverStrategy max="${fileMaxHistory}"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <AsyncRoot level="${rootLevel}" includeLocation="true">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="rollingFileAll"/>
+        </AsyncRoot>
+    </Loggers>
+</Configuration>

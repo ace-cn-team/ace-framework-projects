@@ -53,7 +53,7 @@ public class PrintBeansApplicationReadyEventListener implements ApplicationListe
 
         allBeanNameStr.append(System.lineSeparator());
         String[] beanNames = ctx.getBeanDefinitionNames();
-        allBeanNameStr.append("beanNames 总数：" + beanNames.length);
+        allBeanNameStr.append("bean 总数：" + beanNames.length);
         if (this.isPrintBeanNames) {
             allBeanNameStr.append(System.lineSeparator());
             Arrays.sort(beanNames);

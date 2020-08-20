@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "logging.ace.log4j2.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否启动log4j2的自定义配置."
+  }
+] }
