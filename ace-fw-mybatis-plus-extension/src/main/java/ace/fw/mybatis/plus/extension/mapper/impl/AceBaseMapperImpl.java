@@ -1,26 +1,22 @@
 package ace.fw.mybatis.plus.extension.mapper.impl;
 
+import ace.fw.mybatis.plus.extension.mapper.AceBaseMapper;
 import ace.fw.mybatis.plus.extension.model.EntityField;
 import ace.fw.mybatis.plus.extension.util.MybatisPlusUtils;
 import ace.fw.util.AceStringUtils;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.statement.create.table.CreateTable;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Caspar
@@ -144,8 +140,8 @@ public class AceBaseMapperImpl {
         if (value == null) {
             return false;
         }
-        return (value instanceof Integer && Integer.MIN_VALUE == (Integer) value) ||
-                (value instanceof Long && Long.MIN_VALUE == (Long) value);
+        return (value instanceof Integer && AceBaseMapper.VERSION_AUTO_UPDATE_INTEGER_VALUE == (Integer) value) ||
+                (value instanceof Long && AceBaseMapper.VERSION_AUTO_UPDATE_LONG_VALUE == (Long) value);
 
     }
 

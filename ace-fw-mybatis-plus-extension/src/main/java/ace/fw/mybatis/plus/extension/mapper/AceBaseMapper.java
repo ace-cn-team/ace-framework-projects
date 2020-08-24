@@ -12,6 +12,16 @@ import org.apache.ibatis.annotations.UpdateProvider;
  * @description
  */
 public interface AceBaseMapper<T> extends BaseMapper<T> {
+
+    /**
+     * {@link Integer} 类型字段自动更新版本号的值
+     */
+    final Integer VERSION_AUTO_UPDATE_INTEGER_VALUE = Integer.MIN_VALUE;
+    /**
+     * {@link Long} 类型字段自动更新版本号的值
+     */
+    final Long VERSION_AUTO_UPDATE_LONG_VALUE = Long.MIN_VALUE;
+
     /**
      * 根据ID，更新对象,null字段不进行更新,version字段自动更新(输入指定值，自动进行替换)
      * version字段类型支持{@link Integer}{@link Long}
