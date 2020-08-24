@@ -4,18 +4,26 @@ import ace.fw.data.model.*;
 import ace.fw.data.model.entity.Entity;
 import ace.fw.data.model.request.resful.WhereRequest;
 import ace.fw.exception.SystemException;
+import ace.fw.mybatis.plus.extension.model.EntityField;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
+import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
+import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -227,5 +235,33 @@ public class MybatisPlusUtils {
                 .filter(entityProperty -> StringUtils.equals(entityProperty.getId(), property))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private static final Map<Class<?>, EntityField> versionFieldCache = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, List<EntityField>> entityFieldsCache = new ConcurrentHashMap<>();
+
+    /**
+     * 获取版本号字段信息
+     *
+     * @param parameterClass
+     * @param tableInfo
+     * @return
+     */
+    public static EntityField getVersionField(Class<?> parameterClass, TableInfo tableInfo) {
+        return versionFieldCache.computeIfAbsent(parameterClass, mapping -> getVersionFieldRegular(parameterClass, tableInfo));
+    }
+
+    /**
+     * 反射检查参数类是否启动乐观锁
+     *
+     * @param parameterClass 实体类
+     * @param tableInfo      实体数据库反射信息
+     * @return ignore
+     */
+    private static EntityField getVersionFieldRegular(Class<?> parameterClass, TableInfo tableInfo) {
+        return Object.class.equals(parameterClass) ? null : ReflectionKit.getFieldList(parameterClass).stream().filter(e -> e.isAnnotationPresent(Version.class)).map(field -> {
+            field.setAccessible(true);
+            return new EntityField(field, true, tableInfo.getFieldList().stream().filter(e -> field.getName().equals(e.getProperty())).map(TableFieldInfo::getColumn).findFirst().orElse(null));
+        }).findFirst().orElseGet(() -> getVersionFieldRegular(parameterClass.getSuperclass(), tableInfo));
     }
 }

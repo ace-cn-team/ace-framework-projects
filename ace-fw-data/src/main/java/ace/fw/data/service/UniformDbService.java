@@ -13,7 +13,7 @@ import java.util.List;
  * @author Caspar
  * @contract 279397942@qq.com
  * @create 2020/1/20 11:14
- * @description
+ * @description 统一泛型接口
  */
 public interface UniformDbService<T extends Entity> {
     T getById(@Valid UniformActionRequest<IdRequest> request);

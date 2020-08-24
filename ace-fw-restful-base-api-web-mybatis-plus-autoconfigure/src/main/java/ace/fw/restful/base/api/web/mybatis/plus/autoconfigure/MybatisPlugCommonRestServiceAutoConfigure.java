@@ -3,6 +3,7 @@ package ace.fw.restful.base.api.web.mybatis.plus.autoconfigure;
 import ace.fw.data.model.entity.Entity;
 import ace.fw.data.service.UniformDbService;
 
+import ace.fw.mybatis.plus.extension.mapper.AceBaseMapper;
 import ace.fw.mybatis.plus.extension.model.EntityServiceInfo;
 import ace.fw.mybatis.plus.extension.service.EntityConfigInfoService;
 import ace.fw.mybatis.plus.extension.service.EntityServiceInfoService;
@@ -23,6 +24,8 @@ import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -97,6 +100,7 @@ public class MybatisPlugCommonRestServiceAutoConfigure {
     }
 
     @Bean
+    @ConditionalOnProperty(value = "ace.mybatis.plug.optimistic-locker-interceptor.enable", havingValue = "true", matchIfMissing = true)
     public OptimisticLockerInterceptor optimisticLockerInterceptor() {
         return new OptimisticLockerInterceptor();
     }

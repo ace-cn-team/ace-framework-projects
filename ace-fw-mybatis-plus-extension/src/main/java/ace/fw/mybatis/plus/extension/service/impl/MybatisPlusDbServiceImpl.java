@@ -7,6 +7,7 @@ import ace.fw.data.model.request.resful.*;
 import ace.fw.data.model.request.resful.entity.EntityUpdateForceRequest;
 import ace.fw.data.model.request.resful.entity.EntityUpdateRequest;
 import ace.fw.exception.SystemException;
+import ace.fw.mybatis.plus.extension.mapper.AceBaseMapper;
 import ace.fw.mybatis.plus.extension.service.EntityConfigInfoService;
 import ace.fw.mybatis.plus.extension.service.MybatisPlusDbService;
 import ace.fw.mybatis.plus.extension.util.MybatisPlusUtils;
@@ -21,6 +22,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +39,7 @@ import java.util.stream.Collectors;
  * @create 2020/1/8 10:40
  * @description 数据层抽象逻辑实现
  */
-public class MybatisPlusDbServiceImpl<T extends Entity, Mapper extends BaseMapper<T>>
+public class MybatisPlusDbServiceImpl<T extends Entity, Mapper extends AceBaseMapper<T>>
         extends ServiceImpl<Mapper, T>
         implements MybatisPlusDbService<T> {
     @Getter(value = AccessLevel.NONE)
@@ -54,6 +56,12 @@ public class MybatisPlusDbServiceImpl<T extends Entity, Mapper extends BaseMappe
     @Getter(value = AccessLevel.PROTECTED)
     @Setter(value = AccessLevel.PROTECTED)
     private Integer batchLimitCount = 1000;
+
+
+    @Override
+    public T getById(Object id) {
+        return this.getById(id);
+    }
 
     @Override
     public T getOne(T request) {
@@ -106,6 +114,11 @@ public class MybatisPlusDbServiceImpl<T extends Entity, Mapper extends BaseMappe
         );
 
         return this.update(entityUpdateWrapper);
+    }
+
+    @Override
+    public boolean updateByIdVersionAutoUpdate(T entity) {
+        return super.retBool(baseMapper.updateByIdVersionAutoUpdate(entity));
     }
 
     @Override

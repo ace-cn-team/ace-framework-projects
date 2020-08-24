@@ -65,6 +65,11 @@ public abstract class AbstractRestfulController<T extends Entity, S extends DbSe
     }
 
     @Override
+    public GenericResponseExt<Boolean> updateByIdVersionAutoUpdate(T entityRequest) {
+        return GenericResponseExtUtils.buildSuccessWithData(dbService.updateByIdVersionAutoUpdate(entityRequest));
+    }
+
+    @Override
     public GenericResponseExt<Boolean> updateBatchById(List<T> entitiesRequest) {
         return GenericResponseExtUtils.buildSuccessWithData(dbService.updateBatchById(entitiesRequest));
     }

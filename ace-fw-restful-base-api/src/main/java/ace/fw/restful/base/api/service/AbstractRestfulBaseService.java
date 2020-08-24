@@ -48,6 +48,10 @@ public interface AbstractRestfulBaseService<T> {
     @RequestMapping(path = "/update-by-id", method = RequestMethod.POST)
     GenericResponseExt<Boolean> updateById(@NotNull @RequestBody T entityRequest);
 
+    @ApiOperation(value = "更新实体信息,根据ID,不更新null值字段,version字段自动更新")
+    @RequestMapping(path = "/update-by-id-version-auto-update", method = RequestMethod.POST)
+    GenericResponseExt<Boolean> updateByIdVersionAutoUpdate(@NotNull @RequestBody T entityRequest);
+
     @ApiOperation(value = "批量更新实体信息,根据ID,不更新null值字段")
     @RequestMapping(path = "/update-batch-by-id", method = RequestMethod.POST)
     GenericResponseExt<Boolean> updateBatchById(@Size(min = 1) @RequestBody List<T> entitiesRequest);
