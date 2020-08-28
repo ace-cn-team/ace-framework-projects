@@ -31,7 +31,7 @@ public interface AbstractBaseApi<T, IdType> {
 
     @ApiOperation(value = "根据ID获取实体")
     @RequestMapping(path = "/get-by-id", method = RequestMethod.POST)
-    GenericResponseExt<T> getById(@Valid @RequestBody EntityGetById<IdType> request);
+    GenericResponseExt<T> getById(@Valid @RequestBody IdType request);
 
     @ApiOperation(value = "根据ID获取实体")
     @RequestMapping(path = "/get-list-by-id", method = RequestMethod.POST)

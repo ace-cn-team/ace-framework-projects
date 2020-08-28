@@ -56,7 +56,8 @@ public class UserBaseApiTest {
         User user = this.newUser();
         boolean isSuccess = userBaseApi.save(user).check();
         Assert.assertTrue(isSuccess);
-        User user1 = userBaseApi.getById(EntityGetById.<String>builder().id(user.getId()).build()).check();
+        //User user1 = userBaseApi.getById(EntityGetById.<String>builder().id(user.getId()).build()).check();
+        User user1 = userBaseApi.getById(user.getId()).check();
         Assert.assertNotNull(user1);
     }
 
@@ -226,7 +227,8 @@ public class UserBaseApiTest {
     private void checkSaveUser(User... users) {
         List<User> userList = Arrays.asList(users);
         userList.forEach(user -> {
-            User user1 = userBaseApi.getById(EntityGetById.<String>builder().id(user.getId()).build()).check();
+            //    User user1 = userBaseApi.getById(EntityGetById.<String>builder().id(user.getId()).build()).check();
+            User user1 = userBaseApi.getById(user.getId()).check();
             Assert.assertNotNull(user1);
         });
     }
