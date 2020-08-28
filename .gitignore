@@ -120,3 +120,7 @@
 /ace-fw-json-jackson/target/
 /ace-fw-json-jackson-autoconfigure/target/
 /ace-fw-log4j2-junit/target/
+/ace-fw-restful-base-api-web-junit/target/
+/ace-fw-restful-base-api-web-junit/ace-fw-restful-base-api-web-junit.iml
+/ace-fw-restful-base-api-web-mybatis-plus/target/
+/ace-fw-restful-base-api-web-mybatis-plus/ace-fw-restful-base-api-web-mybatis-plus.iml

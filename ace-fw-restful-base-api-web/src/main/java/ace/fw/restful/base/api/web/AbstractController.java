@@ -39,8 +39,8 @@ public abstract class AbstractController<T, TDbServicePlugin extends DbService<T
     private TDbServicePlugin dbServicePlugin;
 
     @Override
-    public GenericResponseExt<T> getById(IdType request) {
-        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.getById(request));
+    public GenericResponseExt<T> getById(IdType id) {
+        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.getById(id));
     }
 
     @Override
