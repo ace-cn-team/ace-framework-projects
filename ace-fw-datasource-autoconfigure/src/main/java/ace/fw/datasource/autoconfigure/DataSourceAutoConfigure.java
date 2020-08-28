@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
  * @create 2020/8/1 15:20
  * @description
  */
-@PropertySource("classpath:application-actuator.properties")
+@PropertySource("classpath:application-datasource.properties")
 @Configuration
 public class DataSourceAutoConfigure {
 }

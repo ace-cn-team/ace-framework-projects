@@ -140,8 +140,8 @@ public class AceBaseMapperImpl {
         if (value == null) {
             return false;
         }
-        return (value instanceof Integer && AceBaseMapper.VERSION_AUTO_UPDATE_INTEGER_VALUE == (Integer) value) ||
-                (value instanceof Long && AceBaseMapper.VERSION_AUTO_UPDATE_LONG_VALUE == (Long) value);
+        return (value instanceof Integer) ||
+                (value instanceof Long);
 
     }
 

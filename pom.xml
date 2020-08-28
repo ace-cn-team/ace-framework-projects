@@ -7,14 +7,13 @@
         <groupId>org.ace</groupId>
         <version>1.0.0.10</version>
     </parent>
-    <version>1.0.0.39</version>
+    <version>1.0.0.41</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ace-framework-projects</artifactId>
     <packaging>pom</packaging>
     <modules>
         <module>ace-fw</module>
-        <module>ace-fw-data</module>
         <module>ace-fw-json</module>
         <module>ace-fw-json-fastjson</module>
         <module>ace-fw-json-fastjson-autoconfigure</module>
@@ -23,6 +22,7 @@
         <module>ace-fw-mybatis-plus-extension</module>
         <module>ace-fw-mybatis-autoconfigure</module>
         <module>ace-fw-restful-base-api-web</module>
+        <module>ace-fw-restful-base-api-web-mybatis-plus</module>
         <module>ace-fw-restful-base-api-web-mybatis-plus-autoconfigure</module>
         <module>ace-fw-restful-base-api</module>
         <module>ace-fw-restful-logic-api</module>
@@ -45,7 +45,6 @@
         <module>ace-fw-graphql-gateway-federation</module>
         <module>ace-fw-mq-rocketmq</module>
         <module>ace-fw-mq-rocketmq-autoconfigure</module>
-        <module>ace-fw-system-code</module>
         <module>ace-fw-swagger-autoconfigure</module>
         <module>ace-fw-feign</module>
         <module>ace-fw-actuator-autoconfigure</module>
@@ -60,6 +59,7 @@
         <module>ace-fw-datasource-autoconfigure</module>
         <module>ace-fw-junit-test-starter</module>
         <module>ace-fw-log4j2-junit</module>
+        <module>ace-fw-restful-base-api-web-junit</module>
 
 
     </modules>
@@ -69,23 +69,13 @@
             <dependency>
                 <groupId>org.ace</groupId>
                 <artifactId>ace-dependency-management</artifactId>
-                <version>1.0.0.12</version>
+                <version>1.0.0.14</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.ace</groupId>
                 <artifactId>ace-fw</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.ace</groupId>
-                <artifactId>ace-fw-system-code</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.ace</groupId>
-                <artifactId>ace-fw-data</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -98,16 +88,30 @@
                 <artifactId>ace-fw-restful-base-api-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.ace</groupId>
-                <artifactId>ace-fw-actuator-autoconfigure</artifactId>
+                <artifactId>ace-fw-restful-base-api-web-mybatis-plus</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ace</groupId>
+                <artifactId>ace-fw-restful-base-api-web-mybatis-plus-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ace</groupId>
+                <artifactId>ace-fw-restful-base-api-web-junit</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.ace</groupId>
-                <artifactId>ace-fw-restful-base-api-web-mybatis-plus-autoconfigure</artifactId>
+                <artifactId>ace-fw-datasource-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ace</groupId>
+                <artifactId>ace-fw-actuator-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

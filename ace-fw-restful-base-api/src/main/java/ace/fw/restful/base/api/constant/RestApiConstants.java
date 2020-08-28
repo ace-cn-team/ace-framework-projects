@@ -7,12 +7,5 @@ package ace.fw.restful.base.api.constant;
  * @description
  */
 public interface RestApiConstants {
-    /**
-     * {@link Integer} 类型字段自动更新版本号的值
-     */
-    final Integer VERSION_AUTO_UPDATE_INTEGER_VALUE = Integer.MIN_VALUE;
-    /**
-     * {@link Long} 类型字段自动更新版本号的值
-     */
-    final Long VERSION_AUTO_UPDATE_LONG_VALUE = Long.MIN_VALUE;
+
 }
