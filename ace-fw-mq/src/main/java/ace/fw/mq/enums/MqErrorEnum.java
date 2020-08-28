@@ -1,7 +1,6 @@
 package ace.fw.mq.enums;
 
 import ace.fw.enums.BaseEnum;
-import ace.fw.system.code.AceSystemCodeEnum;
 import lombok.Getter;
 
 /**
@@ -11,9 +10,9 @@ import lombok.Getter;
  * @description 系统代码枚举
  */
 public enum MqErrorEnum implements BaseEnum<String> {
-    MQ_EXCEPTION(AceSystemCodeEnum.MQ_EXCEPTION),
-    MESSAGE_BODY_LIMIT_ERROR(AceSystemCodeEnum.MQ_MESSAGE_BODY_LIMIT_ERROR),
-    CUSTOM_MESSAGE_BODY_LIMIT_ERROR(AceSystemCodeEnum.MQ_CUSTOM_MESSAGE_BODY_LIMIT_ERROR),
+    MQ_EXCEPTION("20001", "MQ消息发送失败"),
+    MESSAGE_BODY_LIMIT_ERROR("20002", "MQ消息发送失败,消息体超出限制大小"),
+    CUSTOM_MESSAGE_BODY_LIMIT_ERROR("20003", "MQ消息发送失败,消息体超出自定义限制大小"),
     ;
     @Getter
     private String code;

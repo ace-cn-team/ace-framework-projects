@@ -238,25 +238,25 @@ public class DbServiceImpl<Mapper extends AceBaseMapper<T>, T>
             wrapper.or();
         }
         if (RelationalOpEnum.EQ.equals(condition.getRelationalOp())) {
-            wrapper.eq(Objects.nonNull(condition.getValue()), columnName, condition.getValue());
+            wrapper.eq(Objects.nonNull(condition.getFirstValue()), columnName, condition.getFirstValue());
         } else if (RelationalOpEnum.NE.equals(condition.getRelationalOp())) {
-            wrapper.ne(Objects.nonNull(condition.getValue()), columnName, condition.getValue());
+            wrapper.ne(Objects.nonNull(condition.getFirstValue()), columnName, condition.getFirstValue());
         } else if (RelationalOpEnum.IN.equals(condition.getRelationalOp())) {
             wrapper.in(CollectionUtils.isNotEmpty(condition.getValues()), columnName, condition.getValues());
         } else if (RelationalOpEnum.LIKE.equals(condition.getRelationalOp())) {
-            wrapper.like(Objects.nonNull(condition.getValue()), columnName, condition.getValue());
+            wrapper.like(Objects.nonNull(condition.getFirstValue()), columnName, condition.getFirstValue());
         } else if (RelationalOpEnum.LIKE_LEFT.equals(condition.getRelationalOp())) {
-            wrapper.likeLeft(Objects.nonNull(condition.getValue()), columnName, condition.getValue());
+            wrapper.likeLeft(Objects.nonNull(condition.getFirstValue()), columnName, condition.getFirstValue());
         } else if (RelationalOpEnum.LIKE_RIGHT.equals(condition.getRelationalOp())) {
-            wrapper.likeRight(Objects.nonNull(condition.getValue()), columnName, condition.getValue());
+            wrapper.likeRight(Objects.nonNull(condition.getFirstValue()), columnName, condition.getFirstValue());
         } else if (RelationalOpEnum.GT.equals(condition.getRelationalOp())) {
-            wrapper.gt(Objects.nonNull(condition.getValue()), columnName, condition.getValue());
+            wrapper.gt(Objects.nonNull(condition.getFirstValue()), columnName, condition.getFirstValue());
         } else if (RelationalOpEnum.GE.equals(condition.getRelationalOp())) {
-            wrapper.ge(Objects.nonNull(condition.getValue()), columnName, condition.getValue());
+            wrapper.ge(Objects.nonNull(condition.getFirstValue()), columnName, condition.getFirstValue());
         } else if (RelationalOpEnum.LT.equals(condition.getRelationalOp())) {
-            wrapper.lt(Objects.nonNull(condition.getValue()), columnName, condition.getValue());
+            wrapper.lt(Objects.nonNull(condition.getFirstValue()), columnName, condition.getFirstValue());
         } else if (RelationalOpEnum.LE.equals(condition.getRelationalOp())) {
-            wrapper.le(Objects.nonNull(condition.getValue()), columnName, condition.getValue());
+            wrapper.le(Objects.nonNull(condition.getFirstValue()), columnName, condition.getFirstValue());
         } else if (RelationalOpEnum.IS_NULL.equals(condition.getRelationalOp())) {
             wrapper.isNull(true, columnName);
         } else if (RelationalOpEnum.IS_NOT_NULL.equals(condition.getRelationalOp())) {
@@ -268,7 +268,7 @@ public class DbServiceImpl<Mapper extends AceBaseMapper<T>, T>
         } else if (RelationalOpEnum.NOT_IN.equals(condition.getRelationalOp())) {
             wrapper.notIn(CollectionUtils.isNotEmpty(condition.getValues()), columnName, condition.getValues());
         } else if (RelationalOpEnum.NOT_LIKE.equals(condition.getRelationalOp())) {
-            wrapper.notLike(Objects.nonNull(condition.getValue()), columnName, condition.getValue());
+            wrapper.notLike(Objects.nonNull(condition.getFirstValue()), columnName, condition.getFirstValue());
         } else {
             throw new RuntimeException("不支持的RelationalOp操作," + condition.getRelationalOp().getDesc());
         }

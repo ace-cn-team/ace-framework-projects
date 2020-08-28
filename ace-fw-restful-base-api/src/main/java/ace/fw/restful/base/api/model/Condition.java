@@ -40,11 +40,15 @@ public class Condition {
      */
     private List<Object> values = new ArrayList<>(10);
 
-    public Object getValue() {
+    public Object getFirstValue() {
         return CollectionUtils.isEmpty(values) ? null : values.get(0);
     }
 
-    public void setValue(Object value) {
+    /**
+     * 避免JSON反序列化时候，把values的值覆盖了
+     * @param value
+     */
+    public void firstValue(Object value) {
         this.values = Arrays.asList(value);
     }
 

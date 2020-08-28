@@ -7,6 +7,8 @@ import ace.fw.restful.base.api.model.request.PageRequest;
 
 import ace.fw.model.response.GenericResponseExt;
 import ace.fw.restful.base.api.AbstractBaseApi;
+import ace.fw.restful.base.api.model.request.entity.EntityGetById;
+import ace.fw.restful.base.api.model.request.entity.EntityGetListById;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
 import ace.fw.restful.base.api.plugin.DbService;
@@ -17,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Caspar
@@ -28,19 +32,25 @@ import java.util.List;
 @Data
 @Slf4j
 @Validated
-public abstract class AbstractController<T, TDbServicePlugin extends DbService<T>>
-        implements AbstractBaseApi<T> {
+public abstract class AbstractController<T, TDbServicePlugin extends DbService<T>, IdType>
+        implements AbstractBaseApi<T, IdType> {
 
     @Autowired
     private TDbServicePlugin dbServicePlugin;
 
     @Override
-    public GenericResponseExt<T> findById(String id) {
-        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.getById(id));
+    public GenericResponseExt<T> getById(EntityGetById<IdType> request) {
+        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.getById(request.getId()));
     }
 
     @Override
-    public GenericResponseExt<T> findOne(T request) {
+    public GenericResponseExt<List<T>> getListById(List<IdType> ids) {
+        List<Object> idList = ids.stream().map(p -> (Object) p).collect(Collectors.toList());
+        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.getListById(idList));
+    }
+
+    @Override
+    public GenericResponseExt<T> getOne(T request) {
         T data = dbServicePlugin.getOne(request);
         GenericResponseExt<T> result = GenericResponseExtUtils.buildSuccessWithData(data);
         return result;
@@ -77,7 +87,7 @@ public abstract class AbstractController<T, TDbServicePlugin extends DbService<T
     }
 
     @Override
-    public GenericResponseExt<Boolean> updateForce(@Valid EntityUpdateForceRequest<T> request) {
+    public GenericResponseExt<Boolean> updateForce(EntityUpdateForceRequest<T> request) {
         return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.updateForce(request));
     }
 
