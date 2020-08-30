@@ -1,6 +1,6 @@
 package ace.fw.restful.base.api.util;
 
-import ace.fw.restful.base.api.model.EntityPropertyFunction;
+import ace.fw.restful.base.api.model.entity.EntityPropertyFunction;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.invoke.SerializedLambda;

@@ -1,100 +1,43 @@
 package ace.fw.restful.base.api.model.where;
 
-import ace.fw.restful.base.api.enums.RelationalOpEnum;
-import ace.fw.restful.base.api.model.EntityPropertyFunction;
-import ace.fw.restful.base.api.util.EntityMetaUtils;
-import lombok.extern.slf4j.Slf4j;
+import ace.fw.restful.base.api.model.entity.EntityPropertyFunction;
 
 import java.util.List;
 
 /**
  * @author Caspar
  * @contract 279397942@qq.com
- * @create 2020/1/2 14:27
+ * @create 2020/8/30 8:59
  * @description
  */
-@Slf4j
-public class EntityWhere extends Where<EntityWhere> {
+public interface EntityWhere<TWhere extends EntityWhere> extends Where<TWhere> {
+    <T, R> TWhere eq(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    protected <T, R> EntityWhere addCondition(boolean isAddCondition, EntityPropertyFunction<T, R> entityPropertyFunction, RelationalOpEnum relationalOp, Object value) {
-        String propertyName = EntityMetaUtils.getPropertyName(entityPropertyFunction);
-        this.addCondition(isAddCondition, propertyName, relationalOp, value);
-        return self();
-    }
+    <T, R> TWhere ne(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    public <T, R> EntityWhere eq(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.EQ, value);
-        return self();
-    }
+    <T, R> TWhere like(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    public <T, R> EntityWhere ne(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.NE, value);
-        return self();
-    }
+    <T, R> TWhere notLike(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    public <T, R> EntityWhere like(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.LIKE, value);
-        return self();
-    }
+    <T, R> TWhere likeRight(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    public <T, R> EntityWhere notLike(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.NOT_LIKE, value);
-        return self();
-    }
+    <T, R> TWhere gt(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    public <T, R> EntityWhere likeRight(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.LIKE_RIGHT, value);
-        return self();
-    }
+    <T, R> TWhere ge(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    public <T, R> EntityWhere gt(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.GT, value);
-        return self();
-    }
+    <T, R> TWhere lt(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    public <T, R> EntityWhere ge(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.GE, value);
-        return self();
-    }
+    <T, R> TWhere le(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    public <T, R> EntityWhere lt(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.LT, value);
-        return self();
-    }
+    <T, R> TWhere isNull(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    public <T, R> EntityWhere le(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.LE, value);
-        return self();
-    }
+    <T, R> TWhere isNotNull(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    public <T, R> EntityWhere isNull(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.IS_NULL, value);
-        return self();
-    }
+    <T, R> TWhere between(EntityPropertyFunction<T, R> entityPropertyFunction, List<Object> values);
 
-    public <T, R> EntityWhere isNotNull(EntityPropertyFunction<T, R> entityPropertyFunction, Object value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.IS_NOT_NULL, value);
-        return self();
-    }
+    <T, R> TWhere notBetween(EntityPropertyFunction<T, R> entityPropertyFunction, List<Object> values);
 
-    public <T, R> EntityWhere between(EntityPropertyFunction<T, R> entityPropertyFunction, List<Object> values) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.BETWEEN, values);
-        return self();
-    }
+    <T, R> TWhere in(EntityPropertyFunction<T, R> entityPropertyFunction, List<Object> values);
 
-    public <T, R> EntityWhere notBetween(EntityPropertyFunction<T, R> entityPropertyFunction, List<Object> values) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.NOT_BETWEEN, values);
-        return self();
-    }
-
-    public <T, R> EntityWhere in(EntityPropertyFunction<T, R> entityPropertyFunction, List<Object> value) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.IN, value);
-        return self();
-    }
-
-    public <T, R> EntityWhere notIn(EntityPropertyFunction<T, R> entityPropertyFunction, List<Object> values) {
-        this.addCondition(true, entityPropertyFunction, RelationalOpEnum.NOT_IN, values);
-        return self();
-    }
-
+    <T, R> TWhere notIn(EntityPropertyFunction<T, R> entityPropertyFunction, List<Object> values);
 }

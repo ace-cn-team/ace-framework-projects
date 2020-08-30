@@ -3,16 +3,12 @@ package ace.fw.restful.base.api.web.junit;
 import ace.fw.json.JsonUtils;
 import ace.fw.logic.common.util.AceUUIDUtils;
 import ace.fw.restful.base.api.UserBaseApi;
-import ace.fw.restful.base.api.model.Page;
-import ace.fw.restful.base.api.model.PageResult;
-import ace.fw.restful.base.api.model.orderby.EntityOrderBy;
+import ace.fw.restful.base.api.model.page.Page;
+import ace.fw.restful.base.api.model.page.PageResult;
 import ace.fw.restful.base.api.model.request.PageRequest;
-import ace.fw.restful.base.api.model.request.entity.EntityGetById;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
-import ace.fw.restful.base.api.model.select.EntitySelect;
-import ace.fw.restful.base.api.model.where.EntityWhere;
-import ace.fw.restful.base.api.plugin.DbService;
+import ace.fw.restful.base.api.util.QueryUtils;
 import ace.fw.restful.base.api.web.junit.dal.entity.User;
 import ace.fw.util.AceLocalDateTimeUtils;
 import ace.fw.util.AceRandomUtils;
@@ -26,7 +22,6 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -51,8 +46,7 @@ public class UserBaseApiTest {
 
     @Test
     public void test_0001_save() throws InterruptedException {
-        // 等待服务接口初始化完成
-        //Thread.sleep(30 * 1000);
+
         User user = this.newUser();
         boolean isSuccess = userBaseApi.save(user).check();
         Assert.assertTrue(isSuccess);
@@ -85,7 +79,7 @@ public class UserBaseApiTest {
 
         EntityUpdateRequest<User> request = EntityUpdateRequest.<User>builder()
                 .entity(updateUser)
-                .where(new EntityWhere().in(User::getId, Arrays.asList(user1.getId(), user2.getId())))
+                .where(QueryUtils.where().in(User::getId, Arrays.asList(user1.getId(), user2.getId())))
                 .build();
 
         boolean isSuccess = userBaseApi.update(request).check();
@@ -158,7 +152,7 @@ public class UserBaseApiTest {
         updateUser.setLevel(null);
         EntityUpdateForceRequest<User> request = EntityUpdateForceRequest.<User>builder()
                 .entity(updateUser)
-                .where(new EntityWhere().in(User::getId, Arrays.asList(user2.getId())))
+                .where(QueryUtils.where().in(User::getId, Arrays.asList(user2.getId())))
                 .build();
         boolean isSuccess = userBaseApi.updateForce(request).check();
         Assert.assertTrue(isSuccess);
@@ -205,11 +199,12 @@ public class UserBaseApiTest {
         Long maxLevel = 8L;
         int pageIndex = 1;
         int pageSize = 2;
-
         PageRequest request = PageRequest.builder()
-                .orderBy(new EntityOrderBy().add(User::getCreateTime, true))
-                .select(new EntitySelect().select(User::getId, User::getName))
-                .where(new EntityWhere().ge(User::getLevel, minLevel).le(User::getLevel, maxLevel)
+                .orderBy(QueryUtils.orderBy().add(User::getCreateTime, true))
+                .select(QueryUtils.select(User::getId, User::getName))
+                .where(QueryUtils.where()
+                        .ge(User::getLevel, minLevel)
+                        .le(User::getLevel, maxLevel)
                         .ge(User::getCreateTime, AceLocalDateTimeUtils.MIN_MYSQL)
                 )
                 .page(new Page(pageIndex, pageSize))

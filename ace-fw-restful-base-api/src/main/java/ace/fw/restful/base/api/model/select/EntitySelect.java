@@ -1,16 +1,8 @@
 package ace.fw.restful.base.api.model.select;
 
-import ace.fw.restful.base.api.model.EntityPropertyFunction;
-import ace.fw.restful.base.api.util.EntityMetaUtils;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import ace.fw.restful.base.api.model.entity.EntityPropertyFunction;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Caspar
@@ -18,15 +10,9 @@ import java.util.stream.Collectors;
  * @create 2020/1/2 14:14
  * @description 选择字段
  */
-@Data
-public class EntitySelect extends Select<EntitySelect> {
+public interface EntitySelect<TSelect extends Select> extends Select<TSelect> {
 
+    <T, R> EntitySelect select(EntityPropertyFunction<T, R>... entityPropertyFunctions);
 
-    public <T, R> EntitySelect select(EntityPropertyFunction<T, R>... entityPropertyFunctions) {
-        String[] propertyNames = Arrays.asList(entityPropertyFunctions).stream()
-                .map(p -> EntityMetaUtils.getPropertyName(p))
-                .toArray(String[]::new);
-        this.select(propertyNames);
-        return self();
-    }
+    <T, R> EntitySelect selectFunc(List<EntityPropertyFunction<T, R>> entityPropertyFunctions);
 }

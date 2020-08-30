@@ -1,4 +1,4 @@
-package ace.fw.restful.base.api.model;
+package ace.fw.restful.base.api.model.where.impl;
 
 import ace.fw.restful.base.api.enums.LogicalOpEnum;
 import ace.fw.restful.base.api.enums.RelationalOpEnum;
@@ -40,14 +40,17 @@ public class Condition {
      */
     private List<Object> values = new ArrayList<>(10);
 
+
     public Object getFirstValue() {
         return CollectionUtils.isEmpty(values) ? null : values.get(0);
     }
 
     /**
      * 避免JSON反序列化时候，把values的值覆盖了
+     *
      * @param value
      */
+
     public void firstValue(Object value) {
         this.values = Arrays.asList(value);
     }

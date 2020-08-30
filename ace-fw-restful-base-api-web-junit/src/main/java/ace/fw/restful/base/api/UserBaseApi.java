@@ -11,9 +11,10 @@ import org.springframework.validation.annotation.Validated;
  * @description
  */
 @FeignClient(
-        name = UserBaseApi.CONFIG_CLIENT_NAME,
+        name = UserBaseApi.MODULE_RESTFUL_NAME,
         contextId = "UserBaseApi",
-        path = "/" + UserBaseApi.MODULE_RESTFUL_NAME
+        path = "/" + UserBaseApi.MODULE_RESTFUL_NAME,
+        url = "http://localhost:8080"
 )
 @Validated
 public interface UserBaseApi extends AbstractBaseApi<User, String> {

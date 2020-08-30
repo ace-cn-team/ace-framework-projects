@@ -1,4 +1,4 @@
-package ace.fw.restful.base.api.model;
+package ace.fw.restful.base.api.model.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

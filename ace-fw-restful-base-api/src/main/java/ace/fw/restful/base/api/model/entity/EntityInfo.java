@@ -1,9 +1,11 @@
-package ace.fw.restful.base.api.model;
+package ace.fw.restful.base.api.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @author Caspar
@@ -15,21 +17,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EntityProperty {
+public class EntityInfo {
     /**
-     * 属性名称
+     * 实体类的class.name
      */
     private String id;
     /**
-     * 属性备注
+     * 实体备注
      */
     private String remark;
     /**
-     * 属性类型
+     * 实体类的属性元数据
      */
-    private Class type;
-    /**
-     * 属性对应的列名
-     */
-    private String column;
+    private List<EntityProperty> properties;
 }

@@ -1,11 +1,9 @@
 package ace.fw.restful.base.api;
 
-import ace.fw.restful.base.api.model.EntityInfo;
-import ace.fw.restful.base.api.model.PageResult;
+import ace.fw.restful.base.api.model.entity.EntityInfo;
+import ace.fw.restful.base.api.model.page.PageResult;
 import ace.fw.restful.base.api.model.request.PageRequest;
 import ace.fw.model.response.GenericResponseExt;
-import ace.fw.restful.base.api.model.request.entity.EntityGetById;
-import ace.fw.restful.base.api.model.request.entity.EntityGetListById;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
 import io.swagger.annotations.ApiOperation;
@@ -13,10 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.List;
 
 /**

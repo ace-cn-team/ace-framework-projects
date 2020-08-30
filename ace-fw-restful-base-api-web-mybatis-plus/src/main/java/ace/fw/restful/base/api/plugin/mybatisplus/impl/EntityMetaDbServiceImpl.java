@@ -1,9 +1,9 @@
 package ace.fw.restful.base.api.plugin.mybatisplus.impl;
 
 import ace.fw.exception.SystemException;
-import ace.fw.restful.base.api.model.EntityInfo;
-import ace.fw.restful.base.api.model.EntityProperty;
-import ace.fw.restful.base.api.model.EntityPropertyFunction;
+import ace.fw.restful.base.api.model.entity.EntityInfo;
+import ace.fw.restful.base.api.model.entity.EntityProperty;
+import ace.fw.restful.base.api.model.entity.EntityPropertyFunction;
 import ace.fw.restful.base.api.plugin.EntityMetaDbService;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;

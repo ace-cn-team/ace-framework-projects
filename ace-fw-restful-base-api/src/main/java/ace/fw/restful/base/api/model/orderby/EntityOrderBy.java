@@ -1,16 +1,6 @@
 package ace.fw.restful.base.api.model.orderby;
 
-import ace.fw.restful.base.api.model.EntityPropertyFunction;
-import ace.fw.restful.base.api.model.Sort;
-import ace.fw.restful.base.api.util.EntityMetaUtils;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import ace.fw.restful.base.api.model.entity.EntityPropertyFunction;
 
 /**
  * @author Caspar
@@ -18,12 +8,11 @@ import java.util.List;
  * @create 2020/1/2 15:50
  * @description
  */
-@Data
-public class EntityOrderBy extends OrderBy<EntityOrderBy> {
+public interface EntityOrderBy<TOrderBy extends OrderBy> extends OrderBy<TOrderBy> {
 
-    public <T, R> EntityOrderBy add(EntityPropertyFunction<T, R> entityPropertyFunction, boolean asc) {
-        String propertyName = EntityMetaUtils.getPropertyName(entityPropertyFunction);
-        super.add(propertyName, asc);
-        return self();
-    }
+    <T, R> TOrderBy add(EntityPropertyFunction<T, R> entityPropertyFunction, boolean asc);
+
+    <T, R> TOrderBy asc(EntityPropertyFunction<T, R> entityPropertyFunction);
+
+    <T, R> TOrderBy desc(EntityPropertyFunction<T, R> entityPropertyFunction);
 }

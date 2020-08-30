@@ -1,4 +1,4 @@
-package ace.fw.restful.base.api.model;
+package ace.fw.restful.base.api.model.entity;
 
 import java.io.Serializable;
 import java.util.function.Function;

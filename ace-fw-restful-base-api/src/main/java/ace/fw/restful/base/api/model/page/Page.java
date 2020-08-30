@@ -1,4 +1,4 @@
-package ace.fw.restful.base.api.model;
+package ace.fw.restful.base.api.model.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,20 +8,20 @@ import lombok.NoArgsConstructor;
 /**
  * @author Caspar
  * @contract 279397942@qq.com
- * @create 2020/1/2 11:35
- * @description
+ * @create 2020/1/2 11:29
+ * @description 分页入参
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Sort {
+public class Page {
     /**
-     * 属性名称
+     * 第几页
      */
-    private String property;
+    private Integer pageIndex = 0;
     /**
-     * 排序方向
+     * 分页大小
      */
-    private Boolean asc;
+    private Integer pageSize = 10;
 }

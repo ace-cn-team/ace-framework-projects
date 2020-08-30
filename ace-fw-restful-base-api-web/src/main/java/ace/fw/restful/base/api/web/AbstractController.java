@@ -1,14 +1,12 @@
 package ace.fw.restful.base.api.web;
 
 
-import ace.fw.restful.base.api.model.EntityInfo;
-import ace.fw.restful.base.api.model.PageResult;
+import ace.fw.restful.base.api.model.entity.EntityInfo;
+import ace.fw.restful.base.api.model.page.PageResult;
 import ace.fw.restful.base.api.model.request.PageRequest;
 
 import ace.fw.model.response.GenericResponseExt;
 import ace.fw.restful.base.api.AbstractBaseApi;
-import ace.fw.restful.base.api.model.request.entity.EntityGetById;
-import ace.fw.restful.base.api.model.request.entity.EntityGetListById;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
 import ace.fw.restful.base.api.plugin.DbService;
@@ -18,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 

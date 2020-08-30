@@ -2,16 +2,16 @@ package ace.fw.restful.base.api.web.junit;
 
 import ace.fw.json.JsonUtils;
 import ace.fw.logic.common.util.AceUUIDUtils;
-import ace.fw.restful.base.api.model.Page;
-import ace.fw.restful.base.api.model.PageResult;
+import ace.fw.restful.base.api.model.page.Page;
+import ace.fw.restful.base.api.model.page.PageResult;
 import ace.fw.restful.base.api.model.orderby.EntityOrderBy;
-import ace.fw.restful.base.api.model.orderby.OrderBy;
 import ace.fw.restful.base.api.model.request.PageRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
-import ace.fw.restful.base.api.model.select.EntitySelect;
-import ace.fw.restful.base.api.model.where.EntityWhere;
+
+import ace.fw.restful.base.api.model.where.impl.EntityWhereImpl;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
 import ace.fw.restful.base.api.plugin.DbService;
+import ace.fw.restful.base.api.util.QueryUtils;
 import ace.fw.restful.base.api.web.junit.dal.entity.User;
 import ace.fw.util.AceLocalDateTimeUtils;
 import ace.fw.util.AceRandomUtils;
@@ -78,7 +78,7 @@ public class DbServiceTest {
 
         EntityUpdateRequest request = EntityUpdateRequest.<User>builder()
                 .entity(updateUser)
-                .where(new EntityWhere().in(User::getId, Arrays.asList(user1.getId(), user2.getId())))
+                .where(new EntityWhereImpl().in(User::getId, Arrays.asList(user1.getId(), user2.getId())))
                 .build();
         boolean isSuccess = userDbService.update(request);
         Assert.assertTrue(isSuccess);
@@ -150,7 +150,7 @@ public class DbServiceTest {
         updateUser.setLevel(null);
         EntityUpdateForceRequest request = EntityUpdateForceRequest.<User>builder()
                 .entity(updateUser)
-                .where(new EntityWhere().in(User::getId, Arrays.asList(user2.getId())))
+                .where(new EntityWhereImpl().in(User::getId, Arrays.asList(user2.getId())))
                 .build();
         boolean isSuccess = userDbService.updateForce(request);
         Assert.assertTrue(isSuccess);
@@ -199,9 +199,9 @@ public class DbServiceTest {
         int pageSize = 2;
 
         PageRequest request = PageRequest.builder()
-                .orderBy(new EntityOrderBy().add(User::getCreateTime, true))
-                .select(new EntitySelect().select(User::getId, User::getName))
-                .where(new EntityWhere().ge(User::getLevel, minLevel).le(User::getLevel, maxLevel)
+                .orderBy(QueryUtils.orderByAsc(User::getCreateTime))
+                .select(QueryUtils.select(User::getId, User::getName))
+                .where(QueryUtils.where().ge(User::getLevel, minLevel).le(User::getLevel, maxLevel)
                         .ge(User::getCreateTime, AceLocalDateTimeUtils.MIN_MYSQL)
                 )
                 .page(new Page(pageIndex, pageSize))

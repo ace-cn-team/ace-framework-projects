@@ -1,13 +1,5 @@
 package ace.fw.restful.base.api.model.orderby;
 
-import ace.fw.restful.base.api.model.Sort;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,24 +8,17 @@ import java.util.List;
  * @create 2020/1/2 15:50
  * @description
  */
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class OrderBy<TOrderBy extends OrderBy> {
-    @Size(min = 1)
-    private List<Sort> sorts = new ArrayList(10);
+public interface OrderBy<TOrderBy extends OrderBy> {
 
-    public TOrderBy add(String propertyName, boolean asc) {
-        sorts.add(Sort.builder()
-                .asc(asc)
-                .property(propertyName)
-                .build()
-        );
-        return self();
-    }
+    List<Sort> getSorts();
 
-    protected TOrderBy self() {
+    TOrderBy add(String propertyName, boolean asc);
+
+    TOrderBy asc(String propertyName);
+
+    TOrderBy desc(String propertyName);
+
+    default TOrderBy self() {
         return (TOrderBy) this;
     }
 }

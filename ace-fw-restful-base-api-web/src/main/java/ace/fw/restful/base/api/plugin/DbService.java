@@ -1,7 +1,7 @@
 package ace.fw.restful.base.api.plugin;
 
-import ace.fw.restful.base.api.model.EntityInfo;
-import ace.fw.restful.base.api.model.PageResult;
+import ace.fw.restful.base.api.model.entity.EntityInfo;
+import ace.fw.restful.base.api.model.page.PageResult;
 import ace.fw.restful.base.api.model.request.PageRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;

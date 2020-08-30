@@ -1,7 +1,7 @@
 package ace.fw.restful.base.api.plugin;
 
-import ace.fw.restful.base.api.model.EntityInfo;
-import ace.fw.restful.base.api.model.EntityPropertyFunction;
+import ace.fw.restful.base.api.model.entity.EntityInfo;
+import ace.fw.restful.base.api.model.entity.EntityPropertyFunction;
 
 /**
  * @author Caspar

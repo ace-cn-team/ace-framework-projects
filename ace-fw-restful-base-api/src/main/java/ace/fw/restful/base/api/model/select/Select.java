@@ -1,12 +1,5 @@
 package ace.fw.restful.base.api.model.select;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,21 +8,15 @@ import java.util.List;
  * @create 2020/1/2 14:14
  * @description 选择字段
  */
-@Data
-public class Select<TSelect extends Select> {
-    private List<String> properties = new ArrayList<>(10);
+public interface Select<TSelect extends Select> {
 
-    public TSelect select(String... property) {
-        this.properties.addAll(Arrays.asList(property));
-        return self();
-    }
+    List<String> getProperties();
 
-    public TSelect select(String property) {
-        properties.addAll(Arrays.asList(property));
-        return self();
-    }
+    TSelect select(String... property);
 
-    protected TSelect self() {
+    TSelect select(List<String> properties);
+
+    default TSelect self() {
         return (TSelect) this;
     }
 }
