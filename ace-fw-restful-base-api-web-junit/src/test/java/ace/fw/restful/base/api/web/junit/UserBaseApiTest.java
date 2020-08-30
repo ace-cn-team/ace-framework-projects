@@ -3,9 +3,10 @@ package ace.fw.restful.base.api.web.junit;
 import ace.fw.json.JsonUtils;
 import ace.fw.logic.common.util.AceUUIDUtils;
 import ace.fw.restful.base.api.UserBaseApi;
-import ace.fw.restful.base.api.model.page.Page;
+import ace.fw.restful.base.api.model.request.base.FindRequest;
+import ace.fw.restful.base.api.model.request.base.PagerRequest;
 import ace.fw.restful.base.api.model.page.PageResult;
-import ace.fw.restful.base.api.model.request.PageRequest;
+import ace.fw.restful.base.api.model.request.base.PageRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
 import ace.fw.restful.base.api.util.QueryUtils;
@@ -51,7 +52,7 @@ public class UserBaseApiTest {
         boolean isSuccess = userBaseApi.save(user).check();
         Assert.assertTrue(isSuccess);
         //User user1 = userBaseApi.getById(EntityGetById.<String>builder().id(user.getId()).build()).check();
-        User user1 = userBaseApi.getById(user.getId()).check();
+        User user1 = userBaseApi.findById(user.getId()).check();
         Assert.assertNotNull(user1);
     }
 
@@ -207,7 +208,7 @@ public class UserBaseApiTest {
                         .le(User::getLevel, maxLevel)
                         .ge(User::getCreateTime, AceLocalDateTimeUtils.MIN_MYSQL)
                 )
-                .page(new Page(pageIndex, pageSize))
+                .pager(new PagerRequest(pageIndex, pageSize))
                 .build();
 
         PageResult pageResult = userBaseApi.page(request).check();
@@ -219,11 +220,33 @@ public class UserBaseApiTest {
 
     }
 
+    @Test
+    public void test_0009_find() {
+        List<User> savedUsers = Arrays.asList(this.saveUser(),
+                this.saveUser(),
+                this.saveUser(),
+                this.saveUser(),
+                this.saveUser()
+        );
+        List<User> users = userBaseApi.find(FindRequest.builder()
+                .where(QueryUtils.where().in(User::getId, savedUsers.stream().map(p -> p.getId()).collect(Collectors.toList())))
+                .build()
+        ).check();
+        log.info(JsonUtils.toJson(users));
+        Assert.assertEquals(5, users.size());
+    }
+
+    @Test
+    public void test_0010_count() {
+        Integer total = userBaseApi.count(QueryUtils.where().isNotNull(User::getId)).check();
+        Assert.assertEquals(total, total);
+    }
+
     private void checkSaveUser(User... users) {
         List<User> userList = Arrays.asList(users);
         userList.forEach(user -> {
             //    User user1 = userBaseApi.getById(EntityGetById.<String>builder().id(user.getId()).build()).check();
-            User user1 = userBaseApi.getById(user.getId()).check();
+            User user1 = userBaseApi.findById(user.getId()).check();
             Assert.assertNotNull(user1);
         });
     }

@@ -10,7 +10,7 @@ import java.util.List;
  * @create 2020/8/30 8:59
  * @description
  */
-public interface EntityWhere<TWhere extends EntityWhere> extends Where<TWhere> {
+public interface EntityWhere<TWhere extends EntityWhere, TCondition extends Condition> extends Where<TWhere, TCondition> {
     <T, R> TWhere eq(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
     <T, R> TWhere ne(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
@@ -29,9 +29,9 @@ public interface EntityWhere<TWhere extends EntityWhere> extends Where<TWhere> {
 
     <T, R> TWhere le(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
 
-    <T, R> TWhere isNull(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
+    <T, R> TWhere isNull(EntityPropertyFunction<T, R> entityPropertyFunction);
 
-    <T, R> TWhere isNotNull(EntityPropertyFunction<T, R> entityPropertyFunction, Object value);
+    <T, R> TWhere isNotNull(EntityPropertyFunction<T, R> entityPropertyFunction);
 
     <T, R> TWhere between(EntityPropertyFunction<T, R> entityPropertyFunction, List<Object> values);
 

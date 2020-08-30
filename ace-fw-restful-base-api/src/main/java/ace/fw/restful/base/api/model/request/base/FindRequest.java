@@ -1,6 +1,5 @@
-package ace.fw.restful.base.api.model.request.entity;
+package ace.fw.restful.base.api.model.request.base;
 
-import ace.fw.restful.base.api.model.request.base.WhereRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,15 +10,15 @@ import javax.validation.constraints.NotNull;
 /**
  * @author Caspar
  * @contract 279397942@qq.com
- * @create 2020/1/7 14:14
- * @description
+ * @create 2020/8/30 21:53
+ * @description 查询参数
  */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class EntityUpdateForceRequest<T> {
+@NoArgsConstructor
+public class FindRequest {
+    private SelectRequest select;
     @NotNull
-    private T entity;
     private WhereRequest where;
 }

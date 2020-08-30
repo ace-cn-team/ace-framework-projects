@@ -1,15 +1,9 @@
 package ace.fw.restful.base.api.util;
 
 import ace.fw.restful.base.api.model.entity.EntityPropertyFunction;
-import ace.fw.restful.base.api.model.orderby.EntityOrderBy;
-import ace.fw.restful.base.api.model.orderby.OrderBy;
-import ace.fw.restful.base.api.model.orderby.impl.EntityOrderByImpl;
-import ace.fw.restful.base.api.model.select.EntitySelect;
-import ace.fw.restful.base.api.model.select.Select;
-import ace.fw.restful.base.api.model.select.impl.EntitySelectImpl;
-import ace.fw.restful.base.api.model.where.EntityWhere;
-import ace.fw.restful.base.api.model.where.Where;
-import ace.fw.restful.base.api.model.where.impl.EntityWhereImpl;
+import ace.fw.restful.base.api.model.request.base.OrderByRequest;
+import ace.fw.restful.base.api.model.request.base.SelectRequest;
+import ace.fw.restful.base.api.model.request.base.WhereRequest;
 
 /**
  * @author Caspar
@@ -18,33 +12,33 @@ import ace.fw.restful.base.api.model.where.impl.EntityWhereImpl;
  * @description
  */
 public class QueryUtils {
-    public static EntitySelectImpl select() {
-        return new EntitySelectImpl();
+    public static SelectRequest select() {
+        return new SelectRequest();
     }
 
-    public static <T, R> EntitySelectImpl select(EntityPropertyFunction<T, R>... entityPropertyFunctions) {
-        return new EntitySelectImpl().select(entityPropertyFunctions);
+    public static <T, R> SelectRequest select(EntityPropertyFunction<T, R>... entityPropertyFunctions) {
+        return new SelectRequest().select(entityPropertyFunctions);
     }
 
-    public static EntityOrderByImpl orderBy() {
-        return new EntityOrderByImpl();
+    public static OrderByRequest orderBy() {
+        return new OrderByRequest();
     }
 
-    public static <T, R> EntityOrderByImpl orderBy(EntityPropertyFunction<T, R> entityPropertyFunction, boolean asc) {
-        return new EntityOrderByImpl().add(entityPropertyFunction, asc);
+    public static <T, R> OrderByRequest orderBy(EntityPropertyFunction<T, R> entityPropertyFunction, boolean asc) {
+        return new OrderByRequest().add(entityPropertyFunction, asc);
     }
 
-    public static <T, R> EntityOrderByImpl orderByAsc(EntityPropertyFunction<T, R> entityPropertyFunction) {
+    public static <T, R> OrderByRequest orderByAsc(EntityPropertyFunction<T, R> entityPropertyFunction) {
         return orderBy(entityPropertyFunction, true);
     }
 
-    public static <T, R> EntityOrderByImpl orderByDesc(EntityPropertyFunction<T, R> entityPropertyFunction) {
+    public static <T, R> OrderByRequest orderByDesc(EntityPropertyFunction<T, R> entityPropertyFunction) {
         return orderBy(entityPropertyFunction, false);
     }
 
 
-    public static EntityWhereImpl where() {
-        return new EntityWhereImpl();
+    public static WhereRequest where() {
+        return new WhereRequest();
     }
 }
 

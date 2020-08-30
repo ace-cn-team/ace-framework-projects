@@ -1,9 +1,7 @@
 package ace.fw.restful.base.api.model.request.entity;
 
 
-import ace.fw.restful.base.api.model.where.Where;
-import ace.fw.restful.base.api.model.where.impl.AbstractWhere;
-import ace.fw.restful.base.api.model.where.impl.EntityWhereImpl;
+import ace.fw.restful.base.api.model.request.base.WhereRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,5 +22,5 @@ import javax.validation.constraints.NotNull;
 public class EntityUpdateRequest<T> {
     @NotNull
     private T entity;
-    private EntityWhereImpl where;
+    private WhereRequest where;
 }

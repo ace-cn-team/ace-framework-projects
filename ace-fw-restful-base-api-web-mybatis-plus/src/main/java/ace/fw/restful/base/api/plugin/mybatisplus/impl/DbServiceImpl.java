@@ -7,15 +7,13 @@ import ace.fw.restful.base.api.enums.RelationalOpEnum;
 import ace.fw.restful.base.api.model.entity.EntityInfo;
 import ace.fw.restful.base.api.model.entity.EntityProperty;
 import ace.fw.restful.base.api.model.orderby.OrderBy;
-import ace.fw.restful.base.api.model.orderby.Sort;
-import ace.fw.restful.base.api.model.page.Page;
+import ace.fw.restful.base.api.model.request.base.*;
 import ace.fw.restful.base.api.model.page.PageResult;
-import ace.fw.restful.base.api.model.request.PageRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
 import ace.fw.restful.base.api.model.select.Select;
+import ace.fw.restful.base.api.model.where.Condition;
 import ace.fw.restful.base.api.model.where.Where;
-import ace.fw.restful.base.api.model.where.impl.Condition;
 import ace.fw.restful.base.api.plugin.EntityMetaDbService;
 import ace.fw.restful.base.api.plugin.DbService;
 import ace.fw.util.ReflectionUtils;
@@ -68,16 +66,24 @@ public class DbServiceImpl<Mapper extends AceBaseMapper<T>, T>
      * @param id
      * @return
      */
-    public T getById(Object id) {
+    public T findById(Object id) {
         return super.getById((Serializable) id);
     }
 
     @Override
-    public List<T> getListById(List<Object> ids) {
+    public List<T> findListById(List<Object> ids) {
         List<Serializable> serializableList = ids.stream()
                 .map(p -> (Serializable) p)
                 .collect(Collectors.toList());
         return baseMapper.selectBatchIds(serializableList);
+    }
+
+    @Override
+    public List<T> find(FindRequest request) {
+        QueryWrapper<T> queryWrapper = Wrappers.query();
+        this.addSelectToQueryWrapper(queryWrapper, request.getSelect());
+        this.addWhereToWrapper(queryWrapper, request.getWhere());
+        return baseMapper.selectList(queryWrapper);
     }
 
     /**
@@ -86,7 +92,7 @@ public class DbServiceImpl<Mapper extends AceBaseMapper<T>, T>
      * @param request
      * @return
      */
-    public T getOne(T request) {
+    public T findOne(T request) {
         LambdaQueryWrapper<T> lambdaQueryWrapper = Wrappers.lambdaQuery(request);
         return super.getOne(lambdaQueryWrapper);
     }
@@ -194,7 +200,7 @@ public class DbServiceImpl<Mapper extends AceBaseMapper<T>, T>
 
         this.addWhereToWrapper(queryWrapper, request.getWhere());
 
-        com.baomidou.mybatisplus.extension.plugins.pagination.Page mybatisPlusPage = this.buildPageFrom(request.getPage(), request.getOrderBy());
+        com.baomidou.mybatisplus.extension.plugins.pagination.Page mybatisPlusPage = this.buildPageFrom(request.getPager(), request.getOrderBy());
 
         IPage<T> mybatisPageResult = super.page(mybatisPlusPage, queryWrapper);
 
@@ -203,6 +209,17 @@ public class DbServiceImpl<Mapper extends AceBaseMapper<T>, T>
         return pageResult;
     }
 
+    @Override
+    public EntityInfo getEntityInfo() {
+        return entityMetaDbService.getEntityInfo(this.getEntityClass());
+    }
+
+    @Override
+    public Integer count(WhereRequest request) {
+        QueryWrapper queryWrapper = Wrappers.query();
+        this.addWhereToWrapper(queryWrapper, request);
+        return baseMapper.selectCount(queryWrapper);
+    }
 
     /**
      * 转换where 条件,转换不为null的字段，并自动按entity对象字段类型进行转换，最后添加到UpdateWrapper
@@ -217,7 +234,7 @@ public class DbServiceImpl<Mapper extends AceBaseMapper<T>, T>
         if (Objects.isNull(where) || CollectionUtils.isEmpty(where.getConditions())) {
             return;
         }
-        List<Condition> conditions = where.getConditions();
+        List<ace.fw.restful.base.api.model.where.Condition> conditions = where.getConditions();
         conditions
                 .stream()
                 .forEach(condition -> {
@@ -282,19 +299,19 @@ public class DbServiceImpl<Mapper extends AceBaseMapper<T>, T>
     /**
      * 创建Mybatis plus 分页对象
      *
-     * @param page
+     * @param pagerRequest
      * @param orderBy
      * @return
      */
-    private com.baomidou.mybatisplus.extension.plugins.pagination.Page buildPageFrom(Page page, OrderBy orderBy) {
+    private com.baomidou.mybatisplus.extension.plugins.pagination.Page buildPageFrom(PagerRequest pagerRequest, OrderBy orderBy) {
         com.baomidou.mybatisplus.extension.plugins.pagination.Page mybatisPlusPage = new com.baomidou.mybatisplus.extension.plugins.pagination.Page();
-        mybatisPlusPage.setCurrent(page.getPageIndex());
-        mybatisPlusPage.setSize(page.getPageSize());
+        mybatisPlusPage.setCurrent(pagerRequest.getPageIndex());
+        mybatisPlusPage.setSize(pagerRequest.getPageSize());
 
         if (Objects.isNull(orderBy) || CollectionUtils.isEmpty(orderBy.getSorts())) {
             return mybatisPlusPage;
         }
-        List<Sort> sorts = orderBy.getSorts();
+        List<SortRequest> sorts = orderBy.getSorts();
         List<OrderItem> orderItems = sorts
                 .stream()
                 .map(p -> {
@@ -354,10 +371,6 @@ public class DbServiceImpl<Mapper extends AceBaseMapper<T>, T>
                 });
     }
 
-    @Override
-    public EntityInfo getEntityInfo() {
-        return entityMetaDbService.getEntityInfo(this.getEntityClass());
-    }
 
     /**
      * 添加Select的字段到QueryWrapper

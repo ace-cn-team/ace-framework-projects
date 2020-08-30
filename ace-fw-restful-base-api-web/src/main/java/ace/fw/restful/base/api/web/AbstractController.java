@@ -3,10 +3,12 @@ package ace.fw.restful.base.api.web;
 
 import ace.fw.restful.base.api.model.entity.EntityInfo;
 import ace.fw.restful.base.api.model.page.PageResult;
-import ace.fw.restful.base.api.model.request.PageRequest;
+import ace.fw.restful.base.api.model.request.base.FindRequest;
+import ace.fw.restful.base.api.model.request.base.PageRequest;
 
 import ace.fw.model.response.GenericResponseExt;
 import ace.fw.restful.base.api.AbstractBaseApi;
+import ace.fw.restful.base.api.model.request.base.WhereRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
 import ace.fw.restful.base.api.plugin.DbService;
@@ -15,6 +17,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,21 +38,31 @@ public abstract class AbstractController<T, TDbServicePlugin extends DbService<T
     private TDbServicePlugin dbServicePlugin;
 
     @Override
-    public GenericResponseExt<T> getById(IdType id) {
-        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.getById(id));
+    public GenericResponseExt<T> findById(IdType id) {
+        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.findById(id));
     }
 
     @Override
     public GenericResponseExt<List<T>> getListById(List<IdType> ids) {
         List<Object> idList = ids.stream().map(p -> (Object) p).collect(Collectors.toList());
-        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.getListById(idList));
+        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.findListById(idList));
     }
 
     @Override
-    public GenericResponseExt<T> getOne(T request) {
-        T data = dbServicePlugin.getOne(request);
+    public GenericResponseExt<T> findOne(T request) {
+        T data = dbServicePlugin.findOne(request);
         GenericResponseExt<T> result = GenericResponseExtUtils.buildSuccessWithData(data);
         return result;
+    }
+
+    @Override
+    public GenericResponseExt<List<T>> find(FindRequest request) {
+        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.find(request));
+    }
+
+    @Override
+    public GenericResponseExt<Integer> count(WhereRequest request) {
+        return GenericResponseExtUtils.buildSuccessWithData(dbServicePlugin.count(request));
     }
 
     @Override

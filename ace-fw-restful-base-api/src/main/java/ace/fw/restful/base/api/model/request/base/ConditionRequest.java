@@ -1,7 +1,8 @@
-package ace.fw.restful.base.api.model.where.impl;
+package ace.fw.restful.base.api.model.request.base;
 
 import ace.fw.restful.base.api.enums.LogicalOpEnum;
 import ace.fw.restful.base.api.enums.RelationalOpEnum;
+import ace.fw.restful.base.api.model.where.Condition;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Condition {
+public class ConditionRequest implements Condition {
     /**
      * 逻辑运算符
      */
@@ -41,6 +42,7 @@ public class Condition {
     private List<Object> values = new ArrayList<>(10);
 
 
+    @Override
     public Object getFirstValue() {
         return CollectionUtils.isEmpty(values) ? null : values.get(0);
     }
@@ -51,118 +53,119 @@ public class Condition {
      * @param value
      */
 
+    @Override
     public void firstValue(Object value) {
         this.values = Arrays.asList(value);
     }
 
 
-    public static Condition create(LogicalOpEnum logicalOp, String propertyName, RelationalOpEnum relationalOp, Object value) {
-        Condition condition = null;
+    public static ConditionRequest create(LogicalOpEnum logicalOp, String propertyName, RelationalOpEnum relationalOp, Object value) {
+        ConditionRequest condition = null;
         if (RelationalOpEnum.EQ.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values(Arrays.asList(value))
                     .build();
         } else if (RelationalOpEnum.NE.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values(Arrays.asList(value))
                     .build();
         } else if (RelationalOpEnum.GT.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values(Arrays.asList(value))
                     .build();
         } else if (RelationalOpEnum.GE.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values(Arrays.asList(value))
                     .build();
         } else if (RelationalOpEnum.LT.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values(Arrays.asList(value))
                     .build();
         } else if (RelationalOpEnum.LE.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values(Arrays.asList(value))
                     .build();
         } else if (RelationalOpEnum.LIKE.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values(Arrays.asList(value))
                     .build();
         } else if (RelationalOpEnum.LIKE_LEFT.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values(Arrays.asList(value))
                     .build();
         } else if (RelationalOpEnum.LIKE_RIGHT.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values(Arrays.asList(value))
                     .build();
         } else if (RelationalOpEnum.NOT_LIKE.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values(Arrays.asList(value))
                     .build();
         } else if (RelationalOpEnum.IS_NULL.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .build();
         } else if (RelationalOpEnum.IS_NOT_NULL.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .build();
         } else if (RelationalOpEnum.BETWEEN.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values((List) value)
                     .build();
         } else if (RelationalOpEnum.NOT_BETWEEN.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values((List) value)
                     .build();
         } else if (RelationalOpEnum.IN.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)
                     .values((List) value)
                     .build();
         } else if (RelationalOpEnum.NOT_IN.equals(relationalOp)) {
-            condition = Condition.builder()
+            condition = ConditionRequest.builder()
                     .logicalOp(logicalOp)
                     .propertyName(propertyName)
                     .relationalOp(relationalOp)

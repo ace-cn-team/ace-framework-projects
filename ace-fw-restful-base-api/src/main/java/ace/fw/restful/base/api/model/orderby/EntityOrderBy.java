@@ -8,7 +8,7 @@ import ace.fw.restful.base.api.model.entity.EntityPropertyFunction;
  * @create 2020/1/2 15:50
  * @description
  */
-public interface EntityOrderBy<TOrderBy extends OrderBy> extends OrderBy<TOrderBy> {
+public interface EntityOrderBy<TOrderBy extends OrderBy, TSort extends Sort> extends OrderBy<TOrderBy, TSort> {
 
     <T, R> TOrderBy add(EntityPropertyFunction<T, R> entityPropertyFunction, boolean asc);
 

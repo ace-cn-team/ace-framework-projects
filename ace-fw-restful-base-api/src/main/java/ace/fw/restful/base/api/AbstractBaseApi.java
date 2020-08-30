@@ -2,8 +2,10 @@ package ace.fw.restful.base.api;
 
 import ace.fw.restful.base.api.model.entity.EntityInfo;
 import ace.fw.restful.base.api.model.page.PageResult;
-import ace.fw.restful.base.api.model.request.PageRequest;
+import ace.fw.restful.base.api.model.request.base.FindRequest;
+import ace.fw.restful.base.api.model.request.base.PageRequest;
 import ace.fw.model.response.GenericResponseExt;
+import ace.fw.restful.base.api.model.request.base.WhereRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
 import io.swagger.annotations.ApiOperation;
@@ -26,16 +28,24 @@ import java.util.List;
 public interface AbstractBaseApi<T, IdType> {
 
     @ApiOperation(value = "根据ID获取实体")
-    @RequestMapping(path = "/get-by-id", method = RequestMethod.POST)
-    GenericResponseExt<T> getById(@NotNull(message = "id不能为空") @RequestBody IdType id);
+    @RequestMapping(path = "/find-by-id", method = RequestMethod.POST)
+    GenericResponseExt<T> findById(@NotNull(message = "id不能为空") @RequestBody IdType id);
 
     @ApiOperation(value = "根据ID获取实体")
-    @RequestMapping(path = "/get-list-by-id", method = RequestMethod.POST)
-    GenericResponseExt<List<T>> getListById(@NotNull(message = "id不能为空") @Size(min = 1, max = 1000) @RequestBody List<IdType> ids);
+    @RequestMapping(path = "/find-list-by-id", method = RequestMethod.POST)
+    GenericResponseExt<List<T>> getListById(@NotNull(message = "id不能为空") @Size(min = 1) @RequestBody List<IdType> ids);
 
     @ApiOperation(value = "查询一条记录")
-    @RequestMapping(path = "/get-one", method = RequestMethod.POST)
-    GenericResponseExt<T> getOne(@NotNull @RequestBody T request);
+    @RequestMapping(path = "/find-one", method = RequestMethod.POST)
+    GenericResponseExt<T> findOne(@NotNull @RequestBody T request);
+
+    @ApiOperation(value = "查询")
+    @RequestMapping(path = "/find", method = RequestMethod.POST)
+    GenericResponseExt<List<T>> find(@NotNull @Valid @RequestBody FindRequest request);
+
+    @ApiOperation(value = "统计数量")
+    @RequestMapping(path = "/count", method = RequestMethod.POST)
+    GenericResponseExt<Integer> count(@RequestBody WhereRequest request);
 
     @ApiOperation(value = "新增实体信息")
     @RequestMapping(path = "/save", method = RequestMethod.POST)
@@ -43,7 +53,7 @@ public interface AbstractBaseApi<T, IdType> {
 
     @ApiOperation(value = "批量新增实体信息")
     @RequestMapping(path = "/save-batch", method = RequestMethod.POST)
-    GenericResponseExt<Boolean> saveBatch(@NotNull @Size(min = 1, max = 1000) @Valid @RequestBody List<T> request);
+    GenericResponseExt<Boolean> saveBatch(@NotNull @Size(min = 1) @Valid @RequestBody List<T> request);
 
     @ApiOperation(value = "更新实体信息,根据ID,不更新null值字段")
     @RequestMapping(path = "/update-by-id", method = RequestMethod.POST)
@@ -55,7 +65,7 @@ public interface AbstractBaseApi<T, IdType> {
 
     @ApiOperation(value = "批量更新实体信息,根据ID,不更新null值字段")
     @RequestMapping(path = "/update-batch-by-id", method = RequestMethod.POST)
-    GenericResponseExt<Boolean> updateBatchById(@NotNull @Size(min = 1, max = 1000) @RequestBody List<T> request);
+    GenericResponseExt<Boolean> updateBatchById(@NotNull @Size(min = 1) @RequestBody List<T> request);
 
     @ApiOperation(value = "更新实体信息，指定更新列并且指定条件,不更新null值字段")
     @RequestMapping(path = "/update", method = RequestMethod.POST)

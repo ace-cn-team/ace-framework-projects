@@ -2,7 +2,9 @@ package ace.fw.restful.base.api.plugin;
 
 import ace.fw.restful.base.api.model.entity.EntityInfo;
 import ace.fw.restful.base.api.model.page.PageResult;
-import ace.fw.restful.base.api.model.request.PageRequest;
+import ace.fw.restful.base.api.model.request.base.FindRequest;
+import ace.fw.restful.base.api.model.request.base.PageRequest;
+import ace.fw.restful.base.api.model.request.base.WhereRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
 
@@ -21,7 +23,7 @@ public interface DbService<T> {
      * @param id
      * @return
      */
-    T getById(Object id);
+    T findById(Object id);
 
     /**
      * 根据ID，获取对象
@@ -29,14 +31,23 @@ public interface DbService<T> {
      * @param ids
      * @return
      */
-    List<T> getListById(List<Object> ids);
+    List<T> findListById(List<Object> ids);
+
+    /**
+     * 查询数据
+     *
+     * @param request
+     * @return
+     */
+    List<T> find(FindRequest request);
+
     /**
      * 根据用户对象实例，查询对旬
      *
      * @param request
      * @return
      */
-    T getOne(T request);
+    T findOne(T request);
 
     /**
      * 保存数据
@@ -112,4 +123,11 @@ public interface DbService<T> {
      */
     EntityInfo getEntityInfo();
 
+    /**
+     * 统计数量
+     *
+     * @param request
+     * @return
+     */
+    Integer count(WhereRequest request);
 }

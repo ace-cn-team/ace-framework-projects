@@ -1,5 +1,7 @@
 package ace.fw.restful.base.api.model.orderby;
 
+import ace.fw.restful.base.api.model.request.base.SortRequest;
+
 import java.util.List;
 
 /**
@@ -8,9 +10,11 @@ import java.util.List;
  * @create 2020/1/2 15:50
  * @description
  */
-public interface OrderBy<TOrderBy extends OrderBy> {
+public interface OrderBy<TOrderBy extends OrderBy, TSort extends Sort> {
 
-    List<Sort> getSorts();
+    List<TSort> getSorts();
+
+    void setSorts(List<TSort> sorts);
 
     TOrderBy add(String propertyName, boolean asc);
 

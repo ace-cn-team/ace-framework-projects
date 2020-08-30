@@ -1,4 +1,4 @@
-package ace.fw.restful.base.api.model.page;
+package ace.fw.restful.base.api.model.request.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Page {
+public class PagerRequest {
     /**
      * 第几页
      */

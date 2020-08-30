@@ -1,8 +1,6 @@
 package ace.fw.restful.base.api.model.where;
 
 
-import ace.fw.restful.base.api.model.where.impl.Condition;
-
 import java.util.List;
 
 /**
@@ -11,9 +9,9 @@ import java.util.List;
  * @create 2020/8/30 8:57
  * @description
  */
-public interface Where<TWhere extends Where> {
+public interface Where<TWhere extends Where, TCondition extends Condition> {
 
-    List<Condition> getConditions();
+    List<TCondition> getConditions();
 
     TWhere eq(String propertyName, Object value);
 
@@ -33,9 +31,9 @@ public interface Where<TWhere extends Where> {
 
     TWhere le(String propertyName, Object value);
 
-    TWhere isNull(String propertyName, Object value);
+    TWhere isNull(String propertyName);
 
-    TWhere isNotNull(String propertyName, Object value);
+    TWhere isNotNull(String propertyName);
 
     TWhere between(String propertyName, List<Object> values);
 

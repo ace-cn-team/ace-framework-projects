@@ -2,13 +2,12 @@ package ace.fw.restful.base.api.web.junit;
 
 import ace.fw.json.JsonUtils;
 import ace.fw.logic.common.util.AceUUIDUtils;
-import ace.fw.restful.base.api.model.page.Page;
+import ace.fw.restful.base.api.model.request.base.PagerRequest;
 import ace.fw.restful.base.api.model.page.PageResult;
-import ace.fw.restful.base.api.model.orderby.EntityOrderBy;
-import ace.fw.restful.base.api.model.request.PageRequest;
+import ace.fw.restful.base.api.model.request.base.PageRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 
-import ace.fw.restful.base.api.model.where.impl.EntityWhereImpl;
+import ace.fw.restful.base.api.model.request.base.WhereRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
 import ace.fw.restful.base.api.plugin.DbService;
 import ace.fw.restful.base.api.util.QueryUtils;
@@ -51,7 +50,7 @@ public class DbServiceTest {
         User user = this.newUser();
         boolean isSuccess = userDbService.save(user);
         Assert.assertTrue(isSuccess);
-        User user1 = userDbService.getById(user.getId());
+        User user1 = userDbService.findById(user.getId());
         Assert.assertNotNull(user1);
     }
 
@@ -78,11 +77,11 @@ public class DbServiceTest {
 
         EntityUpdateRequest request = EntityUpdateRequest.<User>builder()
                 .entity(updateUser)
-                .where(new EntityWhereImpl().in(User::getId, Arrays.asList(user1.getId(), user2.getId())))
+                .where(new WhereRequest().in(User::getId, Arrays.asList(user1.getId(), user2.getId())))
                 .build();
         boolean isSuccess = userDbService.update(request);
         Assert.assertTrue(isSuccess);
-        List<User> updatedUsers = userDbService.getListById(users.stream().map(p -> p.getId()).collect(Collectors.toList()));
+        List<User> updatedUsers = userDbService.findListById(users.stream().map(p -> p.getId()).collect(Collectors.toList()));
         log.info(JsonUtils.toJson(updatedUsers));
         updatedUsers.forEach(user -> {
             Assert.assertTrue(user.getName().equals("b"));
@@ -104,7 +103,7 @@ public class DbServiceTest {
         boolean isSuccess = userDbService.updateById(updateUser);
         Assert.assertTrue(isSuccess);
 
-        List<User> updatedUsers = userDbService.getListById(Arrays.asList(user1.getId()));
+        List<User> updatedUsers = userDbService.findListById(Arrays.asList(user1.getId()));
         log.info(JsonUtils.toJson(updatedUsers));
         updatedUsers.forEach(user -> {
             Assert.assertTrue(user.getName().equals("b"));
@@ -131,7 +130,7 @@ public class DbServiceTest {
 
         boolean isSuccess = userDbService.updateBatchById(updateUsers);
         Assert.assertTrue(isSuccess);
-        List<User> updatedUsers = userDbService.getListById(users.stream().map(p -> p.getId()).collect(Collectors.toList()));
+        List<User> updatedUsers = userDbService.findListById(users.stream().map(p -> p.getId()).collect(Collectors.toList()));
         log.info(JsonUtils.toJson(updatedUsers));
         updatedUsers.forEach(user -> {
             Assert.assertTrue(user.getName().equals("b"));
@@ -150,11 +149,11 @@ public class DbServiceTest {
         updateUser.setLevel(null);
         EntityUpdateForceRequest request = EntityUpdateForceRequest.<User>builder()
                 .entity(updateUser)
-                .where(new EntityWhereImpl().in(User::getId, Arrays.asList(user2.getId())))
+                .where(new WhereRequest().in(User::getId, Arrays.asList(user2.getId())))
                 .build();
         boolean isSuccess = userDbService.updateForce(request);
         Assert.assertTrue(isSuccess);
-        List<User> updatedUsers = userDbService.getListById(users.stream().map(p -> p.getId()).collect(Collectors.toList()));
+        List<User> updatedUsers = userDbService.findListById(users.stream().map(p -> p.getId()).collect(Collectors.toList()));
         log.info(JsonUtils.toJson(updatedUsers));
         updatedUsers.forEach(user -> {
             Assert.assertTrue(user.getName().equals("b"));
@@ -175,7 +174,7 @@ public class DbServiceTest {
 
         boolean isSuccess = userDbService.updateByIdVersionAutoUpdate(updateUser);
         Assert.assertTrue(isSuccess);
-        List<User> updatedUsers = userDbService.getListById(users.stream().map(p -> p.getId()).collect(Collectors.toList()));
+        List<User> updatedUsers = userDbService.findListById(users.stream().map(p -> p.getId()).collect(Collectors.toList()));
         log.info(JsonUtils.toJson(updatedUsers));
         updatedUsers.forEach(user -> {
             Assert.assertTrue(user.getName().equals("b"));
@@ -204,7 +203,7 @@ public class DbServiceTest {
                 .where(QueryUtils.where().ge(User::getLevel, minLevel).le(User::getLevel, maxLevel)
                         .ge(User::getCreateTime, AceLocalDateTimeUtils.MIN_MYSQL)
                 )
-                .page(new Page(pageIndex, pageSize))
+                .pager(new PagerRequest(pageIndex, pageSize))
                 .build();
 
         PageResult pageResult = userDbService.page(request);
@@ -218,7 +217,7 @@ public class DbServiceTest {
     private void checkSaveUser(User... users) {
         List<User> userList = Arrays.asList(users);
         userList.forEach(user -> {
-            User user1 = userDbService.getById(user.getId());
+            User user1 = userDbService.findById(user.getId());
             Assert.assertNotNull(user1);
         });
     }
