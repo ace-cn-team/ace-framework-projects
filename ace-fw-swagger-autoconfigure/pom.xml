@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ace-framework-projects</artifactId>
         <groupId>org.ace</groupId>
-        <version>1.0.0.41</version>
+        <version>1.0.0.42</version>
     </parent>
     <description>
         swagger 自动配置
