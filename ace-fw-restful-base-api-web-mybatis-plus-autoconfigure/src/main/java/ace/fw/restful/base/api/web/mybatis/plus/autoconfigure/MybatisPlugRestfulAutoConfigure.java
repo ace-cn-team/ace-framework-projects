@@ -1,17 +1,24 @@
 package ace.fw.restful.base.api.web.mybatis.plus.autoconfigure;
 
 
+import ace.fw.restful.base.api.plugin.DbService;
 import ace.fw.restful.base.api.plugin.EntityMetaDbService;
 import ace.fw.restful.base.api.plugin.mybatisplus.impl.EntityMetaDbServiceImpl;
+import ace.fw.restful.base.api.plugin.mybatisplus.impl.MybatisPlusConverter;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusLanguageDriverAutoConfiguration;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.Builder;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 /**
  * @author Caspar
@@ -47,4 +54,11 @@ public class MybatisPlugRestfulAutoConfigure {
     public EntityMetaDbService entityMetaPlugin() {
         return new EntityMetaDbServiceImpl();
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MybatisPlusConverter mybatisPlusConverter() {
+        return new MybatisPlusConverter();
+    }
+
 }

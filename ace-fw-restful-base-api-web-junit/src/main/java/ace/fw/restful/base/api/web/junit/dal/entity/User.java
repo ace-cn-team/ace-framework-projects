@@ -29,6 +29,9 @@ public class User {
     private String name;
     @TableField(value = "create_time")
     private LocalDateTime createTime;
+    @Version
+    @TableField(value = "update_time")
+    private LocalDateTime updateTime;
     @TableField(value = "state")
     private Integer state;
     @TableField(value = "level")

@@ -242,6 +242,18 @@ public class UserBaseApiTest {
         Assert.assertEquals(total, total);
     }
 
+    @Test
+    public void test_0011_findOneByLevel() {
+        this.saveUser();
+        this.saveUser();
+        this.saveUser();
+        this.saveUser();
+        List<User> users = userBaseApi.findOneByLevel(Long.MAX_VALUE).check();
+        Assert.assertTrue(users.size() > 0);
+        log.info(JsonUtils.toJson(users));
+
+    }
+
     private void checkSaveUser(User... users) {
         List<User> userList = Arrays.asList(users);
         userList.forEach(user -> {

@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class FindRequest {
     private SelectRequest select;
-    @NotNull
+
     private WhereRequest where;
+
+    private OrderByRequest orderBy;
 }

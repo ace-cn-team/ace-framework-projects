@@ -15,6 +15,23 @@
             <column name="name" type="java.sql.Types.VARCHAR(36)">
                 <constraints unique="false" nullable="false" primaryKey="false"/>
             </column>
+
+            <column name="state" type="java.sql.Types.INTEGER"></column>
+            <column name="level" type="java.sql.Types.BIGINT"></column>
+            <column name="update_time" type="DATETIME"></column>
+            <column name="create_time" type="DATETIME"></column>
+            <column name="row_version" type="java.sql.Types.INTEGER" defaultValue="1">
+                <constraints unique="false" nullable="false" primaryKey="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="profile" remarks="测试用户表2">
+            <column name="id" type="java.sql.Types.VARCHAR(36)">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="profile_px_id" unique="true"
+                             uniqueConstraintName="profile_ux_id"/>
+            </column>
+            <column name="name" type="java.sql.Types.VARCHAR(36)">
+                <constraints unique="false" nullable="false" primaryKey="false"/>
+            </column>
             <column name="create_time" type="DATETIME"></column>
             <column name="state" type="java.sql.Types.INTEGER"></column>
             <column name="level" type="java.sql.Types.BIGINT"></column>

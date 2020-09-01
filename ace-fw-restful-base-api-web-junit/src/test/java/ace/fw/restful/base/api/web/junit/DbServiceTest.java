@@ -9,12 +9,13 @@ import ace.fw.restful.base.api.model.request.entity.EntityUpdateForceRequest;
 
 import ace.fw.restful.base.api.model.request.base.WhereRequest;
 import ace.fw.restful.base.api.model.request.entity.EntityUpdateRequest;
-import ace.fw.restful.base.api.plugin.DbService;
 import ace.fw.restful.base.api.util.QueryUtils;
+import ace.fw.restful.base.api.web.junit.dal.UserMybatisPlusDbServiceImpl;
 import ace.fw.restful.base.api.web.junit.dal.entity.User;
 import ace.fw.util.AceLocalDateTimeUtils;
 import ace.fw.util.AceRandomUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -43,7 +44,7 @@ import java.util.stream.Collectors;
 @FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
 public class DbServiceTest {
     @Autowired
-    private DbService<User> userDbService;
+    private UserMybatisPlusDbServiceImpl userDbService;
 
     @Test
     public void test_0001_save() {
@@ -167,24 +168,55 @@ public class DbServiceTest {
         long oldRowVersion = user2.getRowVersion().longValue();
         List<User> users = Arrays.asList(user2);
         log.info(JsonUtils.toJson(users));
-        User updateUser = user2;
-        updateUser.setName("b");
-        updateUser.setLevel(null);
+        User updateUser = User.builder()
+                .name("b")
+                .level(null)
+                .id(user2.getId())
+                .build();
 
 
         boolean isSuccess = userDbService.updateByIdVersionAutoUpdate(updateUser);
         Assert.assertTrue(isSuccess);
         List<User> updatedUsers = userDbService.findListById(users.stream().map(p -> p.getId()).collect(Collectors.toList()));
         log.info(JsonUtils.toJson(updatedUsers));
-        updatedUsers.forEach(user -> {
-            Assert.assertTrue(user.getName().equals("b"));
-            Assert.assertNull(user.getLevel());
-            Assert.assertEquals(oldRowVersion + 1, user.getRowVersion().longValue());
+        updatedUsers.forEach(updatedUser -> {
+            Assert.assertEquals("b", updatedUser.getName());
+            Assert.assertNotNull(updatedUser.getLevel());
+            Assert.assertEquals(oldRowVersion + 1, updatedUser.getRowVersion().longValue());
+            Assert.assertNotEquals(user2.getUpdateTime(), updatedUser.getUpdateTime());
         });
     }
 
     @Test
-    public void test_0008_page() {
+    public void test_0008_updateBatchByIdVersionAutoUpdate() {
+
+        List<User> users = Arrays.asList(this.saveUser(), this.saveUser());
+        log.info(JsonUtils.toJson(users));
+        List<User> updateUsers = users.stream().map(p -> {
+            return User.builder()
+                    .id(p.getId())
+                    .name(AceUUIDUtils.generateTimeUUIDShort32())
+                    .level(null)
+                    .build();
+        }).collect(Collectors.toList());
+
+
+        boolean isSuccess = userDbService.updateBatchByIdVersionAutoUpdate(updateUsers);
+        Assert.assertTrue(isSuccess);
+        List<User> updatedUsers = userDbService.findListById(users.stream().map(p -> p.getId()).collect(Collectors.toList()));
+        log.info(JsonUtils.toJson(updatedUsers));
+        updatedUsers.forEach(updatedUser -> {
+            User oldUser = users.stream().filter(p -> StringUtils.equals(p.getId(), updatedUser.getId())).findFirst().get();
+            User updateUser = updateUsers.stream().filter(p -> StringUtils.equals(p.getId(), updatedUser.getId())).findFirst().get();
+            Assert.assertEquals(updateUser.getName(), updatedUser.getName());
+            Assert.assertNotNull(updatedUser.getLevel());
+            Assert.assertEquals(oldUser.getRowVersion() + 1, updatedUser.getRowVersion().longValue());
+            Assert.assertNotEquals(oldUser.getUpdateTime(), updatedUser.getUpdateTime());
+        });
+    }
+
+    @Test
+    public void test_0009_page() {
         List<User> savedUserList = new ArrayList<>(10);
         int saveUserCount = 20;
         for (int i = 0; i < saveUserCount; i++) {
@@ -207,6 +239,7 @@ public class DbServiceTest {
                 .build();
 
         PageResult pageResult = userDbService.page(request);
+        log.info(JsonUtils.toJson(pageResult));
         Assert.assertEquals(maxLevel - minLevel + 1, pageResult.getTotalCount());
         Assert.assertEquals(pageSize, pageResult.getData().size());
         Assert.assertEquals(2, pageResult.getTotalPage());
@@ -239,6 +272,7 @@ public class DbServiceTest {
         User user = User.builder()
                 .id(AceUUIDUtils.generateTimeUUIDShort32())
                 .createTime(LocalDateTime.now())
+                .updateTime(LocalDateTime.now())
                 .level(RandomUtils.nextLong())
                 .name(AceRandomUtils.randomNumber(6))
                 .state(RandomUtils.nextInt())
