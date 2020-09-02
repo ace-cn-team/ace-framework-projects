@@ -15,7 +15,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.EmbeddedValueResolver;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -166,7 +166,9 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
 //        registry.viewResolver(getJspViewResolver());
     }
 
-    private HttpMessageConverter<Object> getJsonMsgConverter() {
+    @Bean
+    @ConditionalOnMissingBean
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setSupportedMediaTypes(Arrays.asList(
                 MediaType.APPLICATION_JSON_UTF8,
@@ -179,23 +181,29 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
     }
 
     @Bean
+    @ConditionalOnMissingBean
+    public StringHttpMessageConverter stringHttpMessageConverter() {
+        return new StringHttpMessageConverter(StandardCharsets.UTF_8);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
+        return new ByteArrayHttpMessageConverter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public ObjectMapper objectMapper() {
         return ObjectMapperFactory.getDefaultObjectMapper();
     }
 
-    private HttpMessageConverter<String> getStrMsgConverter() {
-        return new StringHttpMessageConverter(StandardCharsets.UTF_8);
-    }
-
-    private HttpMessageConverter<byte[]> getByteArrConverter() {
-        return new ByteArrayHttpMessageConverter();
-    }
 
     private List<HttpMessageConverter<?>> getConverters() {
         List<HttpMessageConverter<?>> myConverters = new ArrayList<>();
-        myConverters.add(getJsonMsgConverter());
-        myConverters.add(getStrMsgConverter());
-        myConverters.add(getByteArrConverter());
+        myConverters.add(mappingJackson2HttpMessageConverter());
+        myConverters.add(stringHttpMessageConverter());
+        myConverters.add(byteArrayHttpMessageConverter());
         return myConverters;
     }
 
@@ -243,7 +251,7 @@ public class MsApplicationAutoConfiguration implements WebMvcConfigurer, ErrorPa
     @Bean
     public WebExceptionResolver aceWebExceptionResolver(
             @Autowired WebExceptionHandler webExceptionHandler) {
-        return new WebExceptionResolver(getJsonMsgConverter(), webExceptionHandler);
+        return new WebExceptionResolver(mappingJackson2HttpMessageConverter(), webExceptionHandler);
     }
 
     @Bean

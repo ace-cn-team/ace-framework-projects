@@ -1,9 +1,7 @@
 package ace.fw.restful.base.api.util;
 
 import ace.fw.restful.base.api.model.entity.EntityPropertyFunction;
-import ace.fw.restful.base.api.model.request.base.OrderByRequest;
-import ace.fw.restful.base.api.model.request.base.SelectRequest;
-import ace.fw.restful.base.api.model.request.base.WhereRequest;
+import ace.fw.restful.base.api.model.request.base.*;
 
 /**
  * @author Caspar
@@ -36,6 +34,9 @@ public class QueryUtils {
         return orderBy(entityPropertyFunction, false);
     }
 
+    public static <T, R> PagerRequest pager(int pageIndex, int pageSize) {
+        return new PagerRequest(pageIndex, pageSize);
+    }
 
     public static WhereRequest where() {
         return new WhereRequest();
