@@ -3,8 +3,11 @@ package ace.fw.json.jackson;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.MapType;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +50,7 @@ public class JacksonUtils {
     }
 
     public static <V, K> Map<K, V> parseToMap(String json, Class<K> clk, Class<V> clv) {
-        TypeReference<Map<K, V>> typeReference = new TypeReference<Map<K, V>>() {
-        };
+        MapType typeReference = getObjectMapper().getTypeFactory().constructMapType(HashMap.class, clk, clv);
         try {
             return getObjectMapper().readValue(json, typeReference);
         } catch (JsonProcessingException e) {
@@ -57,10 +59,9 @@ public class JacksonUtils {
     }
 
     public static <T> List<T> parseArray(String json, Class<T> cls) {
-        TypeReference<List<T>> typeReference = new TypeReference<>() {
-        };
+        CollectionType collectionType = getObjectMapper().getTypeFactory().constructCollectionType(List.class, cls);
         try {
-            return getObjectMapper().readValue(json, typeReference);
+            return getObjectMapper().readValue(json, collectionType);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
